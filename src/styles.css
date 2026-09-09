@@ -163,9 +163,11 @@
   margin: 0 auto;
   padding: 0.25rem;
   border: 0;
-  background: rgba(35, 37, 40, 0.62);
-  box-shadow: 0 0.8rem 2.5rem rgba(35, 37, 40, 0.24);
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
   outline: none;
+  transition: none;
 }
 .nav-shell::after {
   display: none;
@@ -1376,7 +1378,9 @@
   .nav-shell:hover,
   .nav-shell:focus-within {
     border: 0;
-    box-shadow: 0 0.8rem 2.5rem rgba(35, 37, 40, 0.24);
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
     outline: none;
     transform: none;
   }
