@@ -220,6 +220,53 @@
   display: none !important;
 }
 
+.site-header .nav-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.site-header .mobile-menu-toggle {
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  color: var(--alice-blue) !important;
+  background: rgba(196, 179, 151, 0.16) !important;
+  border: 0 !important;
+}
+
+.site-header .mobile-menu-toggle svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+@media (max-width: 800px) {
+  .site-header .mobile-menu-toggle {
+    display: inline-flex !important;
+  }
+
+  .site-header .mobile-navigation {
+    padding: 0.5rem;
+    background: rgba(29, 29, 27, 0.94);
+  }
+
+  .site-header .mobile-navigation a {
+    justify-content: center;
+    min-height: 3rem;
+    padding-inline: 1rem;
+    text-align: center;
+    color: var(--alice-blue);
+    background: rgba(196, 179, 151, 0.12);
+  }
+
+  .site-header .mobile-navigation a + a {
+    margin-top: 0.25rem;
+  }
+}
+
 /* Final navlink interaction rule. */
 .site-header .nav-link:hover,
 .site-header .nav-link:focus-visible {
