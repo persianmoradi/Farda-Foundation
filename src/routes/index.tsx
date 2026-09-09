@@ -412,7 +412,8 @@ function Index() {
             <div className="about-cta">
               <Button asChild variant="primary" size="lg">
                 <a href="#booking">
-                  Book en samtale <ArrowRight size={17} />
+                  <span>Book en samtale</span>
+                  <ArrowRight size={17} />
                 </a>
               </Button>
               <div className="about-signature">
