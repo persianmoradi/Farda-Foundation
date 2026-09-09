@@ -174,31 +174,33 @@ function Index() {
   return (
     <main id="main-content" className="site-shell" onClick={handleAnchorClick}>
       <header className="site-header hero-enter hero-enter-header">
-        <a href="#top" className="wordmark" aria-label="FARDA forside">
-          FARDA<span className="text-primary">.</span>
-        </a>
-        <nav className="hero-nav" aria-label="Primær navigation">
-          <a className="nav-link" href="#services">
-            Services
+        <div className="nav-shell glass-dark">
+          <a href="#top" className="wordmark" aria-label="FARDA forside">
+            FARDA<span className="text-primary">.</span>
           </a>
-          <a className="nav-link" href="#cases">
-            Cases
-          </a>
-          <a className="nav-link" href="#about">
-            Om FARDA
-          </a>
-        </nav>
-        <Button
-          variant="icon"
-          size="icon"
-          className="mobile-menu-toggle"
-          onClick={() => setMobileMenuOpen((open) => !open)}
-          aria-label={mobileMenuOpen ? "Luk menu" : "Åbn menu"}
-          aria-expanded={mobileMenuOpen}
-          aria-controls="mobile-navigation"
-        >
-          {mobileMenuOpen ? <X size={19} /> : <Menu size={19} />}
-        </Button>
+          <nav className="hero-nav" aria-label="Primær navigation">
+            <a className="nav-link" href="#services">
+              Services
+            </a>
+            <a className="nav-link" href="#cases">
+              Cases
+            </a>
+            <a className="nav-link" href="#about">
+              Om FARDA
+            </a>
+          </nav>
+          <Button
+            variant="icon"
+            size="icon"
+            className="mobile-menu-toggle"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-label={mobileMenuOpen ? "Luk menu" : "Åbn menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
+          >
+            {mobileMenuOpen ? <X size={19} /> : <Menu size={19} />}
+          </Button>
+        </div>
         <nav
           id="mobile-navigation"
           className="mobile-navigation"
