@@ -2,7 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Check, ExternalLink, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 
+import heroAnimation from "@/assets/hero-animation.mp4";
+import pmPic from "@/assets/pm-pic.jpg";
 import { Button } from "@/components/ui/button";
+import { SiteFooter } from "@/components/site-footer";
+import { cases } from "@/data/cases";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export const Route = createFileRoute("/")({
@@ -61,57 +65,67 @@ const packages = [
   },
 ];
 
-const cases = [
-  {
-    id: "saas",
-    number: "01",
-    title: "Modern SaaS Platform",
-    category: "Product design · Platform",
-    description:
-      "Et fokuseret digitalt produkt med tydelig onboarding, rolig datavisning og et system, der kan vokse.",
-    detail:
-      "En placeholder for FARDA's næste produktcase: en skalerbar platform, hvor komplekse workflows bliver gjort menneskelige.",
-    accent: "case-preview-blue",
-  },
-  {
-    id: "commerce",
-    number: "02",
-    title: "E-commerce Architecture",
-    category: "Strategy · Commerce",
-    description:
-      "En fleksibel commerce-oplevelse, hvor brand, performance og konvertering arbejder i samme retning.",
-    detail:
-      "En placeholder for en ny commerce-case med en fleksibel arkitektur, præcis content direction og stærke købssignaler.",
-    accent: "case-preview-orange",
-  },
-] as const;
-
 function Index() {
   const heroRef = useRef<HTMLElement>(null);
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [calendarLoaded, setCalendarLoaded] = useState(false);
-  const [selectedCase, setSelectedCase] = useState<(typeof cases)[number] | null>(null);
 
   useScrollReveal();
+
+  useEffect(() => {
+    window.history.scrollRestoration = "manual";
+    const hash = window.location.hash;
+    const scrollToInitialTarget = () => {
+      if (hash) {
+        document.querySelector<HTMLElement>(hash)?.scrollIntoView({ behavior: "auto" });
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }
+    };
+    const frame = window.requestAnimationFrame(scrollToInitialTarget);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.history.scrollRestoration = "auto";
+    };
+  }, []);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    const video = heroVideoRef.current;
+    if (!hero || !video) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePlayback = (visible: boolean) => {
+      if (reducedMotion.matches || !visible || document.hidden) {
+        video.pause();
+        return;
+      }
+      void video.play().catch(() => undefined);
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => updatePlayback(Boolean(entry?.isIntersecting)),
+      { threshold: 0.05 },
+    );
+    const onVisibilityChange = () => updatePlayback(hero.getBoundingClientRect().bottom > 0);
+
+    observer.observe(hero);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    reducedMotion.addEventListener("change", onVisibilityChange);
+    updatePlayback(true);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      reducedMotion.removeEventListener("change", onVisibilityChange);
+    };
+  }, []);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setCalendarLoaded(true), 6000);
     return () => window.clearTimeout(timer);
   }, []);
-
-  useEffect(() => {
-    if (!selectedCase) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSelectedCase(null);
-    };
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [selectedCase]);
 
   const handleAnchorClick = (event: MouseEvent<HTMLElement>) => {
     const anchor = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]');
@@ -132,7 +146,6 @@ function Index() {
     target.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
     });
-    window.history.pushState(null, "", hash);
   };
 
   return (
@@ -190,6 +203,22 @@ function Index() {
       </header>
 
       <section id="top" className="hero-section" ref={heroRef}>
+        <div className="hero-media" aria-hidden="true">
+          <video
+            ref={heroVideoRef}
+            className="hero-video"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+            width={1920}
+            height={1080}
+          >
+            <source src={heroAnimation} type="video/mp4" />
+          </video>
+        </div>
         <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-title-wrap">
           <p className="hero-kicker hero-enter hero-enter-kicker">Digitalt studio · København</p>
@@ -198,7 +227,7 @@ function Index() {
             <br />
             <span>TOMORROW</span>
           </h1>
-          <div className="hero-support-panel glass-dark hero-enter hero-enter-bottom">
+          <div className="hero-support-panel hero-enter hero-enter-bottom">
             <p>Vi skaber distinkte digitale oplevelser for virksomheder med noget på spil.</p>
           </div>
         </div>
@@ -242,7 +271,7 @@ function Index() {
           {packages.map((item) => (
             <article
               key={item.title}
-              className={`package-card glass-${item.featured ? "dark" : "light"} ${item.featured ? "package-card-featured" : ""} reveal reveal-card`}
+              className={`package-card ${item.featured ? "package-card-featured" : ""} reveal reveal-card`}
             >
               <div className="package-top">
                 <span className="package-number">{item.number} — FARDA package</span>
@@ -284,26 +313,23 @@ function Index() {
               <br />
               <span>en klar retning.</span>
             </h2>
-            <p>
-              To nye case retninger i udvikling — bygget med strategi, form og funktion i samme
-              system.
-            </p>
+            <p>Digitale løsninger med strategi, form og funktion i samme system.</p>
           </div>
           <div className="case-grid">
             {cases.map((item) => (
-              <button
-                type="button"
+              <a
                 key={item.id}
-                className={`case-card glass-dark reveal reveal-card ${item.accent}`}
-                onClick={() => setSelectedCase(item)}
-                aria-haspopup="dialog"
+                className={`case-card reveal reveal-card ${item.accent}`}
+                href={item.path}
               >
                 <span className="case-card-top">
                   <span>FARDA selected work</span>
                   <span>{item.number}</span>
                 </span>
-                <span className="case-preview" aria-hidden="true" />
-                <span className="case-card-content glass-dark">
+                <span className="case-preview" aria-hidden="true">
+                  <img src={item.image} alt="" />
+                </span>
+                <span className="case-card-content">
                   <span className="case-meta">{item.category}</span>
                   <span className="case-card-title">
                     <strong>{item.title}</strong>
@@ -313,7 +339,7 @@ function Index() {
                   </span>
                   <span className="case-card-description">{item.description}</span>
                 </span>
-              </button>
+              </a>
             ))}
           </div>
           <div className="case-footer reveal" aria-hidden="true">
@@ -329,7 +355,16 @@ function Index() {
           <span>Om FARDA</span>
         </div>
         <div className="about-editorial">
-          <div className="about-portrait reveal" aria-hidden="true" />
+          <figure className="about-portrait reveal">
+            <img
+              src={pmPic}
+              alt="Persian Moradi, founder of FARDA"
+              width={1024}
+              height={1280}
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
           <div className="about-story reveal reveal-late">
             <span className="about-eyebrow">BAG FARDA</span>
             <h2>
@@ -381,7 +416,11 @@ function Index() {
             <a href="mailto:farda0@protonmail.com">farda0@protonmail.com</a>
           </div>
         </div>
-        <div className="calendar-shell glass-light reveal reveal-late">
+        <div className="calendar-shell reveal reveal-late">
+          <div className="calendar-heading">
+            <span className="calendar-heading-label">Book tid</span>
+            <span className="calendar-heading-status">Svar inden for 24 timer</span>
+          </div>
           <div className="calendar-frame" data-loaded={calendarLoaded}>
             <div className="calendar-loading" aria-hidden={calendarLoaded}>
               <span />
@@ -405,84 +444,7 @@ function Index() {
         </div>
       </section>
 
-      <footer className="footer px-page">
-        <div className="footer-top reveal">
-          <div>
-            <h2 className="footer-title">
-              BUILD <span>TOMORROW</span>
-            </h2>
-          </div>
-          <div className="footer-cta">
-            <p>Har du en idé, der fortjener en skarpere digital retning?</p>
-            <a className="footer-cta-link" href="#booking">
-              Book en samtale <ArrowRight size={17} />
-            </a>
-          </div>
-        </div>
-        <div className="footer-row reveal reveal-late">
-          <div className="footer-brand">
-            <a className="wordmark" href="#top">
-              FARDA<span className="text-primary">.</span>
-            </a>
-            <p>Digitalt studio for virksomheder med noget på spil.</p>
-          </div>
-          <div className="footer-contact">
-            <span className="footer-label">Kontakt</span>
-            <a href="mailto:farda0@protonmail.com">farda0@protonmail.com</a>
-            <span>CVR: XXXXXXXX</span>
-          </div>
-          <div className="footer-links">
-            <span className="footer-label">Udforsk</span>
-            <a href="#services">Services</a>
-            <a href="#cases">Cases</a>
-            <a href="#about">Om FARDA</a>
-          </div>
-        </div>
-        <div className="footer-bottom reveal reveal-late">
-          <span>© 2026 FARDA Studio</span>
-          <span>Built for tomorrow</span>
-          <a href="#top">
-            Til toppen <ArrowRight size={14} />
-          </a>
-        </div>
-      </footer>
-
-      {selectedCase ? (
-        <div
-          className="case-modal-backdrop"
-          role="presentation"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) setSelectedCase(null);
-          }}
-        >
-          <section
-            className="case-modal glass-dark"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="case-modal-title"
-          >
-            <button
-              type="button"
-              className="case-modal-close"
-              onClick={() => setSelectedCase(null)}
-              aria-label="Luk case preview"
-            >
-              <X size={20} />
-            </button>
-            <div className={`case-modal-preview ${selectedCase.accent}`}>
-              <span>{selectedCase.number}</span>
-            </div>
-            <div className="case-modal-content">
-              <span className="case-meta">{selectedCase.category}</span>
-              <h2 id="case-modal-title">{selectedCase.title}</h2>
-              <p>{selectedCase.detail}</p>
-              <a href="#booking" onClick={() => setSelectedCase(null)}>
-                Start en samtale <ArrowRight size={17} />
-              </a>
-            </div>
-          </section>
-        </div>
-      ) : null}
+      <SiteFooter isHome />
     </main>
   );
 }

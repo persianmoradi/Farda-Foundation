@@ -5,18 +5,18 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "farda-button inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-none border font-medium transition-[color,border-color] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  "farda-button inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-none border-0 font-medium transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-0 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "glass-light border-white/20 px-5 py-3 text-sm text-foreground",
-        primary: "glass-light border-white/20 px-5 py-3 text-sm text-foreground",
-        destructive: "glass-dark border-white/20 px-5 py-3 text-sm text-primary-foreground",
-        outline: "glass-light border-white/20 px-5 py-3 text-sm text-foreground",
-        secondary: "glass-light border-white/20 px-5 py-3 text-sm text-secondary-foreground",
-        ghost: "glass-light border-white/20 px-3 py-2 text-sm",
-        link: "glass-light border-white/20 px-3 py-2 text-sm text-primary",
-        icon: "farda-button-icon glass-dark border-white/20 size-11 bg-transparent focus-visible:border-ring",
+        default: "px-5 py-3 text-sm text-foreground",
+        primary: "px-5 py-3 text-sm text-foreground",
+        destructive: "text-sm text-primary-foreground",
+        outline: "px-5 py-3 text-sm text-foreground",
+        secondary: "px-5 py-3 text-sm text-secondary-foreground",
+        ghost: "px-3 py-2 text-sm",
+        link: "px-3 py-2 text-sm text-primary",
+        icon: "farda-button-icon size-11 bg-transparent focus-visible:border-ring",
       },
 
       size: {

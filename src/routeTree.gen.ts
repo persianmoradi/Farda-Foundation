@@ -10,33 +10,54 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WorkMinisterietsAiPlatformRouteImport } from './routes/work/ministeriets-ai-platform'
+import { Route as WorkSpkstotteRouteImport } from './routes/work/spkstotte'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkMinisterietsAiPlatformRoute =
+  WorkMinisterietsAiPlatformRouteImport.update({
+    id: '/work/ministeriets-ai-platform',
+    path: '/work/ministeriets-ai-platform',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const WorkSpkstotteRoute = WorkSpkstotteRouteImport.update({
+  id: '/work/spkstotte',
+  path: '/work/spkstotte',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/work/ministeriets-ai-platform': typeof WorkMinisterietsAiPlatformRoute
+  '/work/spkstotte': typeof WorkSpkstotteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/work/ministeriets-ai-platform': typeof WorkMinisterietsAiPlatformRoute
+  '/work/spkstotte': typeof WorkSpkstotteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/work/ministeriets-ai-platform': typeof WorkMinisterietsAiPlatformRoute
+  '/work/spkstotte': typeof WorkSpkstotteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/work/ministeriets-ai-platform' | '/work/spkstotte'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/work/ministeriets-ai-platform' | '/work/spkstotte'
+  id: '__root__' | '/' | '/work/ministeriets-ai-platform' | '/work/spkstotte'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  WorkMinisterietsAiPlatformRoute: typeof WorkMinisterietsAiPlatformRoute
+  WorkSpkstotteRoute: typeof WorkSpkstotteRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +69,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/work/ministeriets-ai-platform': {
+      id: '/work/ministeriets-ai-platform'
+      path: '/work/ministeriets-ai-platform'
+      fullPath: '/work/ministeriets-ai-platform'
+      preLoaderRoute: typeof WorkMinisterietsAiPlatformRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work/spkstotte': {
+      id: '/work/spkstotte'
+      path: '/work/spkstotte'
+      fullPath: '/work/spkstotte'
+      preLoaderRoute: typeof WorkSpkstotteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  WorkMinisterietsAiPlatformRoute: WorkMinisterietsAiPlatformRoute,
+  WorkSpkstotteRoute: WorkSpkstotteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
