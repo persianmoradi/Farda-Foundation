@@ -5,7 +5,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "farda-button inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-none border font-medium transition-[color,border-color] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  "farda-button inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-none border font-medium uppercase tracking-[0.08em] transition-[color,border-color] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -16,7 +16,7 @@ const buttonVariants = cva(
         secondary: "glass-light border-white/20 px-5 py-3 text-sm text-secondary-foreground",
         ghost: "glass-light border-white/20 px-3 py-2 text-sm",
         link: "glass-light border-white/20 px-3 py-2 text-sm text-primary",
-        icon: "glass-dark border-white/20 size-11 bg-transparent focus-visible:border-ring",
+        icon: "farda-button-icon glass-dark border-white/20 size-11 bg-transparent focus-visible:border-ring",
       },
 
       size: {
