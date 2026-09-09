@@ -296,6 +296,9 @@
   min-width: 12.75rem;
   height: 3.75rem;
   justify-content: space-between;
+  color: var(--alice-blue);
+  background: rgba(234, 246, 255, 0.12);
+  border-color: rgba(234, 246, 255, 0.22);
 }
 .hero-cta-arrow {
   display: grid;
@@ -1214,7 +1217,7 @@
   }
   .farda-button:hover,
   .farda-button:focus-visible {
-    border-color: var(--bright-blue);
+    border-color: rgba(234, 246, 255, 0.22);
     box-shadow: 0 0.75rem 1.75rem rgba(35, 37, 40, 0.18);
     transform: translateY(-2px);
   }

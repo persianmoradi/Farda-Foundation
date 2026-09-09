@@ -9,18 +9,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "border-transparent bg-primary px-5 py-3 text-sm text-primary-foreground focus-visible:border-ring",
-        primary:
-          "border-primary bg-primary px-5 py-3 text-sm text-primary-foreground focus-visible:border-ring",
-        destructive:
-          "border-destructive bg-destructive px-5 py-3 text-sm text-destructive-foreground",
-        outline:
-          "glass-light border-white/20 bg-transparent px-5 py-3 text-sm text-foreground focus-visible:border-ring",
-        secondary:
-          "glass-light border-white/20 bg-transparent px-5 py-3 text-sm text-secondary-foreground focus-visible:border-ring",
-        ghost: "glass-light border-white/20 px-3 py-2 text-sm focus-visible:border-ring",
-        link: "border-transparent px-1 py-2 text-sm text-primary underline-offset-4",
+        default: "glass-light border-white/20 px-5 py-3 text-sm text-foreground",
+        primary: "glass-light border-white/20 px-5 py-3 text-sm text-foreground",
+        destructive: "glass-dark border-white/20 px-5 py-3 text-sm text-primary-foreground",
+        outline: "glass-light border-white/20 px-5 py-3 text-sm text-foreground",
+        secondary: "glass-light border-white/20 px-5 py-3 text-sm text-secondary-foreground",
+        ghost: "glass-light border-white/20 px-3 py-2 text-sm",
+        link: "glass-light border-white/20 px-3 py-2 text-sm text-primary",
         icon: "glass-dark border-white/20 size-11 bg-transparent focus-visible:border-ring",
       },
 
