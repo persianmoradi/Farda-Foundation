@@ -242,27 +242,29 @@ function Index() {
         </div>
         <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-title-wrap">
-          <div className="hero-axis hero-enter hero-enter-meta" aria-hidden="true">
-            <span />
-          </div>
           <p className="hero-kicker hero-enter hero-enter-kicker">Digitalt studio · København</p>
           <h1 className="hero-title hero-enter hero-enter-title">
             BUILD
             <br />
             <span>TOMORROW</span>
           </h1>
-          <div className="hero-bottom hero-enter hero-enter-bottom">
+          <div className="hero-support-panel glass-dark hero-enter hero-enter-bottom">
             <p>Vi skaber distinkte digitale oplevelser for virksomheder med noget på spil.</p>
-            <Button asChild variant="primary" size="lg" className="hero-enter-button">
-              <a href="#booking">
-                <span>Book en samtale</span>
-                <span className="hero-cta-arrow">
-                  <ArrowRight size={18} />
-                </span>
-              </a>
-            </Button>
           </div>
         </div>
+        <Button
+          asChild
+          variant="primary"
+          size="lg"
+          className="hero-enter-button hero-enter hero-enter-bottom"
+        >
+          <a href="#booking">
+            <span>Book en samtale</span>
+            <span className="hero-cta-arrow">
+              <ArrowRight size={18} />
+            </span>
+          </a>
+        </Button>
         <a
           href="#services"
           className="scroll-cue hero-enter hero-enter-cue"
