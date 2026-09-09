@@ -316,16 +316,6 @@ function Index() {
                   </li>
                 ))}
               </ul>
-              <Button
-                asChild
-                variant={item.featured ? "primary" : "outline"}
-                className="w-full justify-between"
-              >
-                <a href="#booking">
-                  Vælg {item.title.replace("FARDA ", "")}
-                  <ArrowRight size={17} />
-                </a>
-              </Button>
             </article>
           ))}
         </div>
