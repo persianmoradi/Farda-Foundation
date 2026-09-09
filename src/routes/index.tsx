@@ -469,20 +469,45 @@ function Index() {
       </section>
 
       <footer className="footer px-page">
-        <p className="footer-title reveal">BUILD TOMORROW</p>
+        <div className="footer-top reveal">
+          <div>
+            <p className="footer-kicker">04 — Næste skridt</p>
+            <h2 className="footer-title">
+              BUILD <span>TOMORROW</span>
+            </h2>
+          </div>
+          <div className="footer-cta">
+            <p>Har du en idé, der fortjener en skarpere digital retning?</p>
+            <a className="footer-cta-link" href="#booking">
+              Book en samtale <ArrowRight size={17} />
+            </a>
+          </div>
+        </div>
         <div className="footer-row reveal reveal-late">
-          <a className="wordmark" href="#top">
-            FARDA<span className="text-primary">.</span>
-          </a>
+          <div className="footer-brand">
+            <a className="wordmark" href="#top">
+              FARDA<span className="text-primary">.</span>
+            </a>
+            <p>Digitalt studio for virksomheder med noget på spil.</p>
+          </div>
           <div className="footer-contact">
-            <span>CVR: XXXXXXXX</span>
+            <span className="footer-label">Kontakt</span>
             <a href="mailto:farda0@protonmail.com">farda0@protonmail.com</a>
+            <span>CVR: XXXXXXXX</span>
           </div>
           <div className="footer-links">
-            <a href="#privacy">Privatliv</a>
-            <a href="#terms">Vilkår</a>
-            <span>© 2026</span>
+            <span className="footer-label">Udforsk</span>
+            <a href="#services">Services</a>
+            <a href="#cases">Cases</a>
+            <a href="#about">Om FARDA</a>
           </div>
+        </div>
+        <div className="footer-bottom reveal reveal-late">
+          <span>© 2026 FARDA Studio</span>
+          <span>Built for tomorrow</span>
+          <a href="#top">
+            Til toppen <ArrowRight size={14} />
+          </a>
         </div>
       </footer>
 
