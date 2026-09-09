@@ -12,7 +12,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "FARDA — Digitalt studio i København" },
+      { title: "FARDA — Build tomorrow" },
       {
         name: "description",
         content: "FARDA bygger hurtige, præcise digitale oplevelser for ambitiøse virksomheder.",
