@@ -389,8 +389,8 @@
   display: flex;
   min-height: 40rem;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 2.5rem;
+  justify-content: flex-start;
+  gap: 1.5rem;
   padding: clamp(1.5rem, 3vw, 3rem);
   overflow: hidden;
 }
@@ -404,18 +404,48 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 1.25rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid currentColor;
+  color: inherit;
+  font-size: 0.62rem;
+  text-transform: uppercase;
 }
 .package-number {
-  font-size: 0.75rem;
   opacity: 0.68;
 }
-.recommended {
-  padding: 0.45rem 0.7rem;
-  color: var(--shadow-grey);
-  background: var(--accent-orange);
-  text-transform: uppercase;
-  font-size: 0.6rem;
-  font-weight: 700;
+.package-status {
+  color: currentColor;
+  opacity: 0.62;
+}
+.package-visual {
+  display: grid;
+  grid-template-columns: 1fr 1.45fr 0.75fr;
+  align-items: end;
+  gap: 0.65rem;
+  height: 10rem;
+  padding: 1rem;
+  border: 1px solid currentColor;
+  color: var(--bright-blue);
+  background: rgba(0, 159, 253, 0.06);
+  opacity: 0.9;
+}
+.package-card-featured .package-visual {
+  color: var(--accent-orange);
+  background: rgba(234, 246, 255, 0.06);
+}
+.package-visual i {
+  display: block;
+  height: 42%;
+  background: linear-gradient(180deg, currentColor, transparent);
+}
+.package-visual i:nth-child(2) {
+  height: 82%;
+}
+.package-visual i:nth-child(3) {
+  height: 60%;
+}
+.package-content {
+  margin-top: auto;
 }
 .package-card h3 {
   font-size: clamp(2rem, 3.2vw, 3.6rem);
@@ -535,12 +565,28 @@
   font-size: 0.7rem;
   opacity: 0.72;
 }
+.case-card-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(234, 246, 255, 0.22);
+  color: rgba(234, 246, 255, 0.68);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
 .case-card-content {
   position: absolute;
   z-index: 1;
   right: clamp(1.25rem, 3vw, 2.5rem);
   bottom: clamp(1.25rem, 3vw, 2.5rem);
   left: clamp(1.25rem, 3vw, 2.5rem);
+  padding: 1rem 1.1rem 1.15rem;
+  border-color: rgba(234, 246, 255, 0.2);
 }
 .case-meta {
   display: flex;

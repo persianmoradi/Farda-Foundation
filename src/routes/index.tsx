@@ -294,13 +294,20 @@ function Index() {
           {packages.map((item) => (
             <article
               key={item.title}
-              className={`package-card ${item.featured ? "package-card-featured" : ""} reveal reveal-card`}
+              className={`package-card glass-${item.featured ? "dark" : "light"} ${item.featured ? "package-card-featured" : ""} reveal reveal-card`}
             >
               <div className="package-top">
-                <span className="package-number">{item.number}</span>
-                {item.featured && <span className="recommended">Mest valgt</span>}
+                <span className="package-number">{item.number} — FARDA package</span>
+                <span className="package-status">
+                  {item.featured ? "Mest valgt" : "Fast foundation"}
+                </span>
               </div>
-              <div>
+              <div className="package-visual" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </div>
+              <div className="package-content">
                 <h3>{item.title}</h3>
                 <p className="package-price">{item.price}</p>
                 <p className="package-description">{item.description}</p>
@@ -354,13 +361,16 @@ function Index() {
                 onClick={() => setSelectedCase(item)}
                 aria-haspopup="dialog"
               >
-                <span className="case-number">{item.number}</span>
+                <span className="case-card-top">
+                  <span>FARDA selected work</span>
+                  <span>{item.number}</span>
+                </span>
                 <span className="case-preview" aria-hidden="true">
                   <i />
                   <i />
                   <i />
                 </span>
-                <span className="case-card-content">
+                <span className="case-card-content glass-dark">
                   <span className="case-meta">{item.category}</span>
                   <span className="case-card-title">
                     <strong>{item.title}</strong>
