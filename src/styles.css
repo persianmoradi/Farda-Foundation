@@ -79,7 +79,7 @@
 
 .site-shell {
   overflow-x: clip;
-  background: var(--shadow-grey);
+  background: var(--alice-blue);
 }
 .text-primary {
   color: var(--bright-blue);
