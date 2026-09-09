@@ -478,7 +478,6 @@ function Index() {
       <footer className="footer px-page">
         <div className="footer-top reveal">
           <div>
-            <p className="footer-kicker">Næste skridt</p>
             <h2 className="footer-title">
               BUILD <span>TOMORROW</span>
             </h2>
