@@ -144,6 +144,14 @@
   border: 0;
   box-shadow: none;
   backdrop-filter: none;
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+  outline: none;
+  transition: none;
+}
+.nav-shell::after {
+  display: none;
 }
 .wordmark {
   display: inline-flex;
@@ -603,12 +611,6 @@
     transparent 52%,
     rgba(35, 37, 40, 0.52)
   );
-}
-.case-number {
-  position: relative;
-  z-index: 1;
-  font-size: 0.7rem;
-  opacity: 0.72;
 }
 .case-card-top {
   position: relative;
@@ -1315,6 +1317,15 @@
   }
 }
 @media (hover: hover) {
+  .nav-shell:hover,
+  .nav-shell:focus-within {
+    border: 0;
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    outline: none;
+    transform: none;
+  }
   .glass-light:hover,
   .glass-dark:hover,
   .glass-light:focus-within,
