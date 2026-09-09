@@ -2,12 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Check, ExternalLink, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 
-import aboutPortrait from "@/assets/persian-moradi.jpg.asset.json";
-import caseAiPlatform from "@/assets/case-ai-platform.jpg.asset.json";
-import caseSpkStotte from "@/assets/case-spkstotte.jpg.asset.json";
-import heroAnimationAsset from "@/assets/hero-animation.mp4.asset.json";
-import heroAnimationWebmAsset from "@/assets/hero-animation.webm.asset.json";
-import heroPoster from "@/assets/hero-poster.jpg";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
@@ -78,7 +72,6 @@ const cases = [
     detail:
       "En placeholder for FARDA's næste produktcase: en skalerbar platform, hvor komplekse workflows bliver gjort menneskelige.",
     accent: "case-preview-blue",
-    image: caseAiPlatform.url,
   },
   {
     id: "commerce",
@@ -90,49 +83,16 @@ const cases = [
     detail:
       "En placeholder for en ny commerce-case med en fleksibel arkitektur, præcis content direction og stærke købssignaler.",
     accent: "case-preview-orange",
-    image: caseSpkStotte.url,
   },
 ] as const;
 
 function Index() {
   const heroRef = useRef<HTMLElement>(null);
-  const heroVideoRef = useRef<HTMLVideoElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [calendarLoaded, setCalendarLoaded] = useState(false);
   const [selectedCase, setSelectedCase] = useState<(typeof cases)[number] | null>(null);
 
   useScrollReveal();
-
-  useEffect(() => {
-    const hero = heroRef.current;
-    const video = heroVideoRef.current;
-    if (!hero || !video) return;
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePlayback = (visible: boolean) => {
-      if (reducedMotion.matches || !visible || document.hidden) {
-        video.pause();
-        return;
-      }
-      void video.play().catch(() => undefined);
-    };
-    const observer = new IntersectionObserver(
-      ([entry]) => updatePlayback(Boolean(entry?.isIntersecting)),
-      { threshold: 0.05 },
-    );
-    const onVisibilityChange = () => updatePlayback(hero.getBoundingClientRect().bottom > 0);
-
-    observer.observe(hero);
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    reducedMotion.addEventListener("change", onVisibilityChange);
-    updatePlayback(true);
-
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-      reducedMotion.removeEventListener("change", onVisibilityChange);
-    };
-  }, []);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setCalendarLoaded(true), 6000);
@@ -177,8 +137,8 @@ function Index() {
 
   return (
     <main id="main-content" className="site-shell" onClick={handleAnchorClick}>
-      <header className="site-header hero-enter hero-enter-header">
-        <div className="nav-shell glass-dark">
+      <header className="site-header">
+        <div className="nav-shell">
           <a href="#top" className="wordmark" aria-label="FARDA forside">
             FARDA<span className="text-primary">.</span>
           </a>
@@ -230,23 +190,6 @@ function Index() {
       </header>
 
       <section id="top" className="hero-section" ref={heroRef}>
-        <div className="hero-media" aria-hidden="true">
-          <video
-            ref={heroVideoRef}
-            className="hero-video"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            poster={heroPoster}
-            width={1920}
-            height={1080}
-          >
-            <source src={heroAnimationAsset.url} type="video/mp4" />
-            <source src={heroAnimationWebmAsset.url} type="video/webm" />
-          </video>
-        </div>
         <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-title-wrap">
           <p className="hero-kicker hero-enter hero-enter-kicker">Digitalt studio · København</p>
@@ -359,9 +302,7 @@ function Index() {
                   <span>FARDA selected work</span>
                   <span>{item.number}</span>
                 </span>
-                <span className="case-preview" aria-hidden="true">
-                  <img src={item.image} alt="" loading="lazy" decoding="async" />
-                </span>
+                <span className="case-preview" aria-hidden="true" />
                 <span className="case-card-content glass-dark">
                   <span className="case-meta">{item.category}</span>
                   <span className="case-card-title">
@@ -388,16 +329,7 @@ function Index() {
           <span>Om FARDA</span>
         </div>
         <div className="about-editorial">
-          <figure className="about-portrait reveal">
-            <img
-              src={aboutPortrait.url}
-              alt="Persian Moradi, founder of FARDA"
-              width={1024}
-              height={1280}
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
+          <div className="about-portrait reveal" aria-hidden="true" />
           <div className="about-story reveal reveal-late">
             <span className="about-eyebrow">BAG FARDA</span>
             <h2>
@@ -538,7 +470,6 @@ function Index() {
               <X size={20} />
             </button>
             <div className={`case-modal-preview ${selectedCase.accent}`}>
-              <img src={selectedCase.image} alt="" decoding="async" />
               <span>{selectedCase.number}</span>
             </div>
             <div className="case-modal-content">
