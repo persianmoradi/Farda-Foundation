@@ -150,9 +150,6 @@
   padding-inline: clamp(1.25rem, 4vw, 4.5rem);
   color: var(--alice-blue);
 }
-.site-header > .header-cta {
-  justify-self: end;
-}
 .wordmark {
   display: inline-flex;
   min-height: 2.75rem;
@@ -1123,8 +1120,7 @@
     grid-template-columns: 1fr auto;
     height: 5.5rem;
   }
-  .hero-nav,
-  .site-header > .header-cta {
+  .hero-nav {
     display: none;
   }
   .mobile-menu-toggle {

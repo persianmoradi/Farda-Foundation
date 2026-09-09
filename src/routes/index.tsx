@@ -188,11 +188,6 @@ function Index() {
             Om FARDA
           </a>
         </nav>
-        <Button asChild variant="outline" className="header-cta">
-          <a href="#booking">
-            Book samtale <ArrowRight size={15} />
-          </a>
-        </Button>
         <Button
           variant="icon"
           size="icon"
