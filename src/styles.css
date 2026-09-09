@@ -7,7 +7,7 @@
   --imperial-blue: #2a2a72;
   --accent-orange: #ffa400;
   --bright-blue: #009ffd;
-  --alice-blue: #eaf6ff;
+  --alice-blue: #e3e0d9;
   --background: var(--alice-blue);
   --foreground: var(--shadow-grey);
   --primary: var(--accent-orange);
@@ -736,7 +736,8 @@
   grid-template-columns: minmax(0, 0.85fr) minmax(32rem, 1.15fr);
   gap: clamp(3rem, 8vw, 9rem);
   color: var(--alice-blue);
-  background: var(--imperial-blue);
+  background: var(--shadow-grey);
+  border-top: 1px solid rgba(234, 246, 255, 0.12);
 }
 .booking-copy h2 {
   padding-top: clamp(3rem, 7vw, 6rem);
@@ -750,6 +751,23 @@
   padding-top: 2rem;
   line-height: 1.6;
   opacity: 0.72;
+}
+.booking-contact-meta {
+  display: grid;
+  gap: 0.55rem;
+  width: fit-content;
+  margin-top: clamp(3rem, 6vw, 5rem);
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-light);
+}
+.booking-contact-meta a {
+  color: var(--alice-blue);
+  font-size: 0.9rem;
+  transition: color var(--motion-fast) var(--ease-farda);
+}
+.booking-contact-meta a:hover,
+.booking-contact-meta a:focus-visible {
+  color: var(--bright-blue);
 }
 .calendar-facts {
   display: grid;

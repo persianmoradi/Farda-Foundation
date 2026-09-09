@@ -448,6 +448,10 @@ function Index() {
             <li>Ingen binding</li>
             <li>Dansk / Engelsk</li>
           </ul>
+          <div className="booking-contact-meta">
+            <span className="footer-label">Direkte kontakt</span>
+            <a href="mailto:farda0@protonmail.com">farda0@protonmail.com</a>
+          </div>
         </div>
         <div className="calendar-shell glass-light reveal reveal-late">
           <div className="calendar-frame" data-loaded={calendarLoaded}>
