@@ -275,6 +275,9 @@ function Index() {
       </section>
 
       <section id="services" className="section-light px-page py-section">
+        <div className="section-label reveal">
+          <span>Services</span>
+        </div>
         <div className="services-intro reveal">
           <h2>
             Fra første tanke
@@ -330,6 +333,9 @@ function Index() {
 
       <section id="cases" className="section-dark px-page py-section">
         <div className="cases-inner">
+          <div className="section-label section-label-dark reveal">
+            <span>Cases</span>
+          </div>
           <div className="cases-heading reveal">
             <h2>
               Arbejde med
@@ -381,6 +387,9 @@ function Index() {
       </section>
 
       <section id="about" className="section-light px-page py-section">
+        <div className="section-label reveal">
+          <span>Om FARDA</span>
+        </div>
         <div className="about-editorial">
           <figure className="about-portrait reveal">
             <img
@@ -427,6 +436,9 @@ function Index() {
 
       <section id="booking" className="booking-section px-page py-section">
         <div className="booking-copy reveal">
+          <div className="section-label section-label-dark">
+            <span>Næste skridt</span>
+          </div>
           <h2>Start din rejse.</h2>
           <p>Lad os drøfte dine ønsker og muligheder om dit næste digitale skridt.</p>
           <ul className="calendar-facts calendar-facts-dark">
@@ -466,6 +478,7 @@ function Index() {
       <footer className="footer px-page">
         <div className="footer-top reveal">
           <div>
+            <p className="footer-kicker">Næste skridt</p>
             <h2 className="footer-title">
               BUILD <span>TOMORROW</span>
             </h2>
