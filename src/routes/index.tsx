@@ -188,6 +188,9 @@ function Index() {
             <a className="nav-link" href="#about">
               Om FARDA
             </a>
+            <a className="nav-link" href="#booking">
+              Kontakt
+            </a>
           </nav>
           <Button
             variant="icon"
@@ -215,6 +218,9 @@ function Index() {
           </a>
           <a href="#about" onClick={() => setMobileMenuOpen(false)}>
             Om FARDA
+          </a>
+          <a href="#booking" onClick={() => setMobileMenuOpen(false)}>
+            Kontakt
           </a>
           <a href="#booking" onClick={() => setMobileMenuOpen(false)}>
             Book samtale <ArrowRight size={16} />
