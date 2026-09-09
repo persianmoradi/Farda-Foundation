@@ -222,9 +222,6 @@ function Index() {
           <a href="#booking" onClick={() => setMobileMenuOpen(false)}>
             Kontakt
           </a>
-          <a href="#booking" onClick={() => setMobileMenuOpen(false)}>
-            Book samtale <ArrowRight size={16} />
-          </a>
         </nav>
       </header>
 
