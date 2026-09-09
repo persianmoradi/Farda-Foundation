@@ -348,7 +348,7 @@
     0 1rem 2.5rem rgba(35, 37, 40, 0.24);
 }
 .farda-button:not(.farda-button-icon) {
-  min-height: 3.5rem;
+  min-height: 3.25rem;
   gap: 0.25rem;
   padding: 0;
   border: 0;
@@ -357,21 +357,19 @@
 }
 .farda-button:not(.farda-button-icon) > span:first-child {
   display: inline-flex;
-  min-height: 3.5rem;
+  min-height: 3.25rem;
   align-items: center;
   padding: 0 1.35rem;
   color: var(--foreground);
   background: rgba(227, 224, 217, 0.3);
   border: 1px solid rgba(35, 37, 40, 0.18);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 .farda-button:not(.farda-button-icon) > svg:last-child,
 .farda-button:not(.farda-button-icon) > .hero-cta-arrow {
   display: grid;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 3.25rem;
+  height: 3.25rem;
   flex: none;
   place-items: center;
   padding: 0.9rem;
@@ -392,8 +390,10 @@
 }
 .hero-cta-arrow {
   transition:
+    background var(--motion-fast) var(--ease-farda),
+    color var(--motion-fast) var(--ease-farda),
     transform var(--motion-base) var(--ease-farda),
-    background var(--motion-fast) var(--ease-farda);
+    box-shadow var(--motion-base) var(--ease-farda);
 }
 .scroll-cue {
   position: absolute;
@@ -1406,8 +1406,27 @@
   }
   .hero-enter-button:hover .hero-cta-arrow,
   .hero-enter-button:focus-visible .hero-cta-arrow {
-    background: rgba(0, 159, 253, 0.2);
     transform: translateX(0.18rem);
+  }
+  .section-dark .farda-button:hover > span:first-child,
+  .section-dark .farda-button:hover > svg:last-child,
+  .section-dark .farda-button:hover > .hero-cta-arrow,
+  .booking-section .farda-button:hover > span:first-child,
+  .booking-section .farda-button:hover > svg:last-child,
+  .booking-section .farda-button:hover > .hero-cta-arrow,
+  .hero-section .farda-button:hover > span:first-child,
+  .hero-section .farda-button:hover > svg:last-child,
+  .hero-section .farda-button:hover > .hero-cta-arrow {
+    color: var(--shadow-grey);
+    background: var(--alice-blue);
+    border-color: rgba(234, 246, 255, 0.48);
+  }
+  .section-light .farda-button:hover > span:first-child,
+  .section-light .farda-button:hover > svg:last-child,
+  .section-light .farda-button:hover > .hero-cta-arrow {
+    color: var(--alice-blue);
+    background: var(--shadow-grey);
+    border-color: rgba(29, 29, 27, 0.48);
   }
   .case-card:hover,
   .case-card:focus-visible {
