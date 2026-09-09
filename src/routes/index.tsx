@@ -3,6 +3,8 @@ import { ArrowRight, Check, ExternalLink, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 
 import aboutPortrait from "@/assets/persian-moradi.jpg.asset.json";
+import caseAiPlatform from "@/assets/case-ai-platform.jpg.asset.json";
+import caseSpkStotte from "@/assets/case-spkstotte.jpg.asset.json";
 import heroAnimationAsset from "@/assets/hero-animation.mp4.asset.json";
 import heroAnimationWebmAsset from "@/assets/hero-animation.webm.asset.json";
 import heroPoster from "@/assets/hero-poster.jpg";
@@ -76,6 +78,7 @@ const cases = [
     detail:
       "En placeholder for FARDA's næste produktcase: en skalerbar platform, hvor komplekse workflows bliver gjort menneskelige.",
     accent: "case-preview-blue",
+    image: caseAiPlatform.url,
   },
   {
     id: "commerce",
@@ -87,6 +90,7 @@ const cases = [
     detail:
       "En placeholder for en ny commerce-case med en fleksibel arkitektur, præcis content direction og stærke købssignaler.",
     accent: "case-preview-orange",
+    image: caseSpkStotte.url,
   },
 ] as const;
 
@@ -356,9 +360,7 @@ function Index() {
                   <span>{item.number}</span>
                 </span>
                 <span className="case-preview" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
+                  <img src={item.image} alt="" loading="lazy" decoding="async" />
                 </span>
                 <span className="case-card-content glass-dark">
                   <span className="case-meta">{item.category}</span>
@@ -535,11 +537,9 @@ function Index() {
             >
               <X size={20} />
             </button>
-            <div className={`case-modal-preview ${selectedCase.accent}`} aria-hidden="true">
+            <div className={`case-modal-preview ${selectedCase.accent}`}>
+              <img src={selectedCase.image} alt="" decoding="async" />
               <span>{selectedCase.number}</span>
-              <i />
-              <i />
-              <i />
             </div>
             <div className="case-modal-content">
               <span className="case-meta">{selectedCase.category}</span>
