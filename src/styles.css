@@ -168,6 +168,9 @@
     inset 0 1px 0 rgba(234, 246, 255, 0.22),
     0 0.8rem 2.5rem rgba(35, 37, 40, 0.24);
 }
+.nav-shell::after {
+  display: none;
+}
 .wordmark {
   display: inline-flex;
   min-height: 2.75rem;
@@ -201,6 +204,10 @@
   color: var(--alice-blue);
   background: rgba(234, 246, 255, 0.1);
   opacity: 1;
+}
+.nav-shell .mobile-menu-toggle:hover {
+  transform: none;
+  box-shadow: none;
 }
 .nav-link,
 .footer-links a,
@@ -1312,6 +1319,14 @@
   }
 }
 @media (hover: hover) {
+  .nav-shell:hover,
+  .nav-shell:focus-within {
+    border-color: rgba(234, 246, 255, 0.2);
+    box-shadow:
+      inset 0 1px 0 rgba(234, 246, 255, 0.22),
+      0 0.8rem 2.5rem rgba(35, 37, 40, 0.24);
+    transform: none;
+  }
   .glass-light:hover,
   .glass-dark:hover,
   .glass-light:focus-within,
@@ -1348,6 +1363,11 @@
     border-color: rgba(234, 246, 255, 0.22);
     box-shadow: 0 0.75rem 1.75rem rgba(35, 37, 40, 0.18);
     transform: translateY(-2px);
+  }
+  .nav-shell .farda-button:hover {
+    border-color: rgba(234, 246, 255, 0.2);
+    box-shadow: none;
+    transform: none;
   }
   .hero-enter-button:hover .hero-cta-arrow,
   .hero-enter-button:focus-visible .hero-cta-arrow {
