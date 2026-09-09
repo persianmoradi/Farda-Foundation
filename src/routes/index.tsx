@@ -444,6 +444,7 @@ function Index() {
         </div>
       </section>
 
+<<<<<<< HEAD
       <SiteFooter isHome />
     </main>
   );
