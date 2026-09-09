@@ -364,6 +364,10 @@
   background: rgba(227, 224, 217, 0.3);
   border: 1px solid rgba(35, 37, 40, 0.18);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  transition:
+    background 520ms var(--ease-farda),
+    color 520ms var(--ease-farda),
+    border-color 520ms var(--ease-farda);
 }
 .farda-button:not(.farda-button-icon) > svg:last-child,
 .farda-button:not(.farda-button-icon) > .hero-cta-arrow {
@@ -377,23 +381,38 @@
   background: rgba(227, 224, 217, 0.3);
   border: 1px solid rgba(35, 37, 40, 0.18);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  transition:
+    background 520ms var(--ease-farda),
+    color 520ms var(--ease-farda),
+    border-color 520ms var(--ease-farda),
+    transform 520ms var(--ease-farda);
 }
 .hero-enter-button {
   min-width: 0;
   height: auto;
+  color: var(--alice-blue);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
 }
-.hero-enter-button > span:first-child,
-.hero-enter-button > .hero-cta-arrow {
+.hero-enter-button.farda-button > span:first-child,
+.hero-enter-button.farda-button > .hero-cta-arrow {
   color: var(--alice-blue);
   background: rgba(29, 29, 27, 0.42);
   border-color: rgba(234, 246, 255, 0.24);
 }
+.farda-button {
+  transition:
+    transform 520ms var(--ease-farda),
+    box-shadow 520ms var(--ease-farda),
+    color 360ms var(--ease-farda);
+}
 .hero-cta-arrow {
   transition:
-    background var(--motion-fast) var(--ease-farda),
-    color var(--motion-fast) var(--ease-farda),
-    transform var(--motion-base) var(--ease-farda),
-    box-shadow var(--motion-base) var(--ease-farda);
+    background 520ms var(--ease-farda),
+    color 520ms var(--ease-farda),
+    transform 520ms var(--ease-farda),
+    box-shadow 520ms var(--ease-farda);
 }
 .scroll-cue {
   position: absolute;
@@ -1407,6 +1426,11 @@
   .hero-enter-button:hover .hero-cta-arrow,
   .hero-enter-button:focus-visible .hero-cta-arrow {
     transform: translateX(0.18rem);
+  }
+  .hero-enter-button:hover,
+  .hero-enter-button:focus-visible {
+    border-color: transparent;
+    box-shadow: none;
   }
   .section-dark .farda-button:hover > span:first-child,
   .section-dark .farda-button:hover > svg:last-child,
