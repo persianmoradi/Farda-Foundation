@@ -35,7 +35,7 @@ const packages = [
   {
     number: "01",
     title: "FARDA Essential",
-    price: "Fra 3.500 kr.",
+    price: "3.500 kr.",
     description:
       "For virksomheder, der ønsker en lynhurtig, moderne og fuldt professionel digital tilstedeværelse.",
     features: [
@@ -43,14 +43,13 @@ const packages = [
       "Responsivt UI-design",
       "Grundlæggende SEO",
       "Performance-optimering",
-      "Favicon",
     ],
     featured: false,
   },
   {
     number: "02",
     title: "FARDA Advanced",
-    price: "Fra 8.000 kr.",
+    price: "8.000 kr.",
     description:
       "Kompleks digital løsning med skræddersyet UI/UX, interaktivitet og udvidet funktionalitet.",
     features: [
@@ -59,7 +58,6 @@ const packages = [
       "Custom animationer",
       "Udvidet SEO",
       "API / Maps-integrationer",
-      "Cookie / privacy-opsætning",
     ],
     featured: true,
   },
