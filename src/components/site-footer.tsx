@@ -11,19 +11,6 @@ function sectionHref(section: string, isHome: boolean) {
 export function SiteFooter({ isHome = false }: SiteFooterProps) {
   return (
     <footer className="footer px-page">
-      <div className="footer-top reveal">
-        <div>
-          <h2 className="footer-title">
-            BUILD <span>TOMORROW</span>
-          </h2>
-        </div>
-        <div className="footer-cta">
-          <p>Har du en idé, der fortjener en skarpere digital retning?</p>
-          <a className="footer-cta-link" href={sectionHref("booking", isHome)}>
-            Book en samtale <ArrowRight size={17} />
-          </a>
-        </div>
-      </div>
       <div className="footer-row reveal reveal-late">
         <div className="footer-brand">
           <a className="wordmark" href={isHome ? "#top" : "/"}>

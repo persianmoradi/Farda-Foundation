@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Check, ExternalLink, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 
-import heroAnimation from "@/assets/hero-animation.mp4";
+import heroAnimation from "@/assets/hero-vid.mp4";
 import pmPic from "@/assets/pm-pic.jpg";
 import { Button } from "@/components/ui/button";
 import { SiteFooter } from "@/components/site-footer";

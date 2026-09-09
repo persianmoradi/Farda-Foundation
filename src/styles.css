@@ -233,6 +233,354 @@
   display: none !important;
 }
 
+/* End-of-file visual overrides */
+.farda-visual-pass-marker {
+  display: none;
+}
+
+/* End-of-file visual overrides */
+.farda-visual-pass-marker {
+  display: none;
+}
+
+/* Final type and spacing pass. Keep these rules last so shared component
+   defaults cannot re-expand the layout. */
+:root {
+  --page-gutter: clamp(1.25rem, 4vw, 4rem);
+  --section-space: clamp(4.5rem, 9vw, 8rem);
+  --display-xl: clamp(3.75rem, 8vw, 8rem);
+  --display-lg: clamp(2.75rem, 5.8vw, 5.75rem);
+  --display-md: clamp(2rem, 3.5vw, 3.25rem);
+}
+
+.px-page { padding-inline: var(--page-gutter); }
+.py-section { padding-block: var(--section-space); }
+.site-header { top: 1.5rem; right: var(--page-gutter); left: var(--page-gutter); }
+.nav-shell { display: flex; justify-content: space-between; gap: 2rem; padding: 0; }
+.site-header .wordmark {
+  min-height: 2rem !important;
+  padding: 0 !important;
+  justify-content: flex-start !important;
+  color: var(--alice-blue) !important;
+  background: transparent !important;
+  font-size: 1.1rem;
+  letter-spacing: -0.04em;
+}
+.hero-nav { width: auto; gap: 0.25rem; font-size: 0.63rem; letter-spacing: 0.04em; }
+.site-header .nav-link {
+  flex: none !important;
+  min-height: 2rem !important;
+  padding: 0 0.8rem !important;
+  background: transparent !important;
+  color: rgba(234, 246, 255, 0.72) !important;
+}
+.site-header .nav-link:hover,
+.site-header .nav-link:focus-visible {
+  color: var(--alice-blue) !important;
+  background: transparent !important;
+}
+.hero-section { min-height: min(52rem, calc(100svh - 1rem)); }
+.hero-title-wrap { max-width: min(52rem, calc(100% - 2.5rem)); bottom: clamp(5rem, 11vh, 8rem); }
+.hero-title { font-size: var(--display-xl); line-height: 0.86; letter-spacing: -0.075em; }
+.hero-support-panel { max-width: 27rem; margin-top: 1.35rem; padding: 0; background: transparent; border: 0; }
+.hero-support-panel p { max-width: 26rem; font-size: 0.95rem; line-height: 1.55; }
+.hero-enter-button { right: var(--page-gutter); bottom: clamp(1.5rem, 4vw, 3rem); }
+.services-intro,
+.cases-heading {
+  grid-template-columns: minmax(0, 1.45fr) minmax(14rem, 0.55fr);
+  gap: 3rem;
+  padding: clamp(2.75rem, 6vw, 5.5rem) 0;
+}
+.services-intro h2,
+.cases-heading h2 { font-size: var(--display-lg); line-height: 0.92; }
+.services-intro p,
+.cases-heading p { max-width: 22rem; font-size: 0.95rem; line-height: 1.6; }
+.package-grid,
+.case-grid { gap: 1rem; }
+.package-card { min-height: 34rem; gap: 1.25rem; padding: clamp(1.25rem, 2.5vw, 2rem); }
+.package-visual { height: 7.5rem; }
+.package-card h3 { font-size: var(--display-md); line-height: 0.96; }
+.package-price { padding-top: 0.75rem; font-size: 1rem; }
+.package-description { padding-top: 1rem; font-size: 0.9rem; }
+.feature-list { gap: 0.7rem 1rem; padding: 1.25rem 0 0; }
+.feature-list li { font-size: 0.78rem; }
+.case-grid { grid-auto-rows: clamp(25rem, 38vw, 35rem); }
+.case-card { padding: clamp(1rem, 2vw, 1.5rem); }
+.case-card-content { right: clamp(1rem, 2vw, 1.5rem); bottom: clamp(1rem, 2vw, 1.5rem); left: clamp(1rem, 2vw, 1.5rem); padding: 0.9rem; }
+.case-card-title strong { font-size: clamp(1.35rem, 2.2vw, 2.15rem); }
+.about-editorial { gap: clamp(2.5rem, 5vw, 5rem); padding-top: clamp(3rem, 7vw, 6rem); }
+.about-story h2,
+.case-page-copy h2 { font-size: var(--display-lg); line-height: 0.94; }
+.about-body p,
+.case-page-copy p { font-size: 0.95rem; line-height: 1.7; }
+.booking-section { grid-template-columns: minmax(0, 0.75fr) minmax(28rem, 1.25fr); gap: clamp(2.5rem, 6vw, 6rem); }
+.booking-copy h2 { padding-top: clamp(2.5rem, 6vw, 5rem); font-size: var(--display-lg); }
+.footer { padding-top: var(--section-space); }
+.footer-top { grid-template-columns: minmax(0, 1.2fr) minmax(14rem, 0.8fr); gap: 2.5rem; }
+.footer-title { font-size: var(--display-xl); }
+
+@media (max-width: 800px) {
+  .site-header { top: 1rem; }
+  .hero-title-wrap { bottom: 7rem; }
+  .services-intro,
+  .cases-heading { gap: 2rem; }
+  .booking-section { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: clamp(3.2rem, 15vw, 4.5rem); }
+  .hero-support-panel p { font-size: 0.88rem; }
+  .package-card { min-height: 31rem; }
+}
+
+/* Editorial scale: keep the interface expressive without letting every section
+   compete with the hero. */
+:root {
+  --page-gutter: clamp(1.25rem, 4vw, 4rem);
+  --section-space: clamp(4.5rem, 9vw, 8rem);
+  --display-xl: clamp(3.75rem, 8vw, 8rem);
+  --display-lg: clamp(2.75rem, 5.8vw, 5.75rem);
+  --display-md: clamp(2rem, 3.5vw, 3.25rem);
+}
+
+.px-page {
+  padding-inline: var(--page-gutter);
+}
+
+.py-section {
+  padding-block: var(--section-space);
+}
+
+.site-header {
+  top: 1.5rem;
+  right: var(--page-gutter);
+  left: var(--page-gutter);
+}
+
+.nav-shell {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 0;
+}
+
+.site-header .wordmark {
+  min-height: 2rem !important;
+  padding: 0 !important;
+  justify-content: flex-start !important;
+  color: var(--alice-blue) !important;
+  background: transparent !important;
+  font-size: 1.1rem;
+  letter-spacing: -0.04em;
+}
+
+.hero-nav {
+  width: auto;
+  gap: 0.25rem;
+  font-size: 0.63rem;
+  letter-spacing: 0.04em;
+}
+
+.site-header .nav-link {
+  flex: none !important;
+  min-height: 2rem !important;
+  padding: 0 0.8rem !important;
+  background: transparent !important;
+  color: rgba(234, 246, 255, 0.72) !important;
+}
+
+.site-header .nav-link:hover,
+.site-header .nav-link:focus-visible {
+  color: var(--alice-blue) !important;
+  background: transparent !important;
+}
+
+.hero-section {
+  min-height: min(52rem, calc(100svh - 1rem));
+  margin: 0.5rem;
+}
+
+.hero-title-wrap {
+  max-width: min(52rem, calc(100% - 2.5rem));
+  bottom: clamp(5rem, 11vh, 8rem);
+}
+
+.hero-title {
+  font-size: var(--display-xl);
+  line-height: 0.86;
+  letter-spacing: -0.075em;
+}
+
+.hero-support-panel {
+  max-width: 27rem;
+  margin-top: 1.35rem;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.hero-support-panel p {
+  max-width: 26rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.hero-enter-button {
+  right: var(--page-gutter);
+  bottom: clamp(1.5rem, 4vw, 3rem);
+}
+
+.services-intro,
+.cases-heading {
+  grid-template-columns: minmax(0, 1.45fr) minmax(14rem, 0.55fr);
+  gap: 3rem;
+  padding: clamp(2.75rem, 6vw, 5.5rem) 0;
+}
+
+.services-intro h2,
+.cases-heading h2 {
+  font-size: var(--display-lg);
+  line-height: 0.92;
+}
+
+.services-intro p,
+.cases-heading p {
+  max-width: 22rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.package-grid,
+.case-grid {
+  gap: 1rem;
+}
+
+.package-card {
+  min-height: 34rem;
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.package-visual {
+  height: 7.5rem;
+}
+
+.package-card h3 {
+  font-size: var(--display-md);
+  line-height: 0.96;
+}
+
+.package-price {
+  padding-top: 0.75rem;
+  font-size: 1rem;
+}
+
+.package-description {
+  padding-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.feature-list {
+  gap: 0.7rem 1rem;
+  padding: 1.25rem 0 0;
+}
+
+.feature-list li {
+  font-size: 0.78rem;
+}
+
+.case-grid {
+  grid-auto-rows: clamp(25rem, 38vw, 35rem);
+}
+
+.case-card {
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.case-card-content {
+  right: clamp(1rem, 2vw, 1.5rem);
+  bottom: clamp(1rem, 2vw, 1.5rem);
+  left: clamp(1rem, 2vw, 1.5rem);
+  padding: 0.9rem;
+}
+
+.case-card-title strong {
+  font-size: clamp(1.35rem, 2.2vw, 2.15rem);
+}
+
+.about-editorial {
+  gap: clamp(2.5rem, 5vw, 5rem);
+  padding-top: clamp(3rem, 7vw, 6rem);
+}
+
+.about-story h2,
+.case-page-copy h2 {
+  font-size: var(--display-lg);
+  line-height: 0.94;
+}
+
+.about-body p,
+.case-page-copy p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.booking-section {
+  grid-template-columns: minmax(0, 0.75fr) minmax(28rem, 1.25fr);
+  gap: clamp(2.5rem, 6vw, 6rem);
+}
+
+.booking-copy h2 {
+  padding-top: clamp(2.5rem, 6vw, 5rem);
+  font-size: var(--display-lg);
+}
+
+.footer {
+  padding-top: var(--section-space);
+}
+
+.footer-top {
+  grid-template-columns: minmax(0, 1.2fr) minmax(14rem, 0.8fr);
+  gap: 2.5rem;
+}
+
+.footer-title {
+  font-size: var(--display-xl);
+}
+
+@media (max-width: 800px) {
+  .site-header {
+    top: 1rem;
+  }
+
+  .hero-title-wrap {
+    bottom: 7rem;
+  }
+
+  .services-intro,
+  .cases-heading {
+    gap: 2rem;
+  }
+
+  .booking-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: clamp(3.2rem, 15vw, 4.5rem);
+  }
+
+  .hero-support-panel p {
+    font-size: 0.88rem;
+  }
+
+  .package-card {
+    min-height: 31rem;
+  }
+}
+
 @media (max-width: 800px) {
   .site-header .mobile-menu-toggle {
     display: inline-flex !important;
@@ -543,24 +891,25 @@
   opacity: 0.68;
 }
 .hero-title {
-  font-size: clamp(4rem, 9vw, 9rem);
-  line-height: 0.82;
+  font-size: clamp(3.75rem, 8vw, 8rem);
+  line-height: 0.86;
   font-weight: 700;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.075em;
 }
 .hero-title span {
   font-weight: 400;
 }
 .hero-support-panel {
-  max-width: 34rem;
-  margin-top: 1.75rem;
-  padding: 1rem 1.25rem;
+  max-width: 27rem;
+  margin-top: 1.35rem;
+  padding: 0;
   color: var(--alice-blue);
-  border-color: rgba(234, 246, 255, 0.14);
-  background: rgba(29, 29, 27, 0.62);
+  border: 0;
+  background: transparent;
 }
 .hero-support-panel p {
-  font-size: clamp(0.88rem, 1.3vw, 1.05rem);
+  max-width: 26rem;
+  font-size: 0.95rem;
   line-height: 1.55;
   opacity: 0.82;
 }
@@ -672,34 +1021,34 @@
 }
 .services-intro h2,
 .cases-heading h2 {
-  font-size: clamp(3rem, 7vw, 7.5rem);
-  line-height: 0.88;
+  font-size: clamp(2.75rem, 5.8vw, 5.75rem);
+  line-height: 0.92;
   font-weight: 700;
   letter-spacing: -0.05em;
 }
 .services-intro p,
 .cases-heading p {
-  max-width: 29rem;
-  font-size: 1.1rem;
+  max-width: 22rem;
+  font-size: 0.95rem;
   line-height: 1.6;
 }
 .package-grid,
 .case-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+  gap: 1rem;
 }
 .case-grid {
-  grid-auto-rows: clamp(28rem, 42vw, 42rem);
+  grid-auto-rows: clamp(25rem, 38vw, 35rem);
 }
 .package-card {
   position: relative;
   display: flex;
-  min-height: 40rem;
+  min-height: 34rem;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 1.5rem;
-  padding: clamp(1.5rem, 3vw, 3rem);
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
   overflow: hidden;
   background: rgba(211, 211, 211, 0.72);
   color: var(--shadow-grey);
@@ -732,7 +1081,7 @@
   grid-template-columns: 1fr 1.45fr 0.75fr;
   align-items: end;
   gap: 0.65rem;
-  height: 10rem;
+  height: 7.5rem;
   padding: 1rem;
   border: 1px solid currentColor;
   color: var(--bright-blue);
@@ -758,26 +1107,28 @@
   margin-top: auto;
 }
 .package-card h3 {
-  font-size: clamp(2rem, 3.2vw, 3.6rem);
+  font-size: clamp(2rem, 3.5vw, 3.25rem);
+  line-height: 0.96;
   font-weight: 700;
   letter-spacing: -0.04em;
 }
 .package-price {
-  padding-top: 1rem;
-  font-size: 1.15rem;
+  padding-top: 0.75rem;
+  font-size: 1rem;
   font-weight: 500;
 }
 .package-description {
   max-width: 35rem;
-  padding-top: 1.75rem;
+  padding-top: 1rem;
+  font-size: 0.9rem;
   line-height: 1.55;
   opacity: 0.72;
 }
 .feature-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.9rem 1.5rem;
-  padding: 2rem 0;
+  gap: 0.7rem 1rem;
+  padding: 1.25rem 0 0;
   border-top: 1px solid currentColor;
   list-style: none;
   opacity: 0.85;
@@ -786,7 +1137,7 @@
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  font-size: 0.88rem;
+  font-size: 0.78rem;
 }
 .feature-list svg {
   flex: none;
@@ -917,7 +1268,7 @@
 }
 .case-card-title strong {
   max-width: 34rem;
-  font-size: clamp(1.45rem, 2.5vw, 2.65rem);
+  font-size: clamp(1.35rem, 2.2vw, 2.15rem);
   line-height: 0.94;
   letter-spacing: -0.05em;
 }
@@ -993,8 +1344,8 @@
 }
 .about-story h2 {
   max-width: 34rem;
-  font-size: clamp(2.6rem, 5vw, 5rem);
-  line-height: 1.02;
+  font-size: clamp(2.75rem, 5.8vw, 5.75rem);
+  line-height: 0.94;
   font-weight: 700;
   letter-spacing: -0.05em;
 }
@@ -1004,7 +1355,7 @@
   max-width: 34rem;
 }
 .about-body p {
-  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  font-size: 0.95rem;
   line-height: 1.7;
   color: rgba(35, 37, 40, 0.78);
 }
@@ -1043,8 +1394,8 @@
 }
 .booking-copy h2 {
   padding-top: clamp(3rem, 7vw, 6rem);
-  font-size: clamp(3rem, 5.7vw, 6.2rem);
-  line-height: 0.92;
+  font-size: clamp(2.75rem, 5.8vw, 5.75rem);
+  line-height: 0.94;
   font-weight: 700;
   letter-spacing: -0.05em;
 }
@@ -1181,18 +1532,14 @@
 
 .footer {
   margin: 0.5rem;
-  padding-top: clamp(5rem, 10vw, 9rem);
+  padding-top: clamp(3rem, 6vw, 5rem);
   padding-bottom: 1.5rem;
   color: var(--alice-blue);
   background: var(--shadow-grey);
   border-top: 1px solid var(--line-light);
 }
 .footer-top {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
-  align-items: end;
-  gap: 3rem;
-  padding-bottom: clamp(4rem, 7vw, 7rem);
+  display: block;
 }
 .footer-label {
   color: rgba(234, 246, 255, 0.48);
@@ -1204,7 +1551,7 @@
 .footer-title {
   max-width: 62rem;
   padding-top: 1.25rem;
-  font-size: clamp(3.5rem, 10vw, 10rem);
+  font-size: clamp(3.75rem, 8vw, 8rem);
   line-height: 0.86;
   font-weight: 700;
   letter-spacing: -0.06em;
