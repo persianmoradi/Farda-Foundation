@@ -391,19 +391,6 @@
   color: var(--alice-blue);
   background: var(--shadow-grey);
 }
-.section-label {
-  display: grid;
-  grid-template-columns: 4rem 1fr;
-  gap: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(35, 37, 40, 0.16);
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  font-weight: 500;
-}
-.section-label-dark {
-  border-color: var(--line-light);
-}
 .services-intro,
 .cases-heading {
   display: grid;
@@ -897,7 +884,6 @@
   gap: 3rem;
   padding-bottom: clamp(4rem, 7vw, 7rem);
 }
-.footer-kicker,
 .footer-label {
   color: rgba(234, 246, 255, 0.48);
   font-size: 0.62rem;
