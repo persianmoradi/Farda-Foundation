@@ -258,7 +258,7 @@ function Index() {
             <p>Vi skaber distinkte digitale oplevelser for virksomheder med noget på spil.</p>
             <Button asChild variant="primary" size="lg" className="hero-enter-button">
               <a href="#booking">
-                <span>Start et projekt</span>
+                <span>Book en samtale</span>
                 <span className="hero-cta-arrow">
                   <ArrowRight size={18} />
                 </span>
