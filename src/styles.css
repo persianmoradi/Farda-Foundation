@@ -666,12 +666,6 @@
     rgba(35, 37, 40, 0.52)
   );
 }
-.case-number {
-  position: relative;
-  z-index: 1;
-  font-size: 0.7rem;
-  opacity: 0.72;
-}
 .case-card-top {
   position: relative;
   z-index: 1;
