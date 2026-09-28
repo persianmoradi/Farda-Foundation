@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Check, ExternalLink, Menu, X } from "lucide-react";
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { ArrowRight, Check, ExternalLink, Menu, Sparkles, X, Zap } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 
 import heroAnimation from "@/assets/hero-vid.mp4";
 import pmPic from "@/assets/pm-pic.jpg";
@@ -39,12 +39,18 @@ const packages = [
     description:
       "For virksomheder, der ønsker en lynhurtig, moderne og fuldt professionel digital tilstedeværelse.",
     features: [
-      "3–4 sider",
+      "3-4 sider",
       "Responsivt UI-design",
       "Grundlæggende SEO",
       "Performance-optimering",
     ],
+    metrics: [
+      { label: "Leveringstid", value: 90 },
+      { label: "Design", value: 80 },
+      { label: "SEO", value: 65 },
+    ],
     featured: false,
+    icon: Zap,
   },
   {
     number: "02",
@@ -59,7 +65,13 @@ const packages = [
       "Udvidet SEO",
       "API / Maps-integrationer",
     ],
+    metrics: [
+      { label: "Skræddersyet UX", value: 98 },
+      { label: "Interaktivitet", value: 92 },
+      { label: "Integrationer", value: 88 },
+    ],
     featured: true,
+    icon: Sparkles,
   },
 ];
 
@@ -271,25 +283,43 @@ function Index() {
               key={item.title}
               className={`package-card ${item.featured ? "package-card-featured" : ""} reveal reveal-card`}
             >
+              <span className="package-number-mark" aria-hidden="true">
+                {item.number}
+              </span>
               <div className="package-top">
-                <span className="package-number">{item.number} — FARDA package</span>
-                <span className="package-status">
+                <span className="package-icon-badge" aria-hidden="true">
+                  <item.icon size={18} />
+                </span>
+                <span
+                  className={`package-status ${item.featured ? "package-status-featured" : ""}`}
+                >
                   {item.featured ? "Mest valgt" : "Fast foundation"}
                 </span>
-              </div>
-              <div className="package-visual" aria-hidden="true">
-                <i />
-                <i />
-                <i />
               </div>
               <div className="package-content">
                 <h3>{item.title}</h3>
                 <p className="package-price">{item.price}</p>
                 <p className="package-description">{item.description}</p>
               </div>
+              <ul className="metric-list" aria-hidden="true">
+                {item.metrics.map((metric, index) => (
+                  <li
+                    key={metric.label}
+                    className="metric-row"
+                    style={
+                      { "--metric-index": index, "--metric-value": metric.value } as CSSProperties
+                    }
+                  >
+                    <span className="metric-label">{metric.label}</span>
+                    <span className="metric-track">
+                      <span className="metric-fill" />
+                    </span>
+                  </li>
+                ))}
+              </ul>
               <ul className="feature-list">
-                {item.features.map((feature) => (
-                  <li key={feature}>
+                {item.features.map((feature, index) => (
+                  <li key={feature} style={{ "--feature-index": index } as CSSProperties}>
                     <Check size={16} />
                     {feature}
                   </li>
