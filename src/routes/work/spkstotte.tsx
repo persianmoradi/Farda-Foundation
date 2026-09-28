@@ -1,19 +1,27 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 
 import { cases } from "@/data/cases";
 import { SiteFooter } from "@/components/site-footer";
+import { absoluteUrl } from "@/lib/seo";
+
+const title = "SPK Støtte — FARDA";
+const description =
+  "En hurtig, SEO-optimeret hjemmeside for SPK Støtte med tydelig informationsarkitektur og en rolig, institutionel visuel retning.";
+const url = absoluteUrl("/work/spkstotte");
 
 export const Route = createFileRoute("/work/spkstotte")({
   head: () => ({
     meta: [
-      { title: "SPK Støtte — FARDA" },
-      {
-        name: "description",
-        content:
-          "En hurtig, SEO-optimeret hjemmeside for SPK Støtte med tydelig informationsarkitektur og en rolig, institutionel visuel retning.",
-      },
+      { title },
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: url },
+      { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: url }],
   }),
   component: SpkStotte,
 });
@@ -25,32 +33,32 @@ function SpkStotte() {
     <main className="site-shell case-page">
       <header className="site-header">
         <div className="nav-shell">
-          <a href="/" className="wordmark" aria-label="FARDA forside">
+          <Link to="/" className="wordmark" aria-label="FARDA forside">
             FARDA<span className="text-primary">.</span>
-          </a>
+          </Link>
           <nav className="hero-nav" aria-label="Primær navigation">
-            <a className="nav-link" href="/#services">
+            <Link className="nav-link" to="/" hash="services">
               Services
-            </a>
-            <a className="nav-link" href="/#cases">
+            </Link>
+            <Link className="nav-link" to="/" hash="cases">
               Cases
-            </a>
-            <a className="nav-link" href="/#about">
+            </Link>
+            <Link className="nav-link" to="/" hash="about">
               Om FARDA
-            </a>
-            <a className="nav-link" href="/#booking">
+            </Link>
+            <Link className="nav-link" to="/" hash="booking">
               Kontakt
-            </a>
+            </Link>
           </nav>
         </div>
       </header>
 
       <section className="case-page-hero section-dark px-page py-section">
         <div className="case-page-hero-inner">
-          <a className="case-back-link" href="/#cases">
+          <Link className="case-back-link" to="/" hash="cases">
             <ArrowLeft size={16} />
             Tilbage til cases
-          </a>
+          </Link>
           <span className="case-page-number">{project.number} / FARDA selected work</span>
           <p className="case-meta">{project.category}</p>
           <h1>{project.title}</h1>

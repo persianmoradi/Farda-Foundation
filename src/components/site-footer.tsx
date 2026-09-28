@@ -1,11 +1,27 @@
+import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 type SiteFooterProps = {
   isHome?: boolean;
 };
 
-function sectionHref(section: string, isHome: boolean) {
-  return isHome ? `#${section}` : `/#${section}`;
+function SectionLink({
+  section,
+  isHome,
+  children,
+}: {
+  section: string;
+  isHome: boolean;
+  children: React.ReactNode;
+}) {
+  if (isHome) {
+    return <a href={`#${section}`}>{children}</a>;
+  }
+  return (
+    <Link to="/" hash={section}>
+      {children}
+    </Link>
+  );
 }
 
 export function SiteFooter({ isHome = false }: SiteFooterProps) {
@@ -13,9 +29,15 @@ export function SiteFooter({ isHome = false }: SiteFooterProps) {
     <footer className="footer px-page">
       <div className="footer-row reveal reveal-late">
         <div className="footer-brand">
-          <a className="wordmark" href={isHome ? "#top" : "/"}>
-            FARDA<span className="text-primary">.</span>
-          </a>
+          {isHome ? (
+            <a className="wordmark" href="#top">
+              FARDA<span className="text-primary">.</span>
+            </a>
+          ) : (
+            <Link className="wordmark" to="/">
+              FARDA<span className="text-primary">.</span>
+            </Link>
+          )}
           <p>Digitalt studio for virksomheder med noget på spil.</p>
         </div>
         <div className="footer-contact">
@@ -25,17 +47,29 @@ export function SiteFooter({ isHome = false }: SiteFooterProps) {
         </div>
         <div className="footer-links">
           <span className="footer-label">Udforsk</span>
-          <a href={sectionHref("services", isHome)}>Services</a>
-          <a href={sectionHref("cases", isHome)}>Cases</a>
-          <a href={sectionHref("about", isHome)}>Om FARDA</a>
+          <SectionLink section="services" isHome={isHome}>
+            Services
+          </SectionLink>
+          <SectionLink section="cases" isHome={isHome}>
+            Cases
+          </SectionLink>
+          <SectionLink section="about" isHome={isHome}>
+            Om FARDA
+          </SectionLink>
         </div>
       </div>
       <div className="footer-bottom reveal reveal-late">
         <span>© 2026 FARDA Studio</span>
         <span>Built for tomorrow</span>
-        <a href={isHome ? "#top" : "/"}>
-          Til toppen <ArrowRight size={14} />
-        </a>
+        {isHome ? (
+          <a href="#top">
+            Til toppen <ArrowRight size={14} />
+          </a>
+        ) : (
+          <Link to="/">
+            Til toppen <ArrowRight size={14} />
+          </Link>
+        )}
       </div>
     </footer>
   );

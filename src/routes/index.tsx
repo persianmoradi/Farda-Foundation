@@ -1,5 +1,19 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Check, ExternalLink, Menu, Sparkles, X, Zap } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  Check,
+  Code2,
+  Compass,
+  ExternalLink,
+  Menu,
+  MessageCircle,
+  PenTool,
+  Rocket,
+  Sparkles,
+  TrendingUp,
+  X,
+  Zap,
+} from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 
 import heroAnimation from "@/assets/hero-vid.mp4";
@@ -8,6 +22,21 @@ import { Button } from "@/components/ui/button";
 import { SiteFooter } from "@/components/site-footer";
 import { cases } from "@/data/cases";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { absoluteUrl } from "@/lib/seo";
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "FARDA",
+  url: absoluteUrl("/"),
+  description: "FARDA bygger hurtige, præcise digitale oplevelser for ambitiøse virksomheder.",
+  founder: {
+    "@type": "Person",
+    name: "Persian Moradi",
+  },
+  areaServed: "DK",
+  knowsLanguage: ["da", "en"],
+};
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,10 +52,11 @@ export const Route = createFileRoute("/")({
         content: "Et digitalt studio for virksomheder, der vil stå skarpere i morgen.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: absoluteUrl("/") },
+      { name: "twitter:card", content: "summary" },
+      { "script:ld+json": organizationJsonLd },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/") }],
   }),
   component: Index,
 });
@@ -38,12 +68,7 @@ const packages = [
     price: "3.500 kr.",
     description:
       "For virksomheder, der ønsker en lynhurtig, moderne og fuldt professionel digital tilstedeværelse.",
-    features: [
-      "3-4 sider",
-      "Responsivt UI-design",
-      "Grundlæggende SEO",
-      "Performance-optimering",
-    ],
+    features: ["3-4 sider", "Responsivt UI-design", "Grundlæggende SEO", "Performance-optimering"],
     metrics: [
       { label: "Leveringstid", value: 90 },
       { label: "Design", value: 80 },
@@ -75,6 +100,38 @@ const packages = [
   },
 ];
 
+const valuePillars = [
+  {
+    icon: MessageCircle,
+    title: "Direkte linje",
+    description:
+      "Du taler direkte med den, der designer og koder din løsning — ingen account managers, ingen mellemled.",
+  },
+  {
+    icon: Zap,
+    title: "Hurtig levering",
+    description:
+      "En strømlinet proces og moderne værktøjer betyder uger fra idé til lancering — ikke måneder.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Bygget til at vokse",
+    description:
+      "Kode og arkitektur bygget som et fundament, din forretning kan vokse videre på — ikke en skabelon, du vokser fra.",
+  },
+];
+
+const processSteps = [
+  {
+    icon: Compass,
+    label: "Strategi",
+    description: "Vi kortlægger mål, målgruppe og de rigtige funktioner.",
+  },
+  { icon: PenTool, label: "Design", description: "Skarpt UI/UX, skræddersyet til din forretning." },
+  { icon: Code2, label: "Udvikling", description: "Solid, moderne kode bygget til performance." },
+  { icon: Rocket, label: "Lancering", description: "Live, testet og klar til at skalere." },
+];
+
 function Index() {
   const heroRef = useRef<HTMLElement>(null);
   const heroVideoRef = useRef<HTMLVideoElement>(null);
@@ -82,24 +139,6 @@ function Index() {
   const [calendarLoaded, setCalendarLoaded] = useState(false);
 
   useScrollReveal();
-
-  useEffect(() => {
-    window.history.scrollRestoration = "manual";
-    const hash = window.location.hash;
-    const scrollToInitialTarget = () => {
-      if (hash) {
-        document.querySelector<HTMLElement>(hash)?.scrollIntoView({ behavior: "auto" });
-      } else {
-        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      }
-    };
-    const frame = window.requestAnimationFrame(scrollToInitialTarget);
-
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.history.scrollRestoration = "auto";
-    };
-  }, []);
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -173,7 +212,7 @@ function Index() {
               Cases
             </a>
             <a className="nav-link" href="#about">
-              Om FARDA
+              Hvorfor FARDA
             </a>
             <a className="nav-link" href="#booking">
               Kontakt
@@ -204,7 +243,7 @@ function Index() {
             Cases
           </a>
           <a href="#about" onClick={() => setMobileMenuOpen(false)}>
-            Om FARDA
+            Hvorfor FARDA
           </a>
           <a href="#booking" onClick={() => setMobileMenuOpen(false)}>
             Kontakt
@@ -345,10 +384,10 @@ function Index() {
           </div>
           <div className="case-grid">
             {cases.map((item) => (
-              <a
+              <Link
                 key={item.id}
                 className={`case-card reveal reveal-card ${item.accent}`}
-                href={item.path}
+                to={item.path}
               >
                 <span className="case-card-top">
                   <span>FARDA selected work</span>
@@ -367,7 +406,7 @@ function Index() {
                   </span>
                   <span className="case-card-description">{item.description}</span>
                 </span>
-              </a>
+              </Link>
             ))}
           </div>
           <div className="case-footer reveal" aria-hidden="true">
@@ -378,51 +417,79 @@ function Index() {
         </div>
       </section>
 
-      <section id="about" className="section-light px-page py-section">
+      <section id="about" className="section-light px-page py-section why-section">
         <div className="section-label reveal">
-          <span>Om FARDA</span>
+          <span>Hvorfor FARDA</span>
         </div>
-        <div className="about-editorial">
-          <figure className="about-portrait reveal">
+        <div className="why-intro reveal">
+          <h2>
+            Et fundament bygget til
+            <br />
+            at <span className="text-primary">vokse med dig</span>.
+          </h2>
+          <p>
+            Ingen bureau-lag, ingen skabeloner. Bare et stærkt digitalt fundament, bygget direkte af
+            den, der forstår både design og kode.
+          </p>
+        </div>
+
+        <div className="why-pillars">
+          {valuePillars.map((pillar, index) => (
+            <div
+              key={pillar.title}
+              className="why-pillar reveal reveal-card"
+              style={{ "--feature-index": index } as CSSProperties}
+            >
+              <span className="why-pillar-icon">
+                <pillar.icon size={20} aria-hidden="true" />
+              </span>
+              <h3>{pillar.title}</h3>
+              <p>{pillar.description}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="why-process reveal">
+          <div className="why-process-line" aria-hidden="true">
+            <span className="why-process-line-fill" />
+          </div>
+          <ol className="why-process-steps">
+            {processSteps.map((step, index) => (
+              <li
+                key={step.label}
+                className="why-process-step"
+                style={{ "--feature-index": index } as CSSProperties}
+              >
+                <span className="why-process-icon">
+                  <step.icon size={18} aria-hidden="true" />
+                </span>
+                <strong>{step.label}</strong>
+                <span>{step.description}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="why-cta reveal">
+          <Button asChild variant="primary" size="lg">
+            <a href="#booking">
+              <span>Book en samtale</span>
+              <ArrowRight size={17} />
+            </a>
+          </Button>
+          <div className="why-trust">
             <img
               src={pmPic}
               alt="Persian Moradi, founder of FARDA"
-              width={1024}
-              height={1280}
+              width={96}
+              height={96}
               loading="lazy"
               decoding="async"
             />
-          </figure>
-          <div className="about-story reveal reveal-late">
-            <span className="about-eyebrow">BAG FARDA</span>
-            <h2>
-              We don't just build for today.
-              <br />
-              We build for <span className="text-primary">tomorrow</span>.
-            </h2>
-            <div className="about-body">
-              <p>
-                Navnet er inspireret af det persiske ord <em>Farda</em>, som betyder "i morgen". Vi
-                valgte det, fordi vi ikke bare vil bygge virksomhedernes digitale tilstedeværelse i
-                dag — vi vil bygge det, de skal bruge i morgen.
-              </p>
-              <p>
-                Det handler om at lægge et stærkt digitalt fundament, som virksomheden kan vokse
-                videre med. Derfor bygger FARDA i dag med morgendagen i tankerne.
-              </p>
-            </div>
-            <div className="about-cta">
-              <Button asChild variant="primary" size="lg">
-                <a href="#booking">
-                  <span>Book en samtale</span>
-                  <ArrowRight size={17} />
-                </a>
-              </Button>
-              <div className="about-signature">
-                <strong>Persian Moradi</strong>
-                <span>Founder & Builder</span>
-              </div>
-            </div>
+            <span>
+              <strong>Persian Moradi</strong>
+              <span>Din direkte kontakt — Founder &amp; Full-stack Builder</span>
+            </span>
           </div>
         </div>
       </section>
