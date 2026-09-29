@@ -3,36 +3,58 @@
 @import "tw-animate-css";
 
 :root {
-  --shadow-grey: #a94a4a;
+  /* Core surfaces */
+  --cream: #fff6da;
+  --clay: #a94a4a;
   --ink: #1d1d1b;
-  --imperial-blue: #2a2a72;
-  --accent-orange: #ffa400;
-  --bright-blue: #009ffd;
-  --alice-blue: #fff6da;
-  --background: var(--alice-blue);
+  --espresso: #2e1a1a;
+
+  /* Accents — *-text variants are WCAG-safe on cream; *-bright are decorative only */
+  --clay-deep: #8b3a3a;
+  --amber-text: #b45309;
+  --amber-bright: #ffa400;
+
+  /* Tinted neutrals (warm, replaces the old cool rgba stack) */
+  --ink-72: rgba(29, 29, 27, 0.72);
+  --ink-58: rgba(29, 29, 27, 0.58);
+  --ink-12: rgba(29, 29, 27, 0.12);
+  --cream-82: rgba(255, 246, 218, 0.82);
+  --cream-64: rgba(255, 246, 218, 0.64);
+  --cream-22: rgba(255, 246, 218, 0.22);
+
+  /* Glass */
+  --glass-light: rgba(255, 255, 255, 0.55);
+  --glass-light-border: rgba(255, 255, 255, 0.7);
+  --glass-dark: rgba(46, 26, 26, 0.32);
+  --glass-dark-border: rgba(255, 246, 218, 0.24);
+  --glass-blur: 18px;
+
+  --background: var(--cream);
   --foreground: var(--ink);
-  --primary: var(--accent-orange);
+  --primary: var(--amber-bright);
   --primary-foreground: var(--ink);
-  --accent: var(--bright-blue);
-  --ring: var(--bright-blue);
-  --line-light: rgba(234, 246, 255, 0.2);
+  --accent: var(--clay);
+  --ring: var(--ink);
+  --line-light: var(--cream-22);
   --ease-farda: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --motion-fast: 180ms;
   --motion-base: 420ms;
   --motion-slow: 720ms;
 }
 
 @theme inline {
-  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Space Grotesk", "Archivo", "Helvetica Neue", Arial, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
   --color-ring: var(--ring);
-  --color-border: rgba(35, 37, 40, 0.14);
-  --color-surface-dark: var(--shadow-grey);
-  --color-surface-blue: var(--imperial-blue);
+  --color-border: rgba(29, 29, 27, 0.14);
+  --color-surface-dark: var(--clay);
+  --color-surface-blue: var(--espresso);
 }
 
 @layer base {
@@ -58,7 +80,7 @@
     -webkit-tap-highlight-color: transparent;
   }
   :focus-visible {
-    outline: 2px solid var(--bright-blue);
+    outline: 2px solid var(--ring);
     outline-offset: 4px;
   }
   h1,
@@ -78,10 +100,10 @@
 
 .site-shell {
   overflow-x: clip;
-  background: var(--alice-blue);
+  background: var(--cream);
 }
 .text-primary {
-  color: var(--bright-blue);
+  color: var(--clay);
 }
 .skip-link {
   position: fixed;
@@ -90,7 +112,7 @@
   left: 0.75rem;
   padding: 0.75rem 1rem;
   color: var(--ink);
-  background: var(--accent-orange);
+  background: var(--amber-bright);
   transform: translateY(-150%);
   transition: transform var(--motion-fast) var(--ease-farda);
 }
@@ -104,16 +126,7 @@
   top: 1rem;
   right: clamp(1rem, 2vw, 2rem);
   left: clamp(1rem, 2vw, 2rem);
-  color: var(--alice-blue);
-}
-.site-header,
-.site-header *,
-.site-header *::before,
-.site-header *::after {
-  border-color: transparent !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
-  backdrop-filter: none !important;
+  color: var(--cream);
 }
 .nav-shell {
   display: grid;
@@ -179,7 +192,7 @@
   justify-content: center !important;
   padding: 0 1rem !important;
   text-align: center !important;
-  background: rgba(196, 179, 151, 0.12) !important;
+  background: rgba(255, 246, 218, 0.10) !important;
 }
 .nav-shell .mobile-menu-toggle {
   min-height: 2.4rem;
@@ -211,7 +224,7 @@
 .site-header .mobile-menu-toggle:hover,
 .site-header .mobile-menu-toggle:focus,
 .site-header .mobile-menu-toggle:focus-visible {
-  background: rgba(196, 179, 151, 0.12) !important;
+  background: rgba(255, 246, 218, 0.10) !important;
   border: 0 !important;
   box-shadow: none !important;
   outline: 0 !important;
@@ -219,20 +232,6 @@
   transition: none !important;
 }
 
-.site-header .nav-link:hover,
-.site-header .nav-link:focus-visible {
-  color: var(--ink) !important;
-  opacity: 1 !important;
-  background: var(--alice-blue) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: 0 !important;
-  transform: none !important;
-  transition: background-color 260ms ease, color 260ms ease !important;
-}
-.site-header .nav-link::after {
-  display: none !important;
-}
 
 /* Final type and spacing pass. Keep these rules last so shared component
    defaults cannot re-expand the layout. */
@@ -252,7 +251,7 @@
   min-height: 2rem !important;
   padding: 0 !important;
   justify-content: flex-start !important;
-  color: var(--alice-blue) !important;
+  color: var(--cream) !important;
   background: transparent !important;
   font-size: 1.1rem;
   letter-spacing: -0.04em;
@@ -263,11 +262,11 @@
   min-height: 2rem !important;
   padding: 0 0.8rem !important;
   background: transparent !important;
-  color: rgba(234, 246, 255, 0.72) !important;
+  color: rgba(255, 246, 218, 0.72) !important;
 }
 .site-header .nav-link:hover,
 .site-header .nav-link:focus-visible {
-  color: var(--alice-blue) !important;
+  color: var(--cream) !important;
   background: transparent !important;
 }
 .hero-section { min-height: min(52rem, calc(100svh - 1rem)); }
@@ -355,7 +354,7 @@
   min-height: 2rem !important;
   padding: 0 !important;
   justify-content: flex-start !important;
-  color: var(--alice-blue) !important;
+  color: var(--cream) !important;
   background: transparent !important;
   font-size: 1.1rem;
   letter-spacing: -0.04em;
@@ -373,12 +372,12 @@
   min-height: 2rem !important;
   padding: 0 0.8rem !important;
   background: transparent !important;
-  color: rgba(234, 246, 255, 0.72) !important;
+  color: rgba(255, 246, 218, 0.72) !important;
 }
 
 .site-header .nav-link:hover,
 .site-header .nav-link:focus-visible {
-  color: var(--alice-blue) !important;
+  color: var(--cream) !important;
   background: transparent !important;
 }
 
@@ -594,8 +593,8 @@
     min-height: 3rem;
     padding-inline: 1rem;
     text-align: center;
-    color: var(--alice-blue);
-    background: rgba(196, 179, 151, 0.12);
+    color: var(--cream);
+    background: rgba(255, 246, 218, 0.10);
     transition:
       background-color 220ms ease,
       color 220ms ease;
@@ -608,7 +607,7 @@
   .site-header .mobile-navigation a:hover,
   .site-header .mobile-navigation a:focus-visible {
     color: var(--ink);
-    background: var(--alice-blue);
+    background: var(--cream);
     outline: 0;
   }
 }
@@ -623,8 +622,8 @@
 }
 
 .site-header .nav-link:not(:hover):not(:focus-visible) {
-  background: rgba(227, 224, 217, 0.16) !important;
-  color: var(--alice-blue) !important;
+  background: rgba(255, 246, 218, 0.16) !important;
+  color: var(--cream) !important;
   opacity: 1 !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -636,14 +635,14 @@
   align-items: center !important;
   justify-content: center !important;
   padding: 0 1rem !important;
-  color: var(--alice-blue) !important;
-  background: rgba(227, 224, 217, 0.16) !important;
+  color: var(--cream) !important;
+  background: rgba(255, 246, 218, 0.16) !important;
 }
 
 .site-header .wordmark:hover,
 .site-header .wordmark:focus-visible {
   color: var(--ink) !important;
-  background: var(--alice-blue) !important;
+  background: var(--cream) !important;
   border: 0 !important;
   box-shadow: none !important;
   outline: 0 !important;
@@ -651,27 +650,13 @@
 }
 
 /* Final navlink interaction rule. */
-.site-header .nav-link:hover,
-.site-header .nav-link:focus-visible {
-  color: var(--ink) !important;
-  opacity: 1 !important;
-  background: var(--alice-blue) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: 0 !important;
-  transform: none !important;
-  transition: background-color 260ms ease, color 260ms ease !important;
-}
-.site-header .nav-link::after {
-  display: none !important;
-}
 
 @media (hover: hover) {
   .site-header .nav-link:hover,
   .site-header .nav-link:focus-visible {
     color: var(--ink) !important;
     opacity: 1 !important;
-    background: var(--alice-blue) !important;
+    background: var(--cream) !important;
     border: 0 !important;
     box-shadow: none !important;
     outline: 0 !important;
@@ -689,7 +674,7 @@
   .site-header .nav-link:focus-visible {
     color: var(--ink) !important;
     opacity: 1 !important;
-    background: var(--alice-blue) !important;
+    background: var(--cream) !important;
     border: 0 !important;
     box-shadow: none !important;
     outline: 0 !important;
@@ -708,7 +693,7 @@
   .site-header .mobile-menu-toggle:hover,
   .site-header .mobile-menu-toggle:focus-visible {
     color: var(--ink) !important;
-    background: var(--alice-blue) !important;
+    background: var(--cream) !important;
     transition: background-color 260ms ease, color 260ms ease !important;
   }
 }
@@ -719,7 +704,7 @@
   .site-header .mobile-menu-toggle:hover,
   .site-header .mobile-menu-toggle:focus-visible {
     color: var(--ink) !important;
-    background: var(--alice-blue) !important;
+    background: var(--cream) !important;
   }
 }
 
@@ -729,7 +714,7 @@
   .hero-enter-button:focus-visible > span:first-child,
   .hero-enter-button:focus-visible > .hero-cta-arrow {
     color: var(--ink) !important;
-    background: var(--alice-blue) !important;
+    background: var(--cream) !important;
   }
 }
 
@@ -739,7 +724,7 @@
   .site-header .mobile-menu-toggle:hover,
   .site-header .mobile-menu-toggle:focus-visible {
     color: var(--ink) !important;
-    background: var(--alice-blue) !important;
+    background: var(--cream) !important;
     transition: background-color 260ms ease, color 260ms ease !important;
   }
 }
@@ -772,7 +757,7 @@
   .hero-section .farda-button:focus-visible > svg:last-child,
   .hero-section .farda-button:focus-visible > .hero-cta-arrow {
     color: var(--ink);
-    background: var(--alice-blue);
+    background: var(--cream);
   }
 
   .section-light .farda-button:hover > span:first-child,
@@ -781,8 +766,8 @@
   .section-light .farda-button:focus-visible > span:first-child,
   .section-light .farda-button:focus-visible > svg:last-child,
   .section-light .farda-button:focus-visible > .hero-cta-arrow {
-    color: var(--alice-blue);
-    background: var(--shadow-grey);
+    color: var(--cream);
+    background: var(--clay);
   }
 }
 .mobile-menu-toggle,
@@ -797,8 +782,8 @@
   display: grid;
   place-items: center;
   overflow: hidden;
-  color: var(--alice-blue);
-  background: var(--shadow-grey);
+  color: var(--cream);
+  background: var(--clay);
 }
 .hero-media,
 .hero-video {
@@ -823,9 +808,9 @@
   z-index: 0;
   background: linear-gradient(
     180deg,
-    rgba(35, 37, 40, 0.72),
-    rgba(35, 37, 40, 0.34) 42%,
-    rgba(35, 37, 40, 0.9)
+    rgba(29, 29, 27, 0.72),
+    rgba(29, 29, 27, 0.34) 42%,
+    rgba(29, 29, 27, 0.9)
   );
 }
 .hero-title-wrap {
@@ -861,7 +846,7 @@
   max-width: 27rem;
   margin-top: 1.35rem;
   padding: 0;
-  color: var(--alice-blue);
+  color: var(--cream);
   border: 0;
   background: transparent;
 }
@@ -877,7 +862,7 @@
   right: clamp(1.25rem, 4vw, 4.5rem);
   bottom: clamp(2rem, 4vw, 4.5rem);
   min-width: 0;
-  color: var(--alice-blue);
+  color: var(--cream);
   background: rgba(152, 168, 105, 0.42);
 }
 .farda-button:not(.farda-button-icon) {
@@ -893,7 +878,7 @@
   min-height: 3.25rem;
   align-items: center;
   padding: 0 1.35rem;
-  background: rgba(35, 37, 40, 0.1);
+  background: rgba(29, 29, 27, 0.1);
 }
 .farda-button:not(.farda-button-icon) > svg:last-child,
 .farda-button:not(.farda-button-icon) > .hero-cta-arrow {
@@ -903,19 +888,19 @@
   flex: none;
   place-items: center;
   padding: 0.9rem;
-  background: rgba(35, 37, 40, 0.1);
+  background: rgba(29, 29, 27, 0.1);
 }
 .hero-enter-button {
   min-width: 0;
   height: auto;
-  color: var(--alice-blue);
+  color: var(--cream);
   background: rgba(152, 168, 105, 0.42);
   box-shadow: none;
 }
 .hero-enter-button.farda-button > span:first-child,
 .hero-enter-button.farda-button > .hero-cta-arrow {
-  color: var(--alice-blue);
-  background: rgba(227, 224, 217, 0.16);
+  color: var(--cream);
+  background: rgba(255, 246, 218, 0.16);
 }
 .farda-button {
   transition: background 200ms ease-out, color 200ms ease-out;
@@ -952,12 +937,12 @@
 
 .section-light {
   margin: 0.5rem;
-  background: var(--alice-blue);
+  background: var(--cream);
 }
 .section-dark {
   margin: 0.5rem;
-  color: var(--alice-blue);
-  background: var(--shadow-grey);
+  color: var(--cream);
+  background: var(--clay);
 }
 .services-intro,
 .cases-heading {
@@ -969,7 +954,7 @@
 }
 .section-label {
   padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(35, 37, 40, 0.16);
+  border-bottom: 1px solid rgba(29, 29, 27, 0.16);
   text-transform: uppercase;
   font-size: 0.7rem;
   font-weight: 500;
@@ -1032,7 +1017,7 @@
   pointer-events: none;
 }
 .package-card-featured {
-  color: var(--alice-blue);
+  color: var(--cream);
   background: linear-gradient(165deg, rgba(52, 52, 128, 0.92), rgba(35, 35, 92, 0.94));
   border: 1px solid rgba(255, 164, 0, 0.3);
   box-shadow: 0 1.5rem 3.5rem rgba(20, 20, 60, 0.35);
@@ -1053,12 +1038,12 @@
   height: 2.75rem;
   flex: none;
   border-radius: 999px;
-  color: var(--bright-blue);
-  background: rgba(0, 159, 253, 0.1);
-  border: 1px solid rgba(0, 159, 253, 0.25);
+  color: var(--clay);
+  background: rgba(169, 74, 74, 0.1);
+  border: 1px solid rgba(169, 74, 74, 0.25);
 }
 .package-card-featured .package-icon-badge {
-  color: var(--accent-orange);
+  color: var(--amber-bright);
   background: rgba(255, 164, 0, 0.12);
   border-color: rgba(255, 164, 0, 0.3);
 }
@@ -1085,7 +1070,7 @@
 }
 .package-status-featured {
   border-color: rgba(255, 164, 0, 0.55);
-  color: var(--accent-orange);
+  color: var(--amber-bright);
   opacity: 1;
 }
 .package-content {
@@ -1142,7 +1127,7 @@
   inset: 0;
   width: 0%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--bright-blue), var(--accent-orange));
+  background: linear-gradient(90deg, var(--clay), var(--amber-bright));
   transition: width 1.1s var(--ease-farda);
   transition-delay: calc(var(--metric-index, 0) * 140ms + 120ms);
 }
@@ -1183,15 +1168,15 @@
 }
 .feature-list svg {
   flex: none;
-  color: var(--accent-orange);
+  color: var(--amber-bright);
 }
 @keyframes badge-ring {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(0, 159, 253, 0.25);
+    box-shadow: 0 0 0 0 rgba(169, 74, 74, 0.25);
   }
   50% {
-    box-shadow: 0 0 0 0.4rem rgba(0, 159, 253, 0);
+    box-shadow: 0 0 0 0.4rem rgba(169, 74, 74, 0);
   }
 }
 @keyframes badge-ring-featured {
@@ -1209,11 +1194,11 @@
   margin: 0 auto;
 }
 .cases-heading h2 span {
-  color: rgba(234, 246, 255, 0.42);
+  color: rgba(255, 246, 218, 0.42);
   font-weight: 400;
 }
 .cases-heading p {
-  color: rgba(234, 246, 255, 0.62);
+  color: rgba(255, 246, 218, 0.62);
 }
 .case-card {
   position: relative;
@@ -1221,7 +1206,7 @@
   height: 100%;
   padding: clamp(1.25rem, 3vw, 2.5rem);
   overflow: hidden;
-  color: var(--alice-blue);
+  color: var(--cream);
   text-align: left;
   text-decoration: none;
   cursor: pointer;
@@ -1242,8 +1227,8 @@
   inset: 0;
   display: block;
   overflow: hidden;
-  background: rgba(234, 246, 255, 0.08);
-  box-shadow: 0 1.5rem 3rem rgba(35, 37, 40, 0.26);
+  background: rgba(255, 246, 218, 0.08);
+  box-shadow: 0 1.5rem 3rem rgba(29, 29, 27, 0.26);
 }
 .case-preview::after {
   position: absolute;
@@ -1265,12 +1250,12 @@
 .case-preview-spk::before {
   background:
     linear-gradient(135deg, rgba(116, 151, 145, 0.65), transparent 55%),
-    linear-gradient(180deg, rgba(221, 231, 221, 0.14), rgba(35, 37, 40, 0.56));
+    linear-gradient(180deg, rgba(221, 231, 221, 0.14), rgba(29, 29, 27, 0.56));
 }
 .case-preview-uvm::before {
   background:
     linear-gradient(135deg, rgba(83, 120, 168, 0.42), transparent 55%),
-    linear-gradient(180deg, rgba(35, 37, 40, 0.08), rgba(35, 37, 40, 0.5));
+    linear-gradient(180deg, rgba(29, 29, 27, 0.08), rgba(29, 29, 27, 0.5));
 }
 .case-card-top {
   position: relative;
@@ -1280,8 +1265,8 @@
   justify-content: space-between;
   gap: 1rem;
   padding-bottom: 0.8rem;
-  border-bottom: 1px solid rgba(234, 246, 255, 0.22);
-  color: rgba(234, 246, 255, 0.68);
+  border-bottom: 1px solid rgba(255, 246, 218, 0.22);
+  color: rgba(255, 246, 218, 0.68);
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -1295,14 +1280,14 @@
   display: flex;
   flex-direction: column;
   padding: 0.8rem 1rem 0.85rem;
-  border-color: rgba(234, 246, 255, 0.16);
+  border-color: rgba(255, 246, 218, 0.16);
   background: rgba(29, 29, 27, 0.78);
 }
 .case-meta {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
-  color: rgba(234, 246, 255, 0.6);
+  color: rgba(255, 246, 218, 0.6);
   font-size: 0.56rem;
   text-transform: uppercase;
 }
@@ -1329,7 +1314,7 @@
   display: block;
   max-width: 31rem;
   padding-top: 0.55rem;
-  color: rgba(234, 246, 255, 0.82);
+  color: rgba(255, 246, 218, 0.82);
   font-size: 0.76rem;
   line-height: 1.45;
 }
@@ -1339,7 +1324,7 @@
   align-items: center;
   gap: 1.25rem;
   padding-top: 2rem;
-  color: rgba(234, 246, 255, 0.42);
+  color: rgba(255, 246, 218, 0.42);
   font-size: 0.58rem;
   text-transform: uppercase;
 }
@@ -1364,7 +1349,7 @@
   max-width: 34rem;
   font-size: 1rem;
   line-height: 1.65;
-  color: rgba(35, 37, 40, 0.72);
+  color: rgba(29, 29, 27, 0.72);
 }
 
 .why-pillars {
@@ -1379,7 +1364,7 @@
   gap: 0.85rem;
   padding: clamp(1.5rem, 2.5vw, 2rem);
   border-radius: 1.25rem;
-  border: 1px solid rgba(35, 37, 40, 0.1);
+  border: 1px solid rgba(29, 29, 27, 0.1);
   background: rgba(255, 255, 255, 0.5);
 }
 .why-pillar-icon {
@@ -1388,17 +1373,17 @@
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 999px;
-  color: var(--bright-blue);
-  background: rgba(0, 159, 253, 0.1);
-  border: 1px solid rgba(0, 159, 253, 0.25);
+  color: var(--clay);
+  background: rgba(169, 74, 74, 0.1);
+  border: 1px solid rgba(169, 74, 74, 0.25);
 }
 .why-pillar:nth-child(2) .why-pillar-icon {
-  color: var(--accent-orange);
+  color: var(--amber-bright);
   background: rgba(255, 164, 0, 0.1);
   border-color: rgba(255, 164, 0, 0.28);
 }
 .why-pillar:nth-child(3) .why-pillar-icon {
-  color: var(--shadow-grey);
+  color: var(--clay);
   background: rgba(169, 74, 74, 0.1);
   border-color: rgba(169, 74, 74, 0.28);
 }
@@ -1423,7 +1408,7 @@
 .why-pillar p {
   font-size: 0.88rem;
   line-height: 1.55;
-  color: rgba(35, 37, 40, 0.68);
+  color: rgba(29, 29, 27, 0.68);
 }
 
 .why-process {
@@ -1437,14 +1422,14 @@
   right: 0;
   height: 2px;
   overflow: hidden;
-  background: rgba(35, 37, 40, 0.12);
+  background: rgba(29, 29, 27, 0.12);
 }
 .why-process-line-fill {
   position: relative;
   display: block;
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, var(--bright-blue), var(--accent-orange));
+  background: linear-gradient(90deg, var(--clay), var(--amber-bright));
   transition: width 1.4s var(--ease-farda) 200ms;
 }
 .motion-ready .reveal.is-visible .why-process-line-fill {
@@ -1491,8 +1476,8 @@
   width: 2.7rem;
   height: 2.7rem;
   border-radius: 999px;
-  background: var(--alice-blue);
-  border: 2px solid rgba(35, 37, 40, 0.14);
+  background: var(--cream);
+  border: 2px solid rgba(29, 29, 27, 0.14);
   color: var(--ink);
 }
 .motion-ready .why-process .why-process-icon {
@@ -1514,7 +1499,7 @@
 .why-process-step span {
   font-size: 0.8rem;
   line-height: 1.5;
-  color: rgba(35, 37, 40, 0.64);
+  color: rgba(29, 29, 27, 0.64);
 }
 
 .why-cta {
@@ -1534,7 +1519,7 @@
   height: 2.75rem;
   border-radius: 999px;
   object-fit: cover;
-  border: 1px solid rgba(35, 37, 40, 0.14);
+  border: 1px solid rgba(29, 29, 27, 0.14);
 }
 .motion-ready .why-cta.is-visible .why-trust img {
   animation: trust-pulse 2.8s var(--ease-farda) 1.2s infinite;
@@ -1542,10 +1527,10 @@
 @keyframes trust-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(0, 159, 253, 0.28);
+    box-shadow: 0 0 0 0 rgba(169, 74, 74, 0.28);
   }
   50% {
-    box-shadow: 0 0 0 0.4rem rgba(0, 159, 253, 0);
+    box-shadow: 0 0 0 0.4rem rgba(169, 74, 74, 0);
   }
 }
 .why-trust span {
@@ -1558,15 +1543,15 @@
 }
 .why-trust span span {
   font-size: 0.76rem;
-  color: rgba(35, 37, 40, 0.58);
+  color: rgba(29, 29, 27, 0.58);
 }
 
 .booking-section {
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(32rem, 1.15fr);
   gap: clamp(3rem, 8vw, 9rem);
-  color: var(--alice-blue);
-  background: var(--shadow-grey);
+  color: var(--cream);
+  background: var(--clay);
   margin: 0.5rem;
   border-top: 1px solid rgba(255, 246, 218, 0.16);
 }
@@ -1592,13 +1577,13 @@
   border-top: 1px solid var(--line-light);
 }
 .booking-contact-meta a {
-  color: var(--alice-blue);
+  color: var(--cream);
   font-size: 0.9rem;
   transition: color var(--motion-fast) var(--ease-farda);
 }
 .booking-contact-meta a:hover,
 .booking-contact-meta a:focus-visible {
-  color: var(--bright-blue);
+  color: var(--clay);
 }
 .calendar-facts {
   display: grid;
@@ -1617,7 +1602,7 @@
 .calendar-facts li::before {
   width: 1.1rem;
   height: 2px;
-  background: var(--accent-orange);
+  background: var(--amber-bright);
   content: "";
 }
 .calendar-shell {
@@ -1637,7 +1622,7 @@
   padding: 1.25rem 1.5rem;
   color: var(--ink);
   background: #f4f1eb;
-  border-bottom: 1px solid rgba(35, 37, 40, 0.1);
+  border-bottom: 1px solid rgba(29, 29, 27, 0.1);
 }
 .calendar-heading-label {
   font-size: 0.8rem;
@@ -1646,7 +1631,7 @@
   text-transform: uppercase;
 }
 .calendar-heading-status {
-  color: rgba(35, 37, 40, 0.52);
+  color: rgba(29, 29, 27, 0.52);
   font-size: 0.68rem;
 }
 .calendar-shell .calendar-frame {
@@ -1684,15 +1669,15 @@
 .calendar-loading span {
   width: 2.25rem;
   height: 2.25rem;
-  border: 2px solid rgba(35, 37, 40, 0.12);
-  border-top-color: var(--accent-orange);
+  border: 2px solid rgba(29, 29, 27, 0.12);
+  border-top-color: var(--amber-bright);
   animation: calendar-spin 900ms linear infinite;
 }
 .calendar-loading p {
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(35, 37, 40, 0.48);
+  color: rgba(29, 29, 27, 0.48);
 }
 .calendar-fallback {
   display: inline-flex;
@@ -1702,18 +1687,18 @@
   gap: 0.5rem;
   width: 100%;
   box-sizing: border-box;
-  color: rgba(35, 37, 40, 0.62);
+  color: rgba(29, 29, 27, 0.62);
   padding: 0.5rem 1rem;
   font-size: 0.78rem;
-  border-top: 1px solid rgba(35, 37, 40, 0.1);
+  border-top: 1px solid rgba(29, 29, 27, 0.1);
 }
 
 .footer {
   margin: 0.5rem;
   padding-top: clamp(3rem, 6vw, 5rem);
   padding-bottom: 1.5rem;
-  color: var(--alice-blue);
-  background: var(--shadow-grey);
+  color: var(--cream);
+  background: var(--clay);
   border-top: 1px solid rgba(255, 246, 218, 0.18);
 }
 .footer-label {
@@ -1777,7 +1762,7 @@
 .footer-bottom a:hover,
 .footer-bottom a:focus-visible {
   gap: 0.7rem;
-  color: var(--bright-blue);
+  color: var(--clay);
 }
 
 .case-page-hero {
@@ -1839,7 +1824,7 @@
   min-height: clamp(24rem, 55vw, 48rem);
   background:
     linear-gradient(135deg, rgba(116, 151, 145, 0.72), transparent 55%),
-    linear-gradient(180deg, rgba(221, 231, 221, 0.22), rgba(35, 37, 40, 0.68));
+    linear-gradient(180deg, rgba(221, 231, 221, 0.22), rgba(29, 29, 27, 0.68));
 }
 .case-page-placeholder img {
   display: block;
@@ -1852,8 +1837,8 @@
 .about-eyebrow {
   justify-self: start;
   padding: 0.45rem 0.75rem;
-  border: 1px solid rgba(0, 159, 253, 0.3);
-  color: var(--bright-blue);
+  border: 1px solid rgba(169, 74, 74, 0.3);
+  color: var(--clay);
   font-size: 0.62rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -1872,7 +1857,7 @@
 }
 .case-page-copy p {
   max-width: 30rem;
-  color: rgba(35, 37, 40, 0.72);
+  color: rgba(29, 29, 27, 0.72);
   line-height: 1.7;
 }
 .case-page-links {
@@ -2114,15 +2099,6 @@
     transform: none;
   }
 
-  .site-header,
-  .site-header *,
-  .site-header *::before,
-  .site-header *::after {
-    border-color: transparent !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-    backdrop-filter: none !important;
-  }
 
   .site-header .nav-link,
   .site-header .nav-link:hover,
@@ -2155,19 +2131,19 @@
   .hero-section .farda-button:hover > svg:last-child,
   .hero-section .farda-button:hover > .hero-cta-arrow {
     color: var(--ink);
-    background: var(--alice-blue);
+    background: var(--cream);
   }
   .section-light .farda-button:hover > span:first-child,
   .section-light .farda-button:hover > svg:last-child,
   .section-light .farda-button:hover > .hero-cta-arrow {
     color: var(--ink);
-    background: var(--shadow-grey);
+    background: var(--clay);
   }
 
   .section-dark .farda-button:not(.farda-button-icon),
   .booking-section .farda-button:not(.farda-button-icon),
   .hero-section .farda-button:not(.farda-button-icon) {
-    color: var(--alice-blue);
+    color: var(--cream);
   }
 
   .section-dark .farda-button:not(.farda-button-icon) > span:first-child,
@@ -2176,14 +2152,14 @@
   .booking-section .farda-button:not(.farda-button-icon) > span:first-child,
   .booking-section .farda-button:not(.farda-button-icon) > svg:last-child,
   .booking-section .farda-button:not(.farda-button-icon) > .hero-cta-arrow {
-    color: var(--alice-blue);
+    color: var(--cream);
     background: rgba(255, 246, 218, 0.14);
   }
   .hero-section .farda-button:not(.farda-button-icon) > span:first-child,
   .hero-section .farda-button:not(.farda-button-icon) > svg:last-child,
   .hero-section .farda-button:not(.farda-button-icon) > .hero-cta-arrow {
-    color: var(--alice-blue);
-    background: rgba(227, 224, 217, 0.16);
+    color: var(--cream);
+    background: rgba(255, 246, 218, 0.16);
   }
   .farda-button:hover,
   .farda-button:focus-visible {
@@ -2198,11 +2174,11 @@
   }
   .case-card:hover,
   .case-card:focus-visible {
-    border-color: rgba(234, 246, 255, 0.16);
+    border-color: rgba(255, 246, 218, 0.16);
   }
   .case-card:hover .case-preview,
   .case-card:focus-visible .case-preview {
-    border-color: rgba(234, 246, 255, 0.3);
+    border-color: rgba(255, 246, 218, 0.3);
   }
   .case-card:hover .case-preview img,
   .case-card:focus-visible .case-preview img {
@@ -2221,7 +2197,7 @@
     transition-duration: 0.01ms !important;
   }
   .hero-section {
-    background: linear-gradient(135deg, var(--shadow-grey), var(--imperial-blue));
+    background: linear-gradient(135deg, var(--clay), var(--espresso));
   }
 }
 
@@ -2242,40 +2218,12 @@
   .site-header .nav-link:hover,
   .site-header .nav-link:focus-visible {
     color: inherit !important;
-    background: rgba(196, 179, 151, 0.12) !important;
+    background: rgba(255, 246, 218, 0.10) !important;
     transition: none !important;
   }
 }
 
-.site-header .nav-link:hover,
-.site-header .nav-link:focus-visible {
-  color: var(--ink) !important;
-  opacity: 1 !important;
-  background: var(--alice-blue) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: 0 !important;
-  transform: none !important;
-  transition: background-color 260ms ease, color 260ms ease !important;
-}
-.site-header .nav-link::after {
-  display: none !important;
-}
 
-.site-header .nav-link:hover,
-.site-header .nav-link:focus-visible {
-  color: var(--ink) !important;
-  opacity: 1 !important;
-  background: var(--alice-blue) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: 0 !important;
-  transform: none !important;
-  transition: background-color 260ms ease, color 260ms ease !important;
-}
-.site-header .nav-link::after {
-  display: none !important;
-}
 
 .notfound-page {
   position: relative;
@@ -2283,8 +2231,8 @@
   place-items: center;
   min-height: 100svh;
   overflow: hidden;
-  background: var(--shadow-grey);
-  color: var(--alice-blue);
+  background: var(--clay);
+  color: var(--cream);
 }
 .notfound-media,
 .notfound-video {
@@ -2363,14 +2311,14 @@
   left: -2rem;
   width: 9rem;
   height: 9rem;
-  background: radial-gradient(circle, var(--bright-blue), transparent 70%);
+  background: radial-gradient(circle, var(--clay), transparent 70%);
 }
 .notfound-glass-blob-b {
   bottom: -3rem;
   right: -2.5rem;
   width: 10rem;
   height: 10rem;
-  background: radial-gradient(circle, var(--accent-orange), transparent 70%);
+  background: radial-gradient(circle, var(--amber-bright), transparent 70%);
 }
 .notfound-wordmark {
   position: relative;
@@ -2378,7 +2326,7 @@
   font-size: clamp(2.25rem, 6vw, 3rem);
   font-weight: 700;
   letter-spacing: -0.03em;
-  color: var(--alice-blue);
+  color: var(--cream);
 }
 .notfound-code {
   position: relative;
@@ -2387,7 +2335,7 @@
   font-weight: 600;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--accent-orange);
+  color: var(--amber-bright);
 }
 .notfound-message {
   position: relative;
@@ -2409,7 +2357,7 @@
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
-  color: var(--alice-blue);
+  color: var(--cream);
   font-size: 0.82rem;
   font-weight: 600;
   text-decoration: none;
@@ -2483,5 +2431,713 @@
   }
   50% {
     transform: translate(-0.9rem, -0.8rem);
+  }
+}
+
+/* =========================================================================
+   FARDA design layer — glass, gradients, depth, motion.
+   Appended last: this block owns the final cascade.
+   ========================================================================= */
+
+/* --- A. Focus visibility on dark surfaces -------------------------------- */
+.hero-section :focus-visible,
+.section-dark :focus-visible,
+.booking-section :focus-visible,
+.footer :focus-visible,
+.case-page-hero :focus-visible,
+.notfound-page :focus-visible {
+  outline: 2px solid var(--cream);
+  outline-offset: 3px;
+}
+
+/* --- B. Ambient gradient fields ----------------------------------------- */
+.section-light,
+.section-dark,
+.booking-section {
+  position: relative;
+  isolation: isolate;
+}
+.section-light::before,
+.section-dark::before,
+.booking-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.section-light::before {
+  background:
+    radial-gradient(55rem 38rem at 6% -14%, rgba(169, 74, 74, 0.14), transparent 62%),
+    radial-gradient(42rem 32rem at 102% 6%, rgba(255, 164, 0, 0.16), transparent 60%);
+}
+.section-dark::before,
+.booking-section::before {
+  background:
+    radial-gradient(52rem 34rem at 92% -10%, rgba(255, 164, 0, 0.18), transparent 58%),
+    radial-gradient(46rem 32rem at 2% 108%, rgba(46, 26, 26, 0.55), transparent 62%);
+}
+
+/* --- C. Glass navigation ------------------------------------------------- */
+.site-header {
+  position: fixed;
+  transition: transform var(--motion-base) var(--ease-farda);
+}
+.nav-shell {
+  padding: 0.45rem 0.5rem 0.45rem 0.9rem;
+  border-radius: 999px;
+  transition:
+    background-color var(--motion-base) var(--ease-farda),
+    box-shadow var(--motion-base) var(--ease-farda),
+    border-color var(--motion-base) var(--ease-farda);
+}
+/* Dark glass reads correctly over both the cream and clay sections it floats above. */
+.site-header[data-scrolled="true"] .nav-shell {
+  background: rgba(46, 26, 26, 0.62) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%) !important;
+  border: 1px solid rgba(255, 246, 218, 0.18) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 246, 218, 0.22),
+    0 0.75rem 2rem rgba(30, 17, 17, 0.28) !important;
+}
+.site-header[data-scrolled="true"] .wordmark,
+.site-header[data-scrolled="true"] .mobile-menu-toggle {
+  color: var(--cream) !important;
+  background: transparent !important;
+}
+.site-header[data-scrolled="true"] .nav-link,
+.site-header[data-scrolled="true"] .nav-link:not(:hover):not(:focus-visible) {
+  color: var(--cream-82) !important;
+  background: transparent !important;
+}
+.site-header[data-scrolled="true"] .nav-link:hover,
+.site-header[data-scrolled="true"] .nav-link:focus-visible {
+  color: var(--cream) !important;
+  background: rgba(255, 246, 218, 0.16) !important;
+  border-radius: 999px !important;
+}
+/* The wordmark should never carry its own chip inside the glass bar. */
+.site-header .wordmark {
+  background: transparent !important;
+}
+/* Brand dot stays visible on every backdrop the header floats over. */
+.site-header .wordmark .text-primary,
+.notfound-wordmark .text-primary {
+  color: var(--amber-bright);
+}
+/* At the top of the page the bar is invisible, so links carry no chip. */
+.site-header:not([data-scrolled="true"]) .nav-link,
+.site-header:not([data-scrolled="true"]) .nav-link:not(:hover):not(:focus-visible) {
+  background: transparent !important;
+}
+.site-header:not([data-scrolled="true"]) .nav-link:hover,
+.site-header:not([data-scrolled="true"]) .nav-link:focus-visible {
+  background: rgba(255, 246, 218, 0.16) !important;
+  color: var(--cream) !important;
+}
+.site-header .nav-link {
+  border-radius: 999px !important;
+  transition:
+    color var(--motion-fast) var(--ease-farda),
+    background-color var(--motion-fast) var(--ease-farda) !important;
+}
+
+/* --- D. Glass surfaces --------------------------------------------------- */
+.package-card,
+.why-pillar {
+  background: var(--glass-light);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  border: 1px solid var(--glass-light-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    0 1rem 2.5rem rgba(29, 29, 27, 0.08);
+}
+.package-card-featured {
+  background:
+    linear-gradient(158deg, rgba(74, 38, 38, 0.94), rgba(30, 17, 17, 0.96));
+  border: 1px solid rgba(255, 164, 0, 0.32);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 246, 218, 0.16),
+    0 1.5rem 3.5rem rgba(30, 17, 17, 0.38);
+}
+/* Gradient hairline on the featured card */
+.package-card-featured::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg, rgba(255, 164, 0, 0.75), transparent 45%, rgba(169, 74, 74, 0.6));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.calendar-shell {
+  border-radius: 1.5rem;
+  border: 1px solid var(--glass-light-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 1.5rem 3.5rem rgba(30, 17, 17, 0.28);
+}
+.case-card-content {
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  background: rgba(30, 17, 17, 0.55);
+  border: 1px solid rgba(255, 246, 218, 0.18);
+  border-radius: 0.9rem;
+}
+.package-status,
+.about-eyebrow {
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* --- E. Gradient type ---------------------------------------------------- */
+.why-intro h2 .text-primary {
+  color: var(--clay-deep);
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .why-intro h2 .text-primary {
+    background: linear-gradient(100deg, var(--clay-deep) 8%, var(--amber-text) 58%, var(--clay) 92%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* --- F. Motion ----------------------------------------------------------- */
+/* Softer, dimensional scroll reveal */
+.motion-ready .reveal {
+  filter: blur(6px);
+  transition:
+    opacity var(--motion-slow) var(--ease-farda),
+    transform var(--motion-slow) var(--ease-farda),
+    filter var(--motion-slow) var(--ease-farda);
+}
+.motion-ready .reveal.is-visible {
+  filter: blur(0);
+}
+.motion-ready .reveal-card {
+  transform: translateY(2rem) scale(0.985);
+}
+.motion-ready .reveal-card.is-visible {
+  transform: translateY(0) scale(1);
+}
+
+/* Scroll-driven enhancements (no JS; silently skipped where unsupported) */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      z-index: 60;
+      transform-origin: 0 50%;
+      background: linear-gradient(90deg, var(--clay), var(--amber-bright));
+      animation: scroll-progress-grow linear both;
+      animation-timeline: scroll(root block);
+    }
+    @keyframes scroll-progress-grow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    /* Parallax on the decorative hero video only — never on text */
+    .hero-video {
+      animation: hero-drift linear both;
+      animation-timeline: view(block);
+      animation-range: entry 0% exit 100%;
+    }
+    @keyframes hero-drift {
+      from { transform: scale(1.12) translateY(-2.5%); }
+      to { transform: scale(1.12) translateY(2.5%); }
+    }
+  }
+}
+.scroll-progress {
+  display: block;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress { display: none; }
+}
+
+/* --- G. Layout rhythm ---------------------------------------------------- */
+.services-intro,
+.cases-heading {
+  padding: clamp(2rem, 4vw, 3.25rem) 0 clamp(2.25rem, 4.5vw, 3.5rem);
+}
+.package-grid,
+.case-grid {
+  gap: clamp(1rem, 1.6vw, 1.5rem);
+}
+.why-pillars {
+  padding-top: clamp(2.25rem, 4.5vw, 3.5rem);
+}
+.why-process {
+  padding-top: clamp(2.75rem, 5.5vw, 4.5rem);
+}
+
+/* --- H. Typography scale ------------------------------------------------- */
+.hero-title,
+.services-intro h2,
+.cases-heading h2,
+.why-intro h2,
+.booking-copy h2,
+.package-card h3,
+.case-page-hero h1,
+.case-page-copy h2,
+.notfound-wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-feature-settings: "ss01" on;
+}
+.hero-title {
+  letter-spacing: -0.055em;
+}
+.package-number-mark {
+  font-family: var(--font-display);
+}
+body {
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* --- I. Contrast corrections on dark surfaces ---------------------------- */
+/* Muted display spans were 2.14:1 on clay; 0.70 alpha clears the 3:1 large-text bar. */
+.cases-heading h2 span {
+  color: rgba(255, 246, 218, 0.7);
+}
+.cases-heading p,
+.booking-copy > p {
+  color: rgba(255, 246, 218, 0.82);
+}
+.case-page-number,
+.footer-label {
+  color: rgba(255, 246, 218, 0.72);
+}
+/* Decorative accent icons need more weight against near-white glass. */
+.feature-list svg,
+.calendar-facts li::before {
+  color: var(--amber-text);
+}
+.calendar-facts li::before {
+  background: var(--amber-text);
+}
+.package-card-featured .feature-list svg {
+  color: var(--amber-bright);
+}
+.why-pillar-icon,
+.package-icon-badge {
+  border-width: 1px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.why-pillar:nth-child(2) .why-pillar-icon {
+  color: var(--amber-text);
+}
+
+/* --- J. Card detail ------------------------------------------------------ */
+.package-number-mark {
+  top: -0.75rem;
+  right: 0.5rem;
+  font-size: 7.5rem;
+  opacity: 0.045;
+}
+.package-card-featured .package-number-mark {
+  opacity: 0.09;
+}
+
+/* --- K0. Fixed-header scroll offset -------------------------------------- */
+/* Without this, #services / #cases / #about / #booking land behind the nav. */
+html {
+  scroll-padding-top: clamp(5rem, 9vw, 7rem);
+}
+#services,
+#cases,
+#about,
+#booking,
+#top {
+  scroll-margin-top: clamp(5rem, 9vw, 7rem);
+}
+
+/* --- K. Glass controls --------------------------------------------------- */
+.hero-section .farda-button:not(.farda-button-icon) > span:first-child,
+.hero-section .farda-button:not(.farda-button-icon) > svg:last-child,
+.hero-section .farda-button:not(.farda-button-icon) > .hero-cta-arrow,
+.section-dark .farda-button:not(.farda-button-icon) > span:first-child,
+.section-dark .farda-button:not(.farda-button-icon) > svg:last-child,
+.section-dark .farda-button:not(.farda-button-icon) > .hero-cta-arrow,
+.booking-section .farda-button:not(.farda-button-icon) > span:first-child,
+.booking-section .farda-button:not(.farda-button-icon) > svg:last-child,
+.booking-section .farda-button:not(.farda-button-icon) > .hero-cta-arrow {
+  background: rgba(255, 246, 218, 0.14);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(255, 246, 218, 0.22);
+}
+.section-light .farda-button:not(.farda-button-icon) > span:first-child,
+.section-light .farda-button:not(.farda-button-icon) > svg:last-child,
+.section-light .farda-button:not(.farda-button-icon) > .hero-cta-arrow {
+  background: var(--glass-light);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid var(--glass-light-border);
+}
+.hero-enter-button {
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/* Mobile drawer as frosted glass */
+.site-header .mobile-navigation[data-open="true"] {
+  background: rgba(46, 26, 26, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 246, 218, 0.18);
+  border-radius: 1.25rem;
+  box-shadow: 0 1.5rem 3rem rgba(30, 17, 17, 0.35);
+}
+.site-header .mobile-navigation a {
+  color: var(--cream-82);
+  border-radius: 0.75rem;
+}
+.site-header .mobile-navigation a:hover,
+.site-header .mobile-navigation a:focus-visible {
+  color: var(--ink);
+  background: var(--cream);
+}
+
+/* --- L. Contrast pass ----------------------------------------------------
+   On clay (#a94a4a) even solid cream tops out at 5.16:1, so small text can't
+   rely on opacity for hierarchy. Muted text is kept near-solid here and
+   hierarchy is carried by size, weight and letter-spacing instead.
+   ------------------------------------------------------------------------- */
+.site-header .nav-link,
+.site-header:not([data-scrolled="true"]) .nav-link,
+.site-header:not([data-scrolled="true"]) .nav-link:not(:hover):not(:focus-visible) {
+  color: var(--cream) !important;
+}
+.hero-support-panel p,
+.hero-enter-button.farda-button > span:first-child {
+  color: var(--cream);
+  opacity: 1;
+}
+.cases-heading p,
+.case-page-intro,
+.notfound-message {
+  color: rgba(255, 246, 218, 0.94);
+}
+.case-card-top,
+.case-meta,
+.case-page-number,
+.case-back-link,
+.footer-label,
+.calendar-facts li,
+.footer-brand p,
+.footer-contact,
+.footer-links,
+.footer-bottom {
+  color: rgba(255, 246, 218, 0.94);
+}
+.footer-bottom a,
+.footer-contact a,
+.footer-links a,
+.booking-contact-meta a {
+  color: var(--cream);
+}
+.notfound-home {
+  color: var(--cream);
+}
+/* Amber on the frosted 404 panel needed lightening to clear 4.5:1. */
+.notfound-code {
+  color: #ffcf7a;
+}
+/* Light-surface muted text */
+.why-trust span span,
+.calendar-heading-status,
+.calendar-loading p,
+.package-description,
+.why-pillar p,
+.why-process-step span,
+.metric-label {
+  color: var(--ink-72);
+}
+.about-signature span,
+.section-label span {
+  color: var(--ink-72);
+}
+
+/* --- M. Contrast pass, round 2 ------------------------------------------- */
+/* Section labels: muted ink on light, near-solid cream on clay. */
+.section-light .section-label span {
+  color: var(--ink-72);
+}
+.section-dark .section-label span,
+.booking-section .section-label span,
+.case-page-hero .section-label span {
+  color: rgba(255, 246, 218, 0.94);
+}
+.case-footer {
+  color: rgba(255, 246, 218, 0.9);
+}
+.booking-copy > p {
+  color: rgba(255, 246, 218, 0.94);
+}
+/* 404 panel sits on a bright video, so its chrome needs more weight. */
+.notfound-code {
+  color: #ffe0a3;
+}
+.notfound-home {
+  background: rgba(30, 17, 17, 0.55);
+  border-color: rgba(255, 246, 218, 0.5);
+}
+.notfound-home:hover,
+.notfound-home:focus-visible {
+  background: rgba(30, 17, 17, 0.72);
+  border-color: var(--cream);
+}
+
+/* --- N. Dark-card scoping fix -------------------------------------------- */
+/* The muted-ink rule in §L must not reach the espresso featured card. */
+.package-card-featured .package-description,
+.package-card-featured .metric-label,
+.package-card-featured .feature-list,
+.package-card-featured .package-price {
+  color: rgba(255, 246, 218, 0.88);
+}
+.package-card-featured .package-top,
+.package-card-featured .metric-list {
+  border-color: rgba(255, 246, 218, 0.22);
+}
+.package-card-featured .metric-track {
+  background: rgba(255, 246, 218, 0.16);
+}
+/* Keep the decorative numeral fully inside the card. */
+.package-number-mark {
+  top: -0.5rem;
+  right: 1.25rem;
+  font-size: clamp(4.5rem, 7vw, 6.5rem);
+  line-height: 1;
+}
+/* Case hero: the back-link gap was ~10rem of dead space. */
+.case-back-link {
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+.notfound-code {
+  font-size: 0.85rem;
+  letter-spacing: 0.34em;
+}
+
+/* --- O. Menu toggle visibility ------------------------------------------- */
+.site-header .mobile-menu-toggle {
+  color: var(--cream) !important;
+  opacity: 1 !important;
+}
+.site-header[data-menu-open="true"] .mobile-menu-toggle {
+  color: var(--cream) !important;
+  background: rgba(255, 246, 218, 0.16) !important;
+  border-radius: 999px !important;
+}
+
+/* --- P. Touch targets ----------------------------------------------------
+   Inline navigation links were 17-29px tall on phones; touch guidance wants
+   44px. Scoped to coarse pointers so desktop spacing is untouched.
+   ------------------------------------------------------------------------- */
+@media (pointer: coarse) {
+  .footer-links a,
+  .footer-contact a,
+  .footer-bottom a,
+  .booking-contact-meta a,
+  .case-back-link,
+  .case-page-links a,
+  .notfound-home {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  /* wordmark carries a min-height !important from an earlier layer */
+  .site-header .wordmark,
+  .footer .wordmark {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 44px !important;
+  }
+  .footer-links,
+  .footer-contact {
+    gap: 0.25rem;
+  }
+}
+
+/* --- Q. CTA buttons: pill shape + brand-red hover ------------------------
+   The §K glass rule matched the existing hover rule's specificity but sat
+   later in the file, so hover never painted. These reinstate it explicitly.
+   ------------------------------------------------------------------------- */
+.farda-button:not(.farda-button-icon) {
+  border-radius: 999px;
+  overflow: hidden;
+}
+.farda-button:not(.farda-button-icon) > span:first-child,
+.farda-button:not(.farda-button-icon) > svg:last-child,
+.farda-button:not(.farda-button-icon) > .hero-cta-arrow {
+  transition:
+    background-color var(--motion-base) var(--ease-farda),
+    color var(--motion-base) var(--ease-farda),
+    transform var(--motion-base) var(--ease-spring);
+}
+/* Light sections fill with the brand red; cream keeps 5.16:1 on it. */
+.section-light .farda-button:not(.farda-button-icon):hover > span:first-child,
+.section-light .farda-button:not(.farda-button-icon):hover > svg:last-child,
+.section-light .farda-button:not(.farda-button-icon):hover > .hero-cta-arrow,
+.section-light .farda-button:not(.farda-button-icon):focus-visible > span:first-child,
+.section-light .farda-button:not(.farda-button-icon):focus-visible > svg:last-child,
+.section-light .farda-button:not(.farda-button-icon):focus-visible > .hero-cta-arrow {
+  background: var(--clay) !important;
+  color: var(--cream) !important;
+  border-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+/* The arrow leads the eye toward the destination. */
+@media (hover: hover) {
+  .farda-button:not(.farda-button-icon):hover > svg:last-child,
+  .farda-button:not(.farda-button-icon):hover > .hero-cta-arrow {
+    transform: translateX(3px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .farda-button:not(.farda-button-icon):hover > svg:last-child,
+  .farda-button:not(.farda-button-icon):hover > .hero-cta-arrow {
+    transform: none;
+  }
+}
+
+/* Dark contexts: the whole pill inverts to cream (ink text = 15.2:1). */
+.hero-section .farda-button:not(.farda-button-icon):hover > span:first-child,
+.hero-section .farda-button:not(.farda-button-icon):hover > svg:last-child,
+.hero-section .farda-button:not(.farda-button-icon):hover > .hero-cta-arrow,
+.hero-section .farda-button:not(.farda-button-icon):focus-visible > span:first-child,
+.hero-section .farda-button:not(.farda-button-icon):focus-visible > svg:last-child,
+.hero-section .farda-button:not(.farda-button-icon):focus-visible > .hero-cta-arrow,
+.section-dark .farda-button:not(.farda-button-icon):hover > span:first-child,
+.section-dark .farda-button:not(.farda-button-icon):hover > svg:last-child,
+.section-dark .farda-button:not(.farda-button-icon):hover > .hero-cta-arrow,
+.section-dark .farda-button:not(.farda-button-icon):focus-visible > span:first-child,
+.section-dark .farda-button:not(.farda-button-icon):focus-visible > svg:last-child,
+.section-dark .farda-button:not(.farda-button-icon):focus-visible > .hero-cta-arrow,
+.booking-section .farda-button:not(.farda-button-icon):hover > span:first-child,
+.booking-section .farda-button:not(.farda-button-icon):hover > svg:last-child,
+.booking-section .farda-button:not(.farda-button-icon):hover > .hero-cta-arrow,
+.booking-section .farda-button:not(.farda-button-icon):focus-visible > span:first-child,
+.booking-section .farda-button:not(.farda-button-icon):focus-visible > svg:last-child,
+.booking-section .farda-button:not(.farda-button-icon):focus-visible > .hero-cta-arrow {
+  background: var(--cream) !important;
+  color: var(--ink) !important;
+  border-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* --- R. Case cards: glass hover ------------------------------------------
+   Specular sweep + lift + image push-in, in the spirit of pm-porto's
+   .glass::after shine. The sweep sits above the photo but below the caption
+   so the text stays crisp while the light passes.
+   ------------------------------------------------------------------------- */
+.case-card {
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 246, 218, 0.14);
+  transition:
+    border-color var(--motion-base) var(--ease-farda),
+    box-shadow var(--motion-base) var(--ease-farda),
+    transform var(--motion-base) var(--ease-farda);
+}
+.case-card-top,
+.case-card-content {
+  z-index: 2;
+}
+.case-card-content {
+  transition:
+    background-color var(--motion-base) var(--ease-farda),
+    border-color var(--motion-base) var(--ease-farda);
+}
+.case-action {
+  border-radius: 999px;
+  transition:
+    background-color var(--motion-base) var(--ease-farda),
+    color var(--motion-base) var(--ease-farda),
+    border-color var(--motion-base) var(--ease-farda),
+    transform var(--motion-base) var(--ease-spring);
+}
+
+@media (hover: hover) {
+  .case-card::after {
+    content: "";
+    position: absolute;
+    inset: -25%;
+    z-index: 1;
+    /* A tight bright core reads as a glint even over light photography;
+       a wide soft wash disappears against them. */
+    background: linear-gradient(
+      115deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.06) 45%,
+      rgba(255, 255, 255, 0.5) 49%,
+      rgba(255, 255, 255, 0.88) 50.5%,
+      rgba(255, 255, 255, 0.5) 52%,
+      rgba(255, 255, 255, 0.06) 56%,
+      transparent 61%
+    );
+    transform: translateX(-130%);
+    /* Even pacing, not --ease-farda: that curve is front-loaded, so on a card
+       this wide the glint flashes past before the eye registers it. */
+    transition: transform 1s cubic-bezier(0.37, 0.08, 0.28, 1);
+    pointer-events: none;
+  }
+  .case-card:hover::after,
+  .case-card:focus-visible::after {
+    transform: translateX(130%);
+  }
+  .case-card:hover,
+  .case-card:focus-visible {
+    transform: translateY(-6px);
+    border-color: rgba(255, 246, 218, 0.4);
+    box-shadow: 0 2rem 4rem rgba(30, 17, 17, 0.45);
+  }
+  .case-card:hover .case-preview img,
+  .case-card:focus-visible .case-preview img {
+    transform: scale(1.06);
+  }
+  .case-card:hover .case-card-content,
+  .case-card:focus-visible .case-card-content {
+    background: rgba(30, 17, 17, 0.66);
+    border-color: rgba(255, 246, 218, 0.34);
+  }
+  .case-card:hover .case-action,
+  .case-card:focus-visible .case-action {
+    background: var(--cream);
+    color: var(--ink);
+    border-color: var(--cream);
+    transform: translateX(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-card::after {
+    display: none;
+  }
+  .case-card:hover,
+  .case-card:focus-visible,
+  .case-card:hover .case-preview img,
+  .case-card:hover .case-action {
+    transform: none;
   }
 }

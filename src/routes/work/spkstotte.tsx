@@ -3,6 +3,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 
 import { cases } from "@/data/cases";
 import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import { absoluteUrl } from "@/lib/seo";
 
 const title = "SPK Støtte — FARDA";
@@ -31,27 +32,7 @@ function SpkStotte() {
 
   return (
     <main className="site-shell case-page">
-      <header className="site-header">
-        <div className="nav-shell">
-          <Link to="/" className="wordmark" aria-label="FARDA forside">
-            FARDA<span className="text-primary">.</span>
-          </Link>
-          <nav className="hero-nav" aria-label="Primær navigation">
-            <Link className="nav-link" to="/" hash="services">
-              Services
-            </Link>
-            <Link className="nav-link" to="/" hash="cases">
-              Cases
-            </Link>
-            <Link className="nav-link" to="/" hash="about">
-              Om FARDA
-            </Link>
-            <Link className="nav-link" to="/" hash="booking">
-              Kontakt
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="case-page-hero section-dark px-page py-section">
         <div className="case-page-hero-inner">

@@ -5,13 +5,11 @@ import {
   Code2,
   Compass,
   ExternalLink,
-  Menu,
   MessageCircle,
   PenTool,
   Rocket,
   Sparkles,
   TrendingUp,
-  X,
   Zap,
 } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
@@ -20,6 +18,7 @@ import heroAnimation from "@/assets/hero-vid.mp4";
 import pmPic from "@/assets/pm-pic.jpg";
 import { Button } from "@/components/ui/button";
 import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import { cases } from "@/data/cases";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { absoluteUrl } from "@/lib/seo";
@@ -135,7 +134,6 @@ const processSteps = [
 function Index() {
   const heroRef = useRef<HTMLElement>(null);
   const heroVideoRef = useRef<HTMLVideoElement>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [calendarLoaded, setCalendarLoaded] = useState(false);
 
   useScrollReveal();
@@ -199,57 +197,7 @@ function Index() {
 
   return (
     <main id="main-content" className="site-shell" onClick={handleAnchorClick}>
-      <header className="site-header">
-        <div className="nav-shell">
-          <a href="#top" className="wordmark" aria-label="FARDA forside">
-            FARDA<span className="text-primary">.</span>
-          </a>
-          <nav className="hero-nav" aria-label="Primær navigation">
-            <a className="nav-link" href="#services">
-              Services
-            </a>
-            <a className="nav-link" href="#cases">
-              Cases
-            </a>
-            <a className="nav-link" href="#about">
-              Hvorfor FARDA
-            </a>
-            <a className="nav-link" href="#booking">
-              Kontakt
-            </a>
-          </nav>
-          <Button
-            variant="icon"
-            size="icon"
-            className="mobile-menu-toggle"
-            onClick={() => setMobileMenuOpen((open) => !open)}
-            aria-label={mobileMenuOpen ? "Luk menu" : "Åbn menu"}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-navigation"
-          >
-            {mobileMenuOpen ? <X size={19} /> : <Menu size={19} />}
-          </Button>
-        </div>
-        <nav
-          id="mobile-navigation"
-          className="mobile-navigation"
-          data-open={mobileMenuOpen}
-          aria-label="Mobil navigation"
-        >
-          <a href="#services" onClick={() => setMobileMenuOpen(false)}>
-            Services
-          </a>
-          <a href="#cases" onClick={() => setMobileMenuOpen(false)}>
-            Cases
-          </a>
-          <a href="#about" onClick={() => setMobileMenuOpen(false)}>
-            Hvorfor FARDA
-          </a>
-          <a href="#booking" onClick={() => setMobileMenuOpen(false)}>
-            Kontakt
-          </a>
-        </nav>
-      </header>
+      <SiteHeader isHome />
 
       <section id="top" className="hero-section" ref={heroRef}>
         <div className="hero-media" aria-hidden="true">
