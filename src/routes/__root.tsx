@@ -3,6 +3,7 @@ import {
   Outlet,
   createRootRouteWithContext,
   useRouter,
+  type ErrorComponentProps,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -13,7 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { NotFoundPage } from "../components/not-found-page";
 import { JourneyStage, introGateScript } from "../components/journey-stage";
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
