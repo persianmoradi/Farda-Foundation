@@ -16,10 +16,12 @@ import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from
 
 import heroAnimation from "@/assets/hero-vid.mp4";
 import pmPic from "@/assets/pm-pic.jpg";
+import { ChapterMark, Lines } from "@/components/chapter";
 import { Button } from "@/components/ui/button";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { cases } from "@/data/cases";
+import { useJourney } from "@/hooks/use-journey";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { absoluteUrl } from "@/lib/seo";
 
@@ -130,13 +132,13 @@ const processSteps = [
   { icon: Code2, label: "Udvikling", description: "Solid, moderne kode bygget til performance." },
   { icon: Rocket, label: "Lancering", description: "Live, testet og klar til at skalere." },
 ];
-
 function Index() {
   const heroRef = useRef<HTMLElement>(null);
   const heroVideoRef = useRef<HTMLVideoElement>(null);
   const [calendarLoaded, setCalendarLoaded] = useState(false);
 
   useScrollReveal();
+  useJourney();
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -199,181 +201,193 @@ function Index() {
     <main id="main-content" className="site-shell" onClick={handleAnchorClick}>
       <SiteHeader isHome />
 
-      <section id="top" className="hero-section" ref={heroRef}>
-        <div className="hero-media" aria-hidden="true">
-          <video
-            ref={heroVideoRef}
-            className="hero-video"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            aria-hidden="true"
-            width={1920}
-            height={1080}
-          >
-            <source src={heroAnimation} type="video/mp4" />
-          </video>
-        </div>
-        <div className="hero-scrim" aria-hidden="true" />
-        <div className="hero-title-wrap">
-          <p className="hero-kicker hero-enter hero-enter-kicker">Digitalt studio · København</p>
-          <h1 className="hero-title hero-enter hero-enter-title">
-            BUILD
-            <br />
-            <span>TOMORROW</span>
-          </h1>
-          <div className="hero-support-panel hero-enter hero-enter-bottom">
-            <p>Vi skaber distinkte digitale oplevelser for virksomheder med noget på spil.</p>
+      <section id="top" className="hero" ref={heroRef} data-pin>
+        <div className="hero-stage">
+          <div className="hero-portal" aria-hidden="true">
+            <video
+              ref={heroVideoRef}
+              className="hero-video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              aria-hidden="true"
+              width={1920}
+              height={1080}
+            >
+              <source src={heroAnimation} type="video/mp4" />
+            </video>
+            <span className="hero-portal-scrim" />
           </div>
-        </div>
-        <Button
-          asChild
-          variant="primary"
-          size="lg"
-          className="hero-enter-button hero-enter hero-enter-bottom"
-        >
-          <a href="#booking">
-            <span>Book en samtale</span>
-            <span className="hero-cta-arrow">
-              <ArrowRight size={18} />
+
+          <div className="hero-hud" aria-hidden="true">
+            <span className="hero-hud-corner hero-hud-tl">
+              <i className="hero-rec" /> Kapitel 00 — Afgang
             </span>
+            <span className="hero-hud-corner hero-hud-tr">55°40′N · 12°34′E</span>
+            <span className="hero-hud-corner hero-hud-bl">FARDA · 2026</span>
+            <span className="hero-hud-corner hero-hud-br">I dag → I morgen</span>
+          </div>
+
+          <div className="hero-copy">
+            <p className="hero-kicker hero-enter" style={{ "--enter": 0 } as CSSProperties}>
+              Digitalt studio · København
+            </p>
+            <h1 className="hero-title">
+              <span className="hero-word hero-word-a">
+                <span className="hero-enter" style={{ "--enter": 1 } as CSSProperties}>
+                  BUILD
+                </span>
+              </span>
+              <span className="hero-word hero-word-b">
+                <span className="hero-enter" style={{ "--enter": 2 } as CSSProperties}>
+                  TOMORROW
+                </span>
+              </span>
+            </h1>
+            <p className="hero-support hero-enter" style={{ "--enter": 3 } as CSSProperties}>
+              Vi skaber distinkte digitale oplevelser for virksomheder med noget på spil.
+            </p>
+            <div className="hero-enter" style={{ "--enter": 4 } as CSSProperties}>
+              <Button asChild variant="primary" size="lg" className="hero-cta">
+                <a href="#booking">
+                  <span>Book en samtale</span>
+                  <span className="hero-cta-arrow">
+                    <ArrowRight size={18} />
+                  </span>
+                </a>
+              </Button>
+            </div>
+          </div>
+
+          <a href="#services" className="scroll-cue" aria-label="Se vores services">
+            <span>Begynd rejsen</span>
+            <i aria-hidden="true" />
           </a>
-        </Button>
-        <a
-          href="#services"
-          className="scroll-cue hero-enter hero-enter-cue"
-          aria-label="Se vores services"
-        >
-          <span>Scroll</span>
-          <i aria-hidden="true" />
-        </a>
-        <p className="hero-edition hero-enter hero-enter-cue">FARDA · 2026</p>
+        </div>
       </section>
 
-      <section id="services" className="section-light px-page py-section">
-        <div className="section-label reveal">
-          <span>Services</span>
-        </div>
-        <div className="services-intro reveal">
-          <h2>
-            Fra første tanke
-            <br />
-            til færdigt format.
+      <section id="services" className="chapter px-page py-section">
+        <ChapterMark number="01" label="Services" />
+        <div className="chapter-intro reveal" data-depth>
+          <h2 className="chapter-title">
+            <Lines lines={["Fra første tanke", <em key="b">til færdigt format.</em>]} />
           </h2>
           <p>Strategi, design og udvikling samlet i ét fokuseret forløb.</p>
         </div>
         <div className="package-grid">
-          {packages.map((item) => (
-            <article
+          {packages.map((item, cardIndex) => (
+            <div
               key={item.title}
-              className={`package-card ${item.featured ? "package-card-featured" : ""} reveal reveal-card`}
+              className="depth-slot reveal"
+              data-depth
+              style={{ "--slot": cardIndex } as CSSProperties}
             >
-              <span className="package-number-mark" aria-hidden="true">
-                {item.number}
-              </span>
-              <div className="package-top">
-                <span className="package-icon-badge" aria-hidden="true">
-                  <item.icon size={18} />
+              <article
+                className={`package-card ${item.featured ? "package-card-featured" : ""}`}
+                data-tilt="6"
+              >
+                <span className="card-glare" aria-hidden="true" />
+                <span className="package-number-mark" aria-hidden="true">
+                  {item.number}
                 </span>
-                <span
-                  className={`package-status ${item.featured ? "package-status-featured" : ""}`}
-                >
-                  {item.featured ? "Mest valgt" : "Fast foundation"}
-                </span>
-              </div>
-              <div className="package-content">
-                <h3>{item.title}</h3>
-                <p className="package-price">{item.price}</p>
-                <p className="package-description">{item.description}</p>
-              </div>
-              <ul className="metric-list" aria-hidden="true">
-                {item.metrics.map((metric, index) => (
-                  <li
-                    key={metric.label}
-                    className="metric-row"
-                    style={
-                      { "--metric-index": index, "--metric-value": metric.value } as CSSProperties
-                    }
+                <div className="package-top">
+                  <span className="package-icon-badge" aria-hidden="true">
+                    <item.icon size={18} />
+                  </span>
+                  <span
+                    className={`package-status ${item.featured ? "package-status-featured" : ""}`}
                   >
-                    <span className="metric-label">{metric.label}</span>
-                    <span className="metric-track">
-                      <span className="metric-fill" />
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <ul className="feature-list">
-                {item.features.map((feature, index) => (
-                  <li key={feature} style={{ "--feature-index": index } as CSSProperties}>
-                    <Check size={16} />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </article>
+                    {item.featured ? "Mest valgt" : "Fast foundation"}
+                  </span>
+                </div>
+                <div className="package-content">
+                  <h3>{item.title}</h3>
+                  <p className="package-price">{item.price}</p>
+                  <p className="package-description">{item.description}</p>
+                </div>
+                <ul className="metric-list" aria-hidden="true">
+                  {item.metrics.map((metric, index) => (
+                    <li
+                      key={metric.label}
+                      className="metric-row"
+                      style={
+                        {
+                          "--metric-index": index,
+                          "--metric-value": metric.value,
+                        } as CSSProperties
+                      }
+                    >
+                      <span className="metric-label">{metric.label}</span>
+                      <span className="metric-track">
+                        <span className="metric-fill" />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <ul className="feature-list">
+                  {item.features.map((feature, index) => (
+                    <li key={feature} style={{ "--feature-index": index } as CSSProperties}>
+                      <Check size={16} />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </div>
           ))}
         </div>
       </section>
 
-      <section id="cases" className="section-dark px-page py-section">
-        <div className="cases-inner">
-          <div className="section-label section-label-dark reveal">
-            <span>Cases</span>
-          </div>
-          <div className="cases-heading reveal">
-            <h2>
-              Arbejde med
-              <br />
-              <span>en klar retning.</span>
-            </h2>
-            <p>Digitale løsninger med strategi, form og funktion i samme system.</p>
-          </div>
-          <div className="case-grid">
-            {cases.map((item) => (
-              <Link
-                key={item.id}
-                className={`case-card reveal reveal-card ${item.accent}`}
-                to={item.path}
-              >
-                <span className="case-card-top">
-                  <span>FARDA selected work</span>
-                  <span>{item.number}</span>
+      <section id="cases" className="chapter px-page py-section">
+        <ChapterMark number="02" label="Cases" />
+        <div className="chapter-intro reveal" data-depth>
+          <h2 className="chapter-title">
+            <Lines lines={["Arbejde med", <em key="b">en klar retning.</em>]} />
+          </h2>
+          <p>Digitale løsninger med strategi, form og funktion i samme system.</p>
+        </div>
+        <div className="destination-list">
+          {cases.map((item, index) => (
+            <Link
+              key={item.id}
+              className={`destination reveal ${index % 2 ? "destination-flip" : ""}`}
+              to={item.path}
+              data-depth
+            >
+              <span className="destination-frame" data-tilt="5">
+                <span className="destination-image">
+                  <img src={item.image} alt="" loading="lazy" decoding="async" />
                 </span>
-                <span className="case-preview" aria-hidden="true">
-                  <img src={item.image} alt="" />
+                <span className="card-glare" aria-hidden="true" />
+                <span className="destination-frame-hud" aria-hidden="true">
+                  <span>Destination {item.number}</span>
+                  <span>{item.category}</span>
                 </span>
-                <span className="case-card-content">
-                  <span className="case-meta">{item.category}</span>
-                  <span className="case-card-title">
-                    <strong>{item.title}</strong>
-                    <span className="case-action">
-                      <ArrowRight size={19} />
-                    </span>
-                  </span>
-                  <span className="case-card-description">{item.description}</span>
+              </span>
+              <span className="destination-copy">
+                <span className="destination-number" aria-hidden="true">
+                  {item.number}
                 </span>
-              </Link>
-            ))}
-          </div>
-          <div className="case-footer reveal" aria-hidden="true">
-            <span>FARDA Selected work</span>
-            <i />
-            <span>2026</span>
-          </div>
+                <span className="case-meta">{item.category}</span>
+                <strong className="destination-title">{item.title}</strong>
+                <span className="destination-description">{item.description}</span>
+                <span className="destination-action">
+                  Se casen
+                  <ArrowRight size={17} />
+                </span>
+              </span>
+            </Link>
+          ))}
         </div>
       </section>
 
-      <section id="about" className="section-light px-page py-section why-section">
-        <div className="section-label reveal">
-          <span>Hvorfor FARDA</span>
-        </div>
-        <div className="why-intro reveal">
-          <h2>
-            Et fundament bygget til
-            <br />
-            at <span className="text-primary">vokse med dig</span>.
+      <section id="about" className="chapter px-page py-section">
+        <ChapterMark number="03" label="Hvorfor FARDA" />
+        <div className="chapter-intro reveal" data-depth>
+          <h2 className="chapter-title">
+            <Lines lines={["Et fundament bygget til", <em key="b">at vokse med dig.</em>]} />
           </h2>
           <p>
             Ingen bureau-lag, ingen skabeloner. Bare et stærkt digitalt fundament, bygget direkte af
@@ -385,31 +399,43 @@ function Index() {
           {valuePillars.map((pillar, index) => (
             <div
               key={pillar.title}
-              className="why-pillar reveal reveal-card"
-              style={{ "--feature-index": index } as CSSProperties}
+              className="depth-slot reveal"
+              data-depth
+              style={{ "--slot": index } as CSSProperties}
             >
-              <span className="why-pillar-icon">
-                <pillar.icon size={20} aria-hidden="true" />
-              </span>
-              <h3>{pillar.title}</h3>
-              <p>{pillar.description}</p>
+              <div className="why-pillar" data-tilt="7">
+                <span className="card-glare" aria-hidden="true" />
+                <span className="why-pillar-index" aria-hidden="true">
+                  0{index + 1}
+                </span>
+                <span className="why-pillar-icon">
+                  <pillar.icon size={20} aria-hidden="true" />
+                </span>
+                <h3>{pillar.title}</h3>
+                <p>{pillar.description}</p>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="why-process reveal">
-          <div className="why-process-line" aria-hidden="true">
-            <span className="why-process-line-fill" />
+        <div className="route reveal" data-progress>
+          <p className="route-label">Ruten</p>
+          <div className="route-line" aria-hidden="true">
+            <span className="route-line-fill" />
+            <span className="route-ship" />
           </div>
-          <ol className="why-process-steps">
+          <ol className="route-steps">
             {processSteps.map((step, index) => (
               <li
                 key={step.label}
-                className="why-process-step"
-                style={{ "--feature-index": index } as CSSProperties}
+                className="route-step"
+                style={{ "--step": index, "--steps": processSteps.length } as CSSProperties}
               >
-                <span className="why-process-icon">
+                <span className="route-node">
                   <step.icon size={18} aria-hidden="true" />
+                </span>
+                <span className="route-step-number" aria-hidden="true">
+                  0{index + 1}
                 </span>
                 <strong>{step.label}</strong>
                 <span>{step.description}</span>
@@ -418,7 +444,7 @@ function Index() {
           </ol>
         </div>
 
-        <div className="why-cta reveal">
+        <div className="why-cta reveal" data-depth>
           <Button asChild variant="primary" size="lg">
             <a href="#booking">
               <span>Book en samtale</span>
@@ -442,14 +468,14 @@ function Index() {
         </div>
       </section>
 
-      <section id="booking" className="booking-section px-page py-section">
-        <div className="booking-copy reveal">
-          <div className="section-label section-label-dark">
-            <span>Næste skridt</span>
-          </div>
-          <h2>Start din rejse.</h2>
+      <section id="booking" className="chapter booking-section px-page py-section">
+        <div className="booking-copy reveal" data-depth>
+          <ChapterMark number="04" label="Næste skridt" />
+          <h2 className="chapter-title booking-title">
+            <Lines lines={["Start din", <em key="b">rejse.</em>]} />
+          </h2>
           <p>Lad os drøfte dine ønsker og muligheder om dit næste digitale skridt.</p>
-          <ul className="calendar-facts calendar-facts-dark">
+          <ul className="calendar-facts">
             <li>15–30 minutter</li>
             <li>Ingen binding</li>
             <li>Dansk / Engelsk</li>
@@ -459,9 +485,11 @@ function Index() {
             <a href="mailto:farda0@protonmail.com">farda0@protonmail.com</a>
           </div>
         </div>
-        <div className="calendar-shell reveal reveal-late">
+        <div className="calendar-shell reveal reveal-late" data-depth>
           <div className="calendar-heading">
-            <span className="calendar-heading-label">Book tid</span>
+            <span className="calendar-heading-label">
+              <i className="hero-rec" aria-hidden="true" /> Book tid
+            </span>
             <span className="calendar-heading-status">Svar inden for 24 timer</span>
           </div>
           <div className="calendar-frame" data-loaded={calendarLoaded}>
@@ -470,7 +498,7 @@ function Index() {
               <p>Indlæser kalender…</p>
             </div>
             <iframe
-              src="https://cal.com/farda?embed=true&theme=light&name=&email="
+              src="https://cal.com/farda?embed=true&theme=dark&name=&email="
               title="Book en samtale med FARDA"
               loading="lazy"
               onLoad={() => setCalendarLoaded(true)}

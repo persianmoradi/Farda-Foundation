@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { NotFoundPage } from "../components/not-found-page";
+import { JourneyStage, introGateScript } from "../components/journey-stage";
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
@@ -55,6 +56,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#0c0807" },
       { title: "FARDA — Digitalt studio" },
       { name: "description", content: "FARDA bygger digitale oplevelser med klar retning." },
       { name: "author", content: "FARDA" },
@@ -68,13 +70,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@400;500&display=swap",
       },
       {
         rel: "stylesheet",
         href: appCss,
       },
     ],
+    scripts: [{ children: introGateScript }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -84,7 +87,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="da">
+    <html lang="da" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
@@ -104,6 +107,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <JourneyStage />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>

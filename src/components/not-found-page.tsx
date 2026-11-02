@@ -1,59 +1,33 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useRef } from "react";
+import { ArrowLeft } from "lucide-react";
 
-import heroAnimation from "@/assets/hero-vid.mp4";
+import { useJourney } from "@/hooks/use-journey";
 
+/** Lost in the void — the starfield from the root stage drifts behind it. */
 export function NotFoundPage() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePlayback = () => {
-      if (reducedMotion.matches) {
-        video.pause();
-      } else {
-        void video.play().catch(() => undefined);
-      }
-    };
-
-    updatePlayback();
-    reducedMotion.addEventListener("change", updatePlayback);
-    return () => reducedMotion.removeEventListener("change", updatePlayback);
-  }, []);
+  useJourney();
 
   return (
-    <div className="notfound-page">
+    <main id="main-content" className="notfound-page">
       <meta name="robots" content="noindex" />
-      <div className="notfound-media" aria-hidden="true">
-        <video
-          ref={videoRef}
-          className="notfound-video"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-        >
-          <source src={heroAnimation} type="video/mp4" />
-        </video>
-      </div>
-      <div className="notfound-scrim" aria-hidden="true" />
       <div className="notfound-content">
-        <div className="notfound-glass">
-          <span className="notfound-glass-sheen" aria-hidden="true" />
-          <span className="notfound-glass-blob notfound-glass-blob-a" aria-hidden="true" />
-          <span className="notfound-glass-blob notfound-glass-blob-b" aria-hidden="true" />
-          <p className="notfound-wordmark">FARDA</p>
-          <p className="notfound-code">404</p>
-          <p className="notfound-message">Siden findes ikke, eller er blevet flyttet.</p>
-          <Link to="/" className="notfound-home">
-            Tilbage til forsiden
-          </Link>
-        </div>
+        <p className="notfound-signal">
+          <i className="hero-rec" aria-hidden="true" /> Signal tabt
+        </p>
+        <h1 className="notfound-code">
+          4<span>0</span>4
+        </h1>
+        <p className="notfound-message">
+          Du er drevet ud af kurs. Siden findes ikke, eller er blevet flyttet.
+        </p>
+        <Link to="/" className="farda-button notfound-home">
+          <ArrowLeft size={17} />
+          Tilbage til forsiden
+        </Link>
       </div>
-    </div>
+      <p className="notfound-coords" aria-hidden="true">
+        ??°??′N · ??°??′E
+      </p>
+    </main>
   );
 }

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
 type SiteFooterProps = {
   isHome?: boolean;
@@ -29,15 +29,7 @@ export function SiteFooter({ isHome = false }: SiteFooterProps) {
     <footer className="footer px-page">
       <div className="footer-row reveal reveal-late">
         <div className="footer-brand">
-          {isHome ? (
-            <a className="wordmark" href="#top">
-              FARDA<span className="text-primary">.</span>
-            </a>
-          ) : (
-            <Link className="wordmark" to="/">
-              FARDA<span className="text-primary">.</span>
-            </Link>
-          )}
+          <p className="footer-label">Rejsen fortsætter</p>
           <p>Digitalt studio for virksomheder med noget på spil.</p>
         </div>
         <div className="footer-contact">
@@ -58,16 +50,27 @@ export function SiteFooter({ isHome = false }: SiteFooterProps) {
           </SectionLink>
         </div>
       </div>
-      <div className="footer-bottom reveal reveal-late">
+
+      {isHome ? (
+        <a className="footer-wordmark" href="#top" aria-label="FARDA — til toppen">
+          FARDA<span className="text-primary">.</span>
+        </a>
+      ) : (
+        <Link className="footer-wordmark" to="/" aria-label="FARDA forside">
+          FARDA<span className="text-primary">.</span>
+        </Link>
+      )}
+
+      <div className="footer-bottom">
         <span>© 2026 FARDA Studio</span>
         <span>Built for tomorrow</span>
         {isHome ? (
           <a href="#top">
-            Til toppen <ArrowRight size={14} />
+            Til toppen <ArrowUp size={14} />
           </a>
         ) : (
           <Link to="/">
-            Til toppen <ArrowRight size={14} />
+            Til forsiden <ArrowUp size={14} />
           </Link>
         )}
       </div>
