@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 
 import { useJourney } from "@/hooks/use-journey";
 
-/** Lost in the void — the starfield from the root stage drifts behind it. */
+/** Lost in the night — the sky from the root stage glows behind it. */
 export function NotFoundPage() {
   useJourney();
 

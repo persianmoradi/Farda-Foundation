@@ -1,14 +1,18 @@
 import { useEffect } from "react";
 
-import { clamp, journey, prefersReducedMotion } from "@/lib/journey";
+import { clamp, prefersReducedMotion } from "@/lib/journey";
 
 /**
- * Drives every scroll-linked effect from one rAF loop by writing CSS custom properties:
+ * Drives every scroll-linked effect from one rAF per scroll by writing CSS custom properties:
  *
- * - `:root`            `--journey` page progress (0 → 1), `--mx` / `--my` pointer (-1 → 1)
+ * - `[data-journey]`   `--journey` page progress (0 → 1)
  * - `[data-depth]`     `--d` signed distance from the reading zone (≈ -1.5 → 1.5), `--ad` = |d|
+ * - `[data-parallax]`  `--d` only, for elements that drift with their own position
  * - `[data-pin]`       `--pin` progress through a sticky container (0 → 1)
  * - `[data-progress]`  `--progress` progress of an element through the viewport (0 → 1)
+ *
+ * Values are written only onto the elements that read them, never onto :root: custom
+ * properties inherit, so a per-frame change on the root would restyle the whole document.
  *
  * Call it from each page component (not the root) so it starts after that page has
  * hydrated. With reduced motion nothing is written, so the CSS falls back to its static defaults.
@@ -20,16 +24,28 @@ export function useJourney() {
     const root = document.documentElement;
     root.classList.add("journey-ready");
 
+    let journeyEls: HTMLElement[] = [];
     let depthEls: HTMLElement[] = [];
+    let parallaxEls: HTMLElement[] = [];
     let pinEls: HTMLElement[] = [];
     let progressEls: HTMLElement[] = [];
     let dirty = true;
     let frame = 0;
-    let lastY = window.scrollY;
-    let pointerFrame = 0;
+    // Last value written per element and property, so unchanged values cost nothing.
+    const written = new WeakMap<HTMLElement, Record<string, string>>();
+
+    const write = (el: HTMLElement, name: string, value: string) => {
+      let values = written.get(el);
+      if (!values) written.set(el, (values = {}));
+      if (values[name] === value) return;
+      values[name] = value;
+      el.style.setProperty(name, value);
+    };
 
     const scan = () => {
+      journeyEls = Array.from(document.querySelectorAll<HTMLElement>("[data-journey]"));
       depthEls = Array.from(document.querySelectorAll<HTMLElement>("[data-depth]"));
+      parallaxEls = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
       pinEls = Array.from(document.querySelectorAll<HTMLElement>("[data-pin]"));
       progressEls = Array.from(document.querySelectorAll<HTMLElement>("[data-progress]"));
       dirty = false;
@@ -40,58 +56,54 @@ export function useJourney() {
       if (dirty) scan();
 
       const vh = window.innerHeight;
-      const y = window.scrollY;
-      const max = Math.max(1, document.documentElement.scrollHeight - vh);
+      const max = Math.max(1, root.scrollHeight - vh);
+      const journey = clamp(window.scrollY / max).toFixed(4);
+      for (const el of journeyEls) write(el, "--journey", journey);
 
-      journey.progress = clamp(y / max);
-      journey.velocity = journey.velocity * 0.6 + (y - lastY) * 0.4;
-      lastY = y;
-      root.style.setProperty("--journey", journey.progress.toFixed(4));
+      // Read every rect before writing anything: interleaving reads and style writes
+      // would force a style recalc per element.
+      const depthRects = depthEls.map((el) => el.getBoundingClientRect());
+      const parallaxRects = parallaxEls.map((el) => el.getBoundingClientRect());
+      const pinRects = pinEls.map((el) => el.getBoundingClientRect());
+      const progressRects = progressEls.map((el) => el.getBoundingClientRect());
 
       // The reading zone is the middle 40% of the viewport: elements inside it sit at rest.
       const zoneTop = vh * 0.3;
       const zoneBottom = vh * 0.7;
-      for (const el of depthEls) {
-        const rect = el.getBoundingClientRect();
-        if (rect.bottom < -vh || rect.top > vh * 2) continue;
+      const distance = (rect: DOMRect) => {
         let d = 0;
         if (rect.top > zoneBottom) d = (rect.top - zoneBottom) / vh;
         else if (rect.bottom < zoneTop) d = (rect.bottom - zoneTop) / vh;
-        d = clamp(d, -1.5, 1.5);
-        el.style.setProperty("--d", d.toFixed(4));
-        el.style.setProperty("--ad", Math.abs(d).toFixed(4));
-      }
+        return clamp(d, -1.5, 1.5);
+      };
+      const offscreen = (rect: DOMRect) => rect.bottom < -vh || rect.top > vh * 2;
+      depthEls.forEach((el, index) => {
+        const rect = depthRects[index]!;
+        if (offscreen(rect)) return;
+        const d = distance(rect);
+        write(el, "--d", d.toFixed(3));
+        write(el, "--ad", Math.abs(d).toFixed(3));
+      });
+      parallaxEls.forEach((el, index) => {
+        const rect = parallaxRects[index]!;
+        if (!offscreen(rect)) write(el, "--d", distance(rect).toFixed(3));
+      });
 
-      for (const el of pinEls) {
-        const rect = el.getBoundingClientRect();
+      pinEls.forEach((el, index) => {
+        const rect = pinRects[index]!;
         const travel = Math.max(1, rect.height - vh);
-        el.style.setProperty("--pin", clamp(-rect.top / travel).toFixed(4));
-      }
+        write(el, "--pin", clamp(-rect.top / travel).toFixed(4));
+      });
 
-      for (const el of progressEls) {
-        const rect = el.getBoundingClientRect();
+      progressEls.forEach((el, index) => {
+        const rect = progressRects[index]!;
         const value = clamp((vh * 0.85 - rect.top) / (rect.height + vh * 0.25));
-        el.style.setProperty("--progress", value.toFixed(4));
-      }
-
-      // Keep settling the velocity back to zero after scrolling stops.
-      if (Math.abs(journey.velocity) > 0.05) schedule();
-      else journey.velocity = 0;
+        write(el, "--progress", value.toFixed(4));
+      });
     };
 
     const schedule = () => {
       if (!frame) frame = window.requestAnimationFrame(update);
-    };
-
-    const onPointerMove = (event: PointerEvent) => {
-      journey.pointerX = (event.clientX / window.innerWidth) * 2 - 1;
-      journey.pointerY = (event.clientY / window.innerHeight) * 2 - 1;
-      if (pointerFrame) return;
-      pointerFrame = window.requestAnimationFrame(() => {
-        pointerFrame = 0;
-        root.style.setProperty("--mx", journey.pointerX.toFixed(3));
-        root.style.setProperty("--my", journey.pointerY.toFixed(3));
-      });
     };
 
     // Route changes and lazy content mount new elements; rescan on the next frame.
@@ -103,16 +115,13 @@ export function useJourney() {
 
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
     schedule();
 
     return () => {
       window.cancelAnimationFrame(frame);
-      window.cancelAnimationFrame(pointerFrame);
       mutationObserver.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
-      window.removeEventListener("pointermove", onPointerMove);
       root.classList.remove("journey-ready");
     };
   }, []);

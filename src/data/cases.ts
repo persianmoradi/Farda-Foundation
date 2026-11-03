@@ -1,5 +1,5 @@
-import spkCaseCard from "@/assets/spk-case-card.png";
-import uvmCard from "@/assets/uvm-card.jpg";
+import spkCaseCard from "@/assets/spk-case-card.webp";
+import uvmCard from "@/assets/uvm-card.webp";
 
 export const cases = [
   {

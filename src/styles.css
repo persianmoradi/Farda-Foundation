@@ -1,6 +1,5 @@
 @import "tailwindcss" source(none);
 @source "../src";
-@import "tw-animate-css";
 
 /* ==========================================================================
    FARDA — a journey from tonight to tomorrow.
@@ -8,67 +7,73 @@
    ========================================================================== */
 
 :root {
-  /* Night */
-  --night: #0c0807;
-  --night-2: #150d0b;
-  --night-3: #1f1411;
-  --plum: #2a1222;
+  /* Night — deep teal (palette #10232A; #1B3038 is a teal-slate tint for surfaces) */
+  --night: #10232a;
+  --night-2: #1b3038;
 
-  /* Light */
-  --cream: #fff6da;
-  --amber: #ffa400;
-  --ember: #e8846c;
-  --clay: #a94a4a;
+  /* Light — sand-white text and copper accent; warm grey (#A79E9C) and slate (#3D4D55) tint the glows */
+  --cream: #e8ded7;
+  --copper: #b58863;
 
   /* Tinted neutrals on night — cream at fixed alphas */
-  --cream-86: rgba(255, 246, 218, 0.86);
-  --cream-68: rgba(255, 246, 218, 0.68);
-  --cream-48: rgba(255, 246, 218, 0.48);
-  --cream-16: rgba(255, 246, 218, 0.16);
-  --cream-10: rgba(255, 246, 218, 0.1);
-  --cream-06: rgba(255, 246, 218, 0.06);
+  --cream-86: rgba(232, 222, 215, 0.86);
+  --cream-68: rgba(232, 222, 215, 0.68);
+  --cream-48: rgba(232, 222, 215, 0.48);
+  --cream-16: rgba(232, 222, 215, 0.16);
+  --cream-10: rgba(232, 222, 215, 0.1);
+  --cream-06: rgba(232, 222, 215, 0.06);
 
-  --panel: rgba(21, 13, 11, 0.74);
-  --panel-strong: rgba(21, 13, 11, 0.9);
-  --panel-line: rgba(255, 246, 218, 0.12);
+  --panel: rgba(27, 48, 56, 0.74);
+  --panel-strong: rgba(27, 48, 56, 0.9);
+  --panel-line: rgba(232, 222, 215, 0.12);
 
-  --dawn-gradient: linear-gradient(100deg, var(--amber) 0%, var(--ember) 55%, #f4c27a 100%);
+  --dawn-gradient: linear-gradient(100deg, #b58863 0%, #d3c3b9 55%, #b58863 100%);
 
   --background: var(--night);
   --foreground: var(--cream);
-  --primary: var(--amber);
+  --primary: var(--copper);
   --primary-foreground: var(--night);
-  --accent: var(--ember);
-  --ring: var(--amber);
+  --ring: var(--copper);
 
   --ease-farda: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-cine: cubic-bezier(0.76, 0, 0.24, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --motion-fast: 180ms;
   --motion-base: 420ms;
-  --motion-slow: 900ms;
 
   /* Depth engine magnitudes (tuned down on small screens) */
-  --depth-y: 90px;
-  --depth-z: 420px;
-  --depth-tilt: 14deg;
+  --depth-y: 56px;
 
   --radius-card: 28px;
   color-scheme: dark;
 }
 
+/* Scroll-driven values. Registered as non-inheriting so a per-frame change restyles only the
+   element it is written on (use-journey writes each onto the elements that read it). */
+@property --journey {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --d {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --ad {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
 @theme inline {
   --font-sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-accent: var(--accent);
-  --color-ring: var(--ring);
-  --color-border: rgba(255, 246, 218, 0.14);
-  --color-input: rgba(255, 246, 218, 0.2);
+  --color-input: rgba(232, 222, 215, 0.2);
   --color-muted-foreground: var(--cream-68);
 }
 
@@ -78,10 +83,14 @@
   }
   html {
     scroll-behavior: smooth;
+    /* The hero briefly holds the scroll (overflow: hidden); keep the scrollbar's space. */
+    scrollbar-gutter: stable;
+    /* Route changes swap the whole page; scroll anchoring would nudge the new page off the top. */
+    overflow-anchor: none;
     background: var(--night);
   }
   /* The html element carries the night colour; body stays transparent so the fixed
-     sky and starfield (negative z-index) paint above it. */
+     sky (negative z-index) paints above it. */
   body {
     margin: 0;
     background: transparent;
@@ -93,7 +102,7 @@
   }
   ::selection {
     color: var(--night);
-    background: var(--amber);
+    background: var(--copper);
   }
   a {
     color: inherit;
@@ -132,7 +141,7 @@
   overflow-x: clip;
 }
 .text-primary {
-  color: var(--amber);
+  color: var(--copper);
 }
 .skip-link {
   position: fixed;
@@ -141,7 +150,7 @@
   left: 0.75rem;
   padding: 0.75rem 1rem;
   color: var(--night);
-  background: var(--amber);
+  background: var(--copper);
   transform: translateY(-150%);
   transition: transform var(--motion-fast) var(--ease-farda);
 }
@@ -150,7 +159,8 @@
 }
 
 /* ==========================================================================
-   Journey stage — sky, starfield, grain, vignette
+   Journey stage — a calm night sky that warms into dawn as you scroll.
+   Nothing here flickers or moves fast: two slow glows, the rising sun and one horizon.
    ========================================================================== */
 
 .journey-sky {
@@ -159,7 +169,7 @@
   inset: 0;
   overflow: hidden;
   background:
-    radial-gradient(90% 60% at 50% 0%, rgba(42, 18, 34, 0.55), transparent 70%),
+    radial-gradient(90% 60% at 50% 0%, rgba(61, 77, 85, 0.55), transparent 70%),
     linear-gradient(180deg, var(--night) 0%, var(--night-2) 100%);
   pointer-events: none;
 }
@@ -169,22 +179,19 @@
   aspect-ratio: 1;
   border-radius: 50%;
   opacity: 0.55;
-  filter: blur(40px);
   will-change: transform;
 }
 .journey-nebula-a {
   top: -25vmax;
   left: -20vmax;
-  background: radial-gradient(circle, rgba(169, 74, 74, 0.38), transparent 62%);
-  translate: calc(var(--mx, 0) * -30px) calc(var(--my, 0) * -20px);
-  animation: nebula-drift 38s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(61, 77, 85, 0.38), transparent 62%);
+  animation: nebula-drift 70s ease-in-out infinite alternate;
 }
 .journey-nebula-b {
   right: -25vmax;
   bottom: -10vmax;
-  background: radial-gradient(circle, rgba(76, 28, 74, 0.42), transparent 62%);
-  translate: calc(var(--mx, 0) * 40px) calc(var(--my, 0) * 26px);
-  animation: nebula-drift 46s ease-in-out -12s infinite alternate-reverse;
+  background: radial-gradient(circle, rgba(61, 77, 85, 0.42), transparent 62%);
+  animation: nebula-drift 84s ease-in-out -20s infinite alternate-reverse;
 }
 /* The sunrise: climbs from below the horizon as the journey progresses. */
 .journey-dawn {
@@ -196,65 +203,44 @@
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(255, 186, 72, 0.6) 0%,
-    rgba(232, 132, 108, 0.32) 22%,
-    rgba(169, 74, 74, 0.14) 40%,
+    rgba(181, 136, 99, 0.6) 0%,
+    rgba(167, 158, 156, 0.32) 22%,
+    rgba(61, 77, 85, 0.14) 40%,
     transparent 62%
   );
   opacity: calc(0.12 + var(--journey, 0) * 0.95);
   transform: translate3d(-50%, calc((1 - var(--journey, 0)) * 34vh), 0);
   will-change: transform, opacity;
 }
-.starfield {
-  position: fixed;
-  z-index: -2;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+/* The horizon: a soft band of first light that climbs from low in the frame
+   towards the middle as the journey nears its end. No hard edge, so it never reads as a line. */
+.journey-horizon {
+  position: absolute;
+  top: 0;
+  left: -10%;
+  width: 120%;
+  height: 70vh;
+  background: radial-gradient(
+    50% 40% at 50% 50%,
+    rgba(181, 136, 99, 0.13) 0%,
+    rgba(167, 158, 156, 0.05) 50%,
+    transparent 100%
+  );
+  opacity: calc(0.5 + var(--journey, 0) * 0.5);
+  transform: translate3d(0, calc(50vh - var(--journey, 0) * 35vh), 0);
+  will-change: transform, opacity;
 }
 .journey-vignette {
   position: fixed;
   z-index: -1;
   inset: 0;
-  background: radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(5, 3, 3, 0.7) 100%);
+  background: radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(22, 22, 22, 0.7) 100%);
   pointer-events: none;
-}
-.journey-grain {
-  position: fixed;
-  z-index: 80;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
-  opacity: 0.07;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  pointer-events: none;
-  animation: grain 0.9s steps(6) infinite;
 }
 
 @keyframes nebula-drift {
   to {
     transform: translate3d(8vmax, 6vmax, 0) scale(1.15);
-  }
-}
-@keyframes grain {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  20% {
-    transform: translate3d(-4%, 3%, 0);
-  }
-  40% {
-    transform: translate3d(3%, -5%, 0);
-  }
-  60% {
-    transform: translate3d(-6%, -2%, 0);
-  }
-  80% {
-    transform: translate3d(5%, 4%, 0);
-  }
-  100% {
-    transform: translate3d(-2%, 6%, 0);
   }
 }
 
@@ -270,7 +256,7 @@
   place-items: center;
   pointer-events: none;
   background: var(--night);
-  animation: intro-fade 0.8s var(--ease-cine) 1.45s forwards;
+  animation: intro-fade 0.6s var(--ease-cine) 0.75s forwards;
 }
 html[data-intro-seen] .cine-intro {
   display: none;
@@ -281,17 +267,17 @@ html[data-intro-seen] .cine-intro {
   right: 0;
   left: 0;
   height: 50vh;
-  background: #050303;
+  background: #161616;
 }
 .cine-intro-bar-top {
   top: 0;
   transform-origin: top;
-  animation: intro-bar-open 1.3s var(--ease-cine) 0.15s forwards;
+  animation: intro-bar-open 0.9s var(--ease-cine) 0.05s forwards;
 }
 .cine-intro-bar-bottom {
   bottom: 0;
   transform-origin: bottom;
-  animation: intro-bar-open 1.3s var(--ease-cine) 0.15s forwards;
+  animation: intro-bar-open 0.9s var(--ease-cine) 0.05s forwards;
 }
 .cine-intro-title {
   position: relative;
@@ -305,20 +291,20 @@ html[data-intro-seen] .cine-intro {
   font-size: clamp(2.6rem, 9vw, 7rem);
   font-weight: 900;
   font-stretch: 125%;
-  letter-spacing: 0.6em;
-  margin-right: -0.6em;
+  letter-spacing: 0.14em;
+  margin-right: -0.14em;
   color: var(--cream);
   opacity: 0;
-  animation: intro-mark 1.6s var(--ease-farda) forwards;
+  animation: intro-mark 1s var(--ease-farda) forwards;
 }
 .cine-intro-sub {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--copper);
   opacity: 0;
-  animation: intro-sub 1.3s var(--ease-farda) 0.35s forwards;
+  animation: intro-sub 0.9s var(--ease-farda) 0.2s forwards;
 }
 
 @keyframes intro-bar-open {
@@ -329,17 +315,14 @@ html[data-intro-seen] .cine-intro {
 @keyframes intro-mark {
   0% {
     opacity: 0;
-    letter-spacing: 0.6em;
-    filter: blur(12px);
+    transform: scale(1.35);
   }
   55% {
     opacity: 1;
-    filter: blur(0);
   }
   100% {
     opacity: 1;
-    letter-spacing: 0.14em;
-    margin-right: -0.14em;
+    transform: none;
   }
 }
 @keyframes intro-sub {
@@ -371,17 +354,21 @@ html[data-intro-seen] .cine-intro {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   gap: 0.6rem;
   min-height: 3rem;
   padding: 0 1.5rem;
+  border: 0;
   border-radius: 999px;
+  font-size: 0.875rem;
+  white-space: nowrap;
   color: var(--night);
-  background: var(--amber);
+  background: var(--copper);
   font-weight: 650;
   letter-spacing: 0.01em;
   box-shadow:
-    0 0 0 1px rgba(255, 186, 72, 0.4),
-    0 14px 44px -12px rgba(255, 164, 0, 0.6);
+    0 0 0 1px rgba(181, 136, 99, 0.4),
+    0 14px 44px -12px rgba(181, 136, 99, 0.6);
   transition:
     transform var(--motion-base) var(--ease-farda),
     box-shadow var(--motion-base) var(--ease-farda);
@@ -403,7 +390,12 @@ html[data-intro-seen] .cine-intro {
 .farda-button svg {
   transition: transform var(--motion-base) var(--ease-farda);
 }
+.farda-button-lg {
+  min-height: 3.25rem;
+}
 .farda-button-icon {
+  width: 2.75rem;
+  height: 2.75rem;
   min-height: 0;
   padding: 0;
   color: var(--cream);
@@ -422,8 +414,8 @@ html[data-intro-seen] .cine-intro {
   .farda-button:hover {
     transform: translateY(-2px);
     box-shadow:
-      0 0 0 1px rgba(255, 186, 72, 0.7),
-      0 22px 60px -14px rgba(255, 164, 0, 0.85);
+      0 0 0 1px rgba(181, 136, 99, 0.7),
+      0 22px 60px -14px rgba(181, 136, 99, 0.85);
   }
   .farda-button:hover::after {
     transform: translateX(120%);
@@ -453,7 +445,6 @@ html[data-intro-seen] .cine-intro {
   left: 0;
   padding: 1rem clamp(1rem, 2.5vw, 2rem);
   color: var(--cream);
-  transition: padding var(--motion-base) var(--ease-farda);
 }
 .nav-shell {
   position: relative;
@@ -471,12 +462,10 @@ html[data-intro-seen] .cine-intro {
 }
 .site-header[data-scrolled="true"] .nav-shell,
 .site-header[data-menu-open="true"] .nav-shell {
-  background: rgba(16, 10, 9, 0.72);
+  background: rgba(16, 35, 42, 0.9);
   box-shadow:
     inset 0 0 0 1px var(--cream-10),
     0 20px 60px -20px rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
 .wordmark {
   font-size: 1.15rem;
@@ -502,8 +491,8 @@ html[data-intro-seen] .cine-intro {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--amber);
-  box-shadow: 0 0 12px var(--amber);
+  background: var(--copper);
+  box-shadow: 0 0 12px var(--copper);
   animation: pulse-dot 2.4s ease-in-out infinite;
 }
 .nav-chapter-text {
@@ -535,7 +524,7 @@ html[data-intro-seen] .cine-intro {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--amber);
+  background: var(--copper);
   transform: translateX(-50%) scale(0);
   transition: transform var(--motion-base) var(--ease-spring);
 }
@@ -565,7 +554,7 @@ html[data-intro-seen] .cine-intro {
   width: 100%;
   height: 2px;
   background: var(--dawn-gradient);
-  box-shadow: 0 0 14px rgba(255, 164, 0, 0.7);
+  box-shadow: 0 0 14px rgba(181, 136, 99, 0.7);
   transform-origin: left;
   transform: scaleX(var(--journey, 0));
 }
@@ -633,8 +622,8 @@ html[data-intro-seen] .cine-intro {
 }
 .chapter-rail-item[data-active="true"] .chapter-rail-number {
   color: var(--night);
-  background: var(--amber);
-  box-shadow: 0 0 22px rgba(255, 164, 0, 0.6);
+  background: var(--copper);
+  box-shadow: 0 0 22px rgba(181, 136, 99, 0.6);
   transform: scale(1.08);
 }
 .chapter-rail-item:focus-visible .chapter-rail-label {
@@ -661,7 +650,6 @@ html[data-intro-seen] .cine-intro {
   from {
     opacity: 0;
     transform: translateY(70%);
-    filter: blur(4px);
   }
 }
 
@@ -675,7 +663,7 @@ html[data-intro-seen] .cine-intro {
   opacity: 0;
 }
 .motion-ready .reveal.is-visible {
-  animation: reveal-in 1.2s var(--ease-farda) backwards;
+  animation: reveal-in 1.4s var(--ease-farda) backwards;
   animation-delay: calc(var(--slot, 0) * 140ms);
 }
 .motion-ready .reveal-late.is-visible {
@@ -684,9 +672,7 @@ html[data-intro-seen] .cine-intro {
 @keyframes reveal-in {
   from {
     opacity: 0;
-    translate: 0 70px;
-    scale: 0.94;
-    filter: blur(8px);
+    translate: 0 48px;
   }
 }
 
@@ -706,12 +692,10 @@ html[data-intro-seen] .cine-intro {
   translate: 0 110%;
 }
 
-/* Elements fly in from depth and recede as they leave the reading zone. */
+/* Elements float gently into place and soften as they leave the reading zone. */
 .journey-ready [data-depth] {
-  transform: perspective(1200px)
-    translate3d(0, calc(var(--d, 0) * var(--depth-y)), calc(var(--ad, 0) * var(--depth-z) * -1))
-    rotateX(calc(var(--d, 0) * var(--depth-tilt) * -1));
-  opacity: max(0, calc(1 - var(--ad, 0) * 0.85));
+  transform: translate3d(0, calc(var(--d, 0) * var(--depth-y)), 0);
+  opacity: max(0, calc(1 - var(--ad, 0) * 0.7));
   will-change: transform, opacity;
 }
 
@@ -719,10 +703,23 @@ html[data-intro-seen] .cine-intro {
    Hero — pinned; the title splits apart while the video folds into a portal
    ========================================================================== */
 
+/* Its own stacking layer, below the next chapter: nothing in the hero (the 3D title, the copy)
+   can ever paint over the content rising over it. */
 .hero {
   position: relative;
-  height: 240vh;
-  height: 240svh;
+  z-index: 0;
+  isolation: isolate;
+  height: 290vh;
+  height: 290svh;
+}
+/* The first chapter rises over the end of the pinned hero instead of waiting below it, so
+   there is no empty stretch between the hero's last dust and the next content. */
+.hero + .chapter {
+  position: relative;
+  z-index: 1;
+  margin-top: -90vh;
+  margin-top: -90svh;
+  padding-top: clamp(3rem, 6vw, 5rem);
 }
 .hero-stage {
   position: sticky;
@@ -734,36 +731,54 @@ html[data-intro-seen] .cine-intro {
   overflow: hidden;
   perspective: 900px;
 }
-.hero-portal {
+/* The 3D scene: the title rebuilt in WebGL blocks that blow away as the hero scrolls
+   (hero-title-3d.tsx), over a warm core of light. */
+.hero-scene {
   position: absolute;
   inset: 0;
-  overflow: hidden;
-  clip-path: inset(
-    calc(var(--pin, 0) * 26%) calc(var(--pin, 0) * 32%) round calc(var(--pin, 0) * 48px)
-  );
-  opacity: calc(1 - max(0, var(--pin, 0) - 0.5) * 2.2);
-  box-shadow: 0 0 0 1px var(--cream-16);
+  pointer-events: none;
 }
-.hero-video {
+.hero-canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transform: scale(calc(1.08 + var(--pin, 0) * 0.55))
-    translate3d(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -10px), 0);
-  will-change: transform;
 }
-.hero-portal-scrim {
+/* With the WebGL title running, the DOM title keeps its place and its CSS motion is switched
+   off: its box is what the blocks are measured from. hero-title-3d.tsx fades it out while the
+   blocks move. */
+.hero[data-gl-title] .hero-copy,
+.hero[data-gl-title] .hero-word,
+.hero[data-gl-title] .hero-word > span {
+  transform: none;
+  translate: none;
+  animation: none;
+}
+/* The warm core light behind the title; it brightens as the letters blow away. */
+.hero-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(90vmin, 900px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(181, 136, 99, 0.42) 0%,
+    rgba(167, 158, 156, 0.16) 30%,
+    rgba(61, 77, 85, 0.06) 50%,
+    transparent 70%
+  );
+  opacity: calc(0.35 + var(--pin, 0) * 0.9);
+  transform: translate(-50%, -50%) scale(calc(0.7 + var(--pin, 0) * 0.8));
+  will-change: transform, opacity;
+}
+.hero-scrim {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(90% 70% at 50% 50%, transparent 30%, rgba(12, 8, 7, 0.65) 100%),
-    linear-gradient(
-      180deg,
-      rgba(12, 8, 7, 0.45) 0%,
-      transparent 30%,
-      transparent 55%,
-      var(--night) 100%
-    );
+    radial-gradient(90% 70% at 50% 50%, transparent 40%, rgba(16, 35, 42, 0.55) 100%),
+    linear-gradient(180deg, transparent 0%, transparent 65%, var(--night) 100%);
 }
 
 .hero-hud {
@@ -823,8 +838,8 @@ html[data-intro-seen] .cine-intro {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #ff4b3a;
-  box-shadow: 0 0 10px #ff4b3a;
+  background: #b58863;
+  box-shadow: 0 0 10px #b58863;
   animation: pulse-dot 1.6s ease-in-out infinite;
 }
 
@@ -839,8 +854,7 @@ html[data-intro-seen] .cine-intro {
   padding-inline: 1rem;
   text-align: center;
   transform-style: preserve-3d;
-  transform: translate3d(calc(var(--mx, 0) * -14px), calc(var(--my, 0) * -10px), 0)
-    translateZ(calc(var(--pin, 0) * 260px));
+  transform: translateZ(calc(var(--pin, 0) * 260px));
 }
 .hero-kicker,
 .hero-support,
@@ -852,7 +866,7 @@ html[data-intro-seen] .cine-intro {
   font-size: 0.75rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--copper);
 }
 .hero-title {
   display: grid;
@@ -891,13 +905,12 @@ html[data-intro-seen] .cine-intro {
 }
 .hero-word-b > span {
   background: var(--dawn-gradient);
-  background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 10px 50px rgba(255, 140, 0, 0.35));
 }
 .hero-support {
+  text-shadow: 0 2px 18px rgba(16, 35, 42, 0.9);
   max-width: 34rem;
   font-size: clamp(1rem, 1.4vw, 1.2rem);
   line-height: 1.55;
@@ -935,14 +948,14 @@ html[data-intro-seen] .cine-intro {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent, var(--amber));
+  background: linear-gradient(transparent, var(--copper));
   animation: cue-fall 2s var(--ease-cine) infinite;
 }
 
 /* Entry choreography: waits for the intro on a first visit. */
 .hero-enter {
   animation: hero-enter 1.3s var(--ease-farda) both;
-  animation-delay: calc(1.55s + var(--enter, 0) * 120ms);
+  animation-delay: calc(0.85s + var(--enter, 0) * 100ms);
 }
 html[data-intro-seen] .hero-enter {
   animation-delay: calc(0.15s + var(--enter, 0) * 120ms);
@@ -951,34 +964,17 @@ html[data-intro-seen] .hero-enter {
   animation-name: hero-word-enter;
   animation-duration: 1.6s;
 }
-/* TOMORROW also keeps its dawn gradient drifting once it has arrived. */
-.hero-word-b .hero-enter {
-  animation:
-    hero-word-enter 1.6s var(--ease-farda) both,
-    dawn-shift 9s ease-in-out infinite alternate;
-  animation-delay: calc(1.55s + var(--enter, 0) * 120ms), 0s;
-}
-html[data-intro-seen] .hero-word-b .hero-enter {
-  animation-delay: calc(0.15s + var(--enter, 0) * 120ms), 0s;
-}
 
 @keyframes hero-enter {
   from {
     opacity: 0;
     transform: translateY(30px);
-    filter: blur(10px);
   }
 }
 @keyframes hero-word-enter {
   from {
     opacity: 0;
     transform: translateZ(-600px) translateY(10%) scaleX(1.25);
-    filter: blur(18px);
-  }
-}
-@keyframes dawn-shift {
-  to {
-    background-position: 100% 0;
   }
 }
 @keyframes cue-fall {
@@ -1010,7 +1006,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   text-transform: uppercase;
 }
 .chapter-mark-number {
-  color: var(--amber);
+  color: var(--copper);
 }
 .chapter-mark-label {
   color: var(--cream-68);
@@ -1026,7 +1022,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, var(--amber), transparent);
+  background: linear-gradient(90deg, transparent, var(--copper), transparent);
   animation: line-scan 3.2s var(--ease-cine) infinite;
 }
 @keyframes line-scan {
@@ -1075,7 +1071,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   border-radius: inherit;
   background: radial-gradient(
     circle at var(--gx, 50%) var(--gy, 50%),
-    rgba(255, 236, 200, 0.16),
+    rgba(232, 222, 215, 0.16),
     transparent 46%
   );
   opacity: 0;
@@ -1115,19 +1111,19 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   overflow: hidden;
   border-radius: var(--radius-card);
   background:
-    linear-gradient(160deg, rgba(255, 246, 218, 0.07), rgba(255, 246, 218, 0.015) 50%), var(--panel);
+    linear-gradient(160deg, rgba(232, 222, 215, 0.07), rgba(232, 222, 215, 0.015) 50%), var(--panel);
   box-shadow:
     inset 0 0 0 1px var(--panel-line),
     0 40px 80px -40px rgba(0, 0, 0, 0.8);
 }
 .package-card-featured {
   background:
-    radial-gradient(120% 80% at 100% 0%, rgba(255, 164, 0, 0.18), transparent 55%),
-    linear-gradient(160deg, rgba(255, 246, 218, 0.08), rgba(255, 246, 218, 0.015) 50%),
+    radial-gradient(120% 80% at 100% 0%, rgba(181, 136, 99, 0.18), transparent 55%),
+    linear-gradient(160deg, rgba(232, 222, 215, 0.08), rgba(232, 222, 215, 0.015) 50%),
     var(--panel-strong);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 164, 0, 0.42),
-    0 0 80px -30px rgba(255, 164, 0, 0.55),
+    inset 0 0 0 1px rgba(181, 136, 99, 0.42),
+    0 0 80px -30px rgba(181, 136, 99, 0.55),
     0 40px 80px -40px rgba(0, 0, 0, 0.8);
 }
 .package-number-mark {
@@ -1155,9 +1151,9 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   width: 2.9rem;
   height: 2.9rem;
   border-radius: 50%;
-  color: var(--amber);
-  background: rgba(255, 164, 0, 0.1);
-  box-shadow: inset 0 0 0 1px rgba(255, 164, 0, 0.3);
+  color: var(--copper);
+  background: rgba(181, 136, 99, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(181, 136, 99, 0.3);
 }
 .package-status {
   padding: 0.45rem 0.85rem;
@@ -1171,8 +1167,8 @@ html[data-intro-seen] .hero-word-b .hero-enter {
 }
 .package-status-featured {
   color: var(--night);
-  background: var(--amber);
-  box-shadow: 0 0 24px rgba(255, 164, 0, 0.5);
+  background: var(--copper);
+  box-shadow: 0 0 24px rgba(181, 136, 99, 0.5);
 }
 .package-content {
   position: relative;
@@ -1241,7 +1237,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   inset: 0;
   border-radius: inherit;
   background: var(--dawn-gradient);
-  box-shadow: 0 0 12px rgba(255, 164, 0, 0.6);
+  box-shadow: 0 0 12px rgba(181, 136, 99, 0.6);
   transform-origin: left;
   transform: scaleX(calc(var(--metric-value) / 100));
   transition: transform 1.6s var(--ease-farda);
@@ -1261,7 +1257,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
 }
 .feature-list svg {
   flex: none;
-  color: var(--amber);
+  color: var(--copper);
 }
 
 /* ==========================================================================
@@ -1289,12 +1285,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   box-shadow:
     inset 0 0 0 1px var(--cream-16),
     0 60px 120px -50px rgba(0, 0, 0, 0.9);
-  transform: perspective(1400px) rotateX(var(--rx, 0deg))
-    rotateY(calc(var(--ry, 0deg) + var(--d, 0) * -22deg));
-}
-.destination-flip .destination-frame {
-  transform: perspective(1400px) rotateX(var(--rx, 0deg))
-    rotateY(calc(var(--ry, 0deg) + var(--d, 0) * 22deg));
+  transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
 }
 .destination-image {
   position: absolute;
@@ -1306,14 +1297,28 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 50%, rgba(12, 8, 7, 0.75) 100%);
+  background: linear-gradient(180deg, transparent 50%, rgba(16, 35, 42, 0.75) 100%);
 }
+/* Parallax (translate) follows the scroll directly and is never transitioned, or it would lag
+   behind; only the zoom (scale) eases, for the reveal and the hover. */
 .destination-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.12) translateY(calc(var(--d, 0) * -40px));
-  transition: transform 1.2s var(--ease-farda);
+  translate: 0 calc(var(--d, 0) * -40px);
+  scale: 1.12;
+  transition: scale 1.2s var(--ease-farda);
+}
+/* Images fade in and settle out of a slow zoom. */
+.motion-ready .reveal .destination-image {
+  opacity: 0;
+  transition: opacity 1.2s var(--ease-farda) 0.15s;
+}
+.motion-ready .reveal:not(.is-visible) .destination-image img {
+  scale: 1.24;
+}
+.motion-ready .reveal.is-visible .destination-image {
+  opacity: 1;
 }
 .destination-frame-hud {
   position: absolute;
@@ -1342,14 +1347,14 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   font-stretch: 125%;
   line-height: 0.8;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 164, 0, 0.5);
+  -webkit-text-stroke: 1px rgba(181, 136, 99, 0.5);
 }
 .case-meta {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--copper);
 }
 .destination-title {
   font-size: clamp(2rem, 4vw, 3.6rem);
@@ -1370,7 +1375,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   margin-top: 0.5rem;
   padding-bottom: 0.3rem;
   font-weight: 600;
-  background: linear-gradient(var(--amber), var(--amber)) left bottom / 30% 1px no-repeat;
+  background: linear-gradient(var(--copper), var(--copper)) left bottom / 30% 1px no-repeat;
   transition: background-size 0.6s var(--ease-farda);
 }
 .destination-action svg {
@@ -1382,7 +1387,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
 }
 @media (hover: hover) {
   .destination:hover .destination-image img {
-    transform: scale(1.04);
+    scale: 1.04;
   }
   .destination:hover .destination-action {
     background-size: 100% 1px;
@@ -1409,7 +1414,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   padding: clamp(1.5rem, 2.6vw, 2.25rem);
   overflow: hidden;
   border-radius: var(--radius-card);
-  background: linear-gradient(170deg, rgba(255, 246, 218, 0.06), transparent 60%), var(--panel);
+  background: linear-gradient(170deg, rgba(232, 222, 215, 0.06), transparent 60%), var(--panel);
   box-shadow: inset 0 0 0 1px var(--panel-line);
 }
 .why-pillar-index {
@@ -1428,11 +1433,11 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   height: 3rem;
   margin-bottom: 1rem;
   border-radius: 50%;
-  color: var(--amber);
-  background: rgba(255, 164, 0, 0.1);
+  color: var(--copper);
+  background: rgba(181, 136, 99, 0.1);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 164, 0, 0.3),
-    0 0 30px -6px rgba(255, 164, 0, 0.4);
+    inset 0 0 0 1px rgba(181, 136, 99, 0.3),
+    0 0 30px -6px rgba(181, 136, 99, 0.4);
 }
 .why-pillar h3 {
   font-size: 1.4rem;
@@ -1445,9 +1450,20 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   color: var(--cream-68);
 }
 
+/* Registered so the scroll-driven value can be transitioned: the line then eases after the
+   scroll instead of jumping with every wheel notch. Its initial value (1) keeps the route fully
+   drawn when the scroll engine doesn't run (reduced motion). */
+@property --progress {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+/* The line draws across about half a screen of scrolling: from the route entering the screen
+   until it reaches the upper part of it. */
 .route {
-  --fill: clamp(0, calc((var(--progress, 1) - 0.18) * 2), 1);
+  --fill: clamp(0, calc((var(--progress) - 0.06) * 1.1), 1);
   position: relative;
+  transition: --progress 1.6s cubic-bezier(0.3, 0.1, 0.3, 1);
   margin-top: clamp(5rem, 10vw, 8rem);
 }
 .route-label {
@@ -1470,21 +1486,28 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   position: absolute;
   inset: 0;
   background: var(--dawn-gradient);
-  box-shadow: 0 0 14px rgba(255, 164, 0, 0.8);
+  box-shadow: 0 0 14px rgba(181, 136, 99, 0.8);
   transform-origin: left;
   transform: scaleX(var(--fill));
+}
+/* The track spans the whole line, so translating it by --fill × its own size moves the dot
+   along the line on the GPU, without re-running layout every frame. */
+.route-ship-track {
+  position: absolute;
+  inset: 0;
+  transform: translateX(calc(var(--fill) * 100%));
 }
 .route-ship {
   position: absolute;
   top: 50%;
-  left: calc(var(--fill) * 100%);
+  left: 0;
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background: var(--cream);
   box-shadow:
-    0 0 0 4px rgba(255, 164, 0, 0.25),
-    0 0 24px 4px var(--amber);
+    0 0 0 4px rgba(181, 136, 99, 0.25),
+    0 0 24px 4px var(--copper);
   transform: translate(-50%, -50%);
 }
 .route-steps {
@@ -1497,8 +1520,9 @@ html[data-intro-seen] .hero-word-b .hero-enter {
 }
 .route-step {
   --pos: calc(var(--step) / (var(--steps) - 1));
-  --lit: clamp(0, calc((var(--fill) - var(--pos)) * 12 + 1), 1);
+  --lit: clamp(0, calc((var(--fill) - var(--pos)) * 6 + 1), 1);
   display: grid;
+  align-content: start;
   justify-items: center;
   gap: 0.6rem;
   text-align: center;
@@ -1522,10 +1546,10 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: var(--amber);
-  box-shadow: 0 0 34px rgba(255, 164, 0, 0.7);
+  background: var(--copper);
+  box-shadow: 0 0 34px rgba(181, 136, 99, 0.7);
   opacity: var(--lit);
-  transform: scale(calc(0.4 + var(--lit) * 0.6));
+  transform: scale(calc(0.6 + var(--lit) * 0.4));
 }
 .route-node svg {
   position: relative;
@@ -1536,7 +1560,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.16em;
-  color: var(--amber);
+  color: var(--copper);
 }
 .route-step strong {
   font-size: 1.2rem;
@@ -1575,7 +1599,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   object-fit: cover;
   box-shadow:
     0 0 0 2px var(--night),
-    0 0 0 3px var(--amber);
+    0 0 0 3px var(--copper);
 }
 .why-trust > span {
   display: grid;
@@ -1645,7 +1669,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   width: fit-content;
   font-size: 1.15rem;
   font-weight: 600;
-  background: linear-gradient(var(--amber), var(--amber)) left bottom / 100% 1px no-repeat;
+  background: linear-gradient(var(--copper), var(--copper)) left bottom / 100% 1px no-repeat;
   padding-bottom: 0.15rem;
 }
 .footer-label {
@@ -1662,8 +1686,8 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   border-radius: calc(var(--radius-card) + 6px);
   background: var(--panel-strong);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 164, 0, 0.28),
-    0 0 120px -30px rgba(255, 164, 0, 0.45),
+    inset 0 0 0 1px rgba(181, 136, 99, 0.28),
+    0 0 120px -30px rgba(181, 136, 99, 0.45),
     0 60px 120px -50px rgba(0, 0, 0, 0.9);
 }
 .calendar-heading {
@@ -1691,7 +1715,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   min-height: 520px;
   overflow: hidden;
   border-radius: var(--radius-card);
-  background: #101010;
+  background: #10232a;
 }
 .calendar-frame iframe {
   width: 100%;
@@ -1726,7 +1750,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   height: 2.25rem;
   border-radius: 50%;
   border: 2px solid var(--cream-16);
-  border-top-color: var(--amber);
+  border-top-color: var(--copper);
   animation: spin 0.9s linear infinite;
 }
 .calendar-fallback {
@@ -1740,7 +1764,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
 @media (hover: hover) {
   .calendar-fallback:hover,
   .booking-contact-meta a:hover {
-    color: var(--amber);
+    color: var(--copper);
   }
 }
 @keyframes spin {
@@ -1793,7 +1817,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   .footer-contact a:hover,
   .footer-links a:hover,
   .footer-bottom a:hover {
-    color: var(--amber);
+    color: var(--copper);
   }
 }
 .footer-wordmark {
@@ -1808,7 +1832,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   background: linear-gradient(
     180deg,
     var(--cream) 0%,
-    rgba(255, 246, 218, 0.4) 45%,
+    rgba(232, 222, 215, 0.4) 45%,
     transparent 92%
   );
   -webkit-background-clip: text;
@@ -1816,7 +1840,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   color: transparent;
 }
 .footer-wordmark .text-primary {
-  -webkit-text-fill-color: var(--amber);
+  -webkit-text-fill-color: var(--copper);
 }
 .footer-bottom {
   display: flex;
@@ -1915,8 +1939,8 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   font-stretch: 125%;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 164, 0, 0.22);
-  transform: translate3d(calc(var(--mx, 0) * -24px), calc(-50% + var(--my, 0) * -16px), 0);
+  -webkit-text-stroke: 1px rgba(181, 136, 99, 0.22);
+  transform: translateY(-50%);
   pointer-events: none;
   user-select: none;
   animation: numeral-in 2s var(--ease-farda) both;
@@ -1924,8 +1948,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
 @keyframes numeral-in {
   from {
     opacity: 0;
-    filter: blur(20px);
-    letter-spacing: 0.3em;
+    scale: 1.2;
   }
 }
 
@@ -1948,11 +1971,22 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   box-shadow:
     inset 0 0 0 1px var(--cream-16),
     0 60px 120px -50px rgba(0, 0, 0, 0.9),
-    0 0 100px -40px rgba(255, 164, 0, 0.4);
+    0 0 100px -40px rgba(181, 136, 99, 0.4);
 }
 .case-visual-frame img {
   width: 100%;
   height: auto;
+}
+.motion-ready .case-visual.reveal .case-visual-frame img {
+  opacity: 0;
+  scale: 1.12;
+  transition:
+    opacity 1.2s var(--ease-farda) 0.15s,
+    scale 2.4s var(--ease-farda) 0.15s;
+}
+.motion-ready .case-visual.reveal.is-visible .case-visual-frame img {
+  opacity: 1;
+  scale: 1;
 }
 .case-copy {
   display: grid;
@@ -1963,7 +1997,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   font-size: 0.72rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--copper);
 }
 .case-copy h2 {
   font-size: clamp(2rem, 3.6vw, 3.2rem);
@@ -1989,8 +2023,8 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   border-radius: 999px;
   font-weight: 600;
   color: var(--night);
-  background: var(--amber);
-  box-shadow: 0 14px 44px -12px rgba(255, 164, 0, 0.6);
+  background: var(--copper);
+  box-shadow: 0 14px 44px -12px rgba(181, 136, 99, 0.6);
   transition: transform var(--motion-base) var(--ease-farda);
 }
 @media (hover: hover) {
@@ -2014,7 +2048,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   border-radius: calc(var(--radius-card) * 1.5);
   text-align: center;
   background:
-    radial-gradient(70% 90% at 50% 120%, rgba(255, 164, 0, 0.25), transparent 70%), var(--panel);
+    radial-gradient(70% 90% at 50% 120%, rgba(181, 136, 99, 0.25), transparent 70%), var(--panel);
   box-shadow: inset 0 0 0 1px var(--panel-line);
 }
 .case-next-label {
@@ -2037,7 +2071,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   letter-spacing: -0.035em;
 }
 .case-next-title svg {
-  color: var(--amber);
+  color: var(--copper);
   transition: transform 0.7s var(--ease-farda);
 }
 @media (hover: hover) {
@@ -2146,14 +2180,12 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   to {
     opacity: 0;
     transform: scale(1.15);
-    filter: blur(14px);
   }
 }
 @keyframes vt-in {
   from {
     opacity: 0;
     transform: scale(0.86);
-    filter: blur(14px);
   }
 }
 
@@ -2184,9 +2216,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
 
 @media (max-width: 800px) {
   :root {
-    --depth-y: 50px;
-    --depth-z: 220px;
-    --depth-tilt: 8deg;
+    --depth-y: 36px;
     --radius-card: 22px;
   }
 
@@ -2212,24 +2242,23 @@ html[data-intro-seen] .hero-word-b .hero-enter {
     align-content: center;
     gap: 0.5rem;
     padding: 6rem 1.5rem 2rem;
-    background: rgba(10, 6, 5, 0.94);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    background: #10232a;
+    /* Fade + slide on the GPU; a full-screen clip-path would repaint every frame on phones. */
     opacity: 0;
     visibility: hidden;
-    clip-path: circle(0% at calc(100% - 2.5rem) 2.5rem);
+    transform: translate3d(0, -1.5rem, 0);
     transition:
-      clip-path 0.8s var(--ease-cine),
-      opacity 0.4s ease,
-      visibility 0s linear 0.8s;
+      opacity 0.4s var(--ease-farda),
+      transform 0.5s var(--ease-farda),
+      visibility 0s linear 0.5s;
   }
   .mobile-navigation[data-open="true"] {
     opacity: 1;
     visibility: visible;
-    clip-path: circle(150% at calc(100% - 2.5rem) 2.5rem);
+    transform: none;
     transition:
-      clip-path 0.9s var(--ease-cine),
-      opacity 0.2s ease;
+      opacity 0.45s var(--ease-farda),
+      transform 0.6s var(--ease-farda);
   }
   .mobile-nav-link {
     display: flex;
@@ -2253,7 +2282,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
     font-family: var(--font-mono);
     font-size: 0.75rem;
     letter-spacing: 0.16em;
-    color: var(--amber);
+    color: var(--copper);
   }
   .mobile-nav-label {
     font-size: clamp(2.2rem, 11vw, 3.4rem);
@@ -2263,8 +2292,13 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   }
 
   .hero {
-    height: 200vh;
-    height: 200svh;
+    height: 260vh;
+    height: 260svh;
+  }
+  /* Phones: a smaller overlap; the destruction still spans about one screen of scrolling. */
+  .hero + .chapter {
+    margin-top: -70vh;
+    margin-top: -70svh;
   }
   .hero-hud-tr,
   .hero-hud-br {
@@ -2320,8 +2354,11 @@ html[data-intro-seen] .hero-word-b .hero-enter {
     transform-origin: top;
     transform: scaleY(var(--fill));
   }
+  .route-ship-track {
+    transform: translateY(calc(var(--fill) * 100%));
+  }
   .route-ship {
-    top: calc(var(--fill) * 100%);
+    top: 0;
     left: 50%;
   }
   .route-steps {
@@ -2400,8 +2437,7 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   html {
     scroll-behavior: auto;
   }
-  .cine-intro,
-  .journey-grain {
+  .cine-intro {
     display: none;
   }
   .hero {
@@ -2409,6 +2445,11 @@ html[data-intro-seen] .hero-word-b .hero-enter {
   }
   .hero-stage {
     position: relative;
+  }
+  /* The hero isn't pinned here, so the next chapter follows it instead of overlapping. */
+  .hero + .chapter {
+    margin-top: 0;
+    padding-top: clamp(6rem, 13vw, 11rem);
   }
   *,
   *::before,

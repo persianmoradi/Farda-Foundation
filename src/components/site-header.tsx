@@ -2,9 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 
-import { Button } from "@/components/ui/button";
-
-export const SECTIONS = [
+const SECTIONS = [
   { id: "services", label: "Services", chapter: "01" },
   { id: "cases", label: "Cases", chapter: "02" },
   { id: "about", label: "Hvorfor FARDA", chapter: "03" },
@@ -108,7 +106,7 @@ export function SiteHeader({ isHome = false }: SiteHeaderProps) {
   return (
     <>
       <header className="site-header" data-scrolled={scrolled} data-menu-open={menuOpen}>
-        <span className="scroll-progress" aria-hidden="true" />
+        <span className="scroll-progress" aria-hidden="true" data-journey />
         <div className="nav-shell">
           {isHome ? (
             <a href="#top" className="wordmark" aria-label="FARDA forside">
@@ -144,17 +142,16 @@ export function SiteHeader({ isHome = false }: SiteHeaderProps) {
               </NavItem>
             ))}
           </nav>
-          <Button
-            variant="icon"
-            size="icon"
-            className="mobile-menu-toggle"
+          <button
+            type="button"
+            className="farda-button farda-button-icon mobile-menu-toggle"
             onClick={() => setMenuOpen((open) => !open)}
             aria-label={menuOpen ? "Luk menu" : "Åbn menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
           >
             {menuOpen ? <X size={19} /> : <Menu size={19} />}
-          </Button>
+          </button>
         </div>
         <nav
           id="mobile-navigation"

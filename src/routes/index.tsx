@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useLocation, useNavigate } from "@tanstack/react-router";
 import {
   ArrowRight,
   Check,
@@ -12,12 +12,11 @@ import {
   TrendingUp,
   Zap,
 } from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
+import { useEffect, useState, type CSSProperties, type MouseEvent } from "react";
 
-import heroAnimation from "@/assets/hero-vid.mp4";
-import pmPic from "@/assets/pm-pic.jpg";
+import pmPic from "@/assets/pm-pic.webp";
 import { ChapterMark, Lines } from "@/components/chapter";
-import { Button } from "@/components/ui/button";
+import { HeroTitle3D } from "@/components/hero-title-3d";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { cases } from "@/data/cases";
@@ -133,43 +132,23 @@ const processSteps = [
   { icon: Rocket, label: "Lancering", description: "Live, testet og klar til at skalere." },
 ];
 function Index() {
-  const heroRef = useRef<HTMLElement>(null);
-  const heroVideoRef = useRef<HTMLVideoElement>(null);
   const [calendarLoaded, setCalendarLoaded] = useState(false);
 
   useScrollReveal();
   useJourney();
 
+  // Links like "Tilbage til cases" arrive as /#cases. Once the router has scrolled there, tidy
+  // the address back to / so the hash doesn't linger (or send a later refresh back there).
+  const hash = useLocation({ select: (location) => location.hash });
+  const navigate = useNavigate();
   useEffect(() => {
-    const hero = heroRef.current;
-    const video = heroVideoRef.current;
-    if (!hero || !video) return;
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePlayback = (visible: boolean) => {
-      if (reducedMotion.matches || !visible || document.hidden) {
-        video.pause();
-        return;
-      }
-      void video.play().catch(() => undefined);
-    };
-    const observer = new IntersectionObserver(
-      ([entry]) => updatePlayback(Boolean(entry?.isIntersecting)),
-      { threshold: 0.05 },
+    if (!hash) return;
+    const timer = window.setTimeout(
+      () => void navigate({ to: "/", replace: true, resetScroll: false }),
+      1200,
     );
-    const onVisibilityChange = () => updatePlayback(hero.getBoundingClientRect().bottom > 0);
-
-    observer.observe(hero);
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    reducedMotion.addEventListener("change", onVisibilityChange);
-    updatePlayback(true);
-
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-      reducedMotion.removeEventListener("change", onVisibilityChange);
-    };
-  }, []);
+    return () => window.clearTimeout(timer);
+  }, [hash, navigate]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setCalendarLoaded(true), 6000);
@@ -201,24 +180,12 @@ function Index() {
     <main id="main-content" className="site-shell" onClick={handleAnchorClick}>
       <SiteHeader isHome />
 
-      <section id="top" className="hero" ref={heroRef} data-pin>
+      <section id="top" className="hero" data-pin>
         <div className="hero-stage">
-          <div className="hero-portal" aria-hidden="true">
-            <video
-              ref={heroVideoRef}
-              className="hero-video"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              aria-hidden="true"
-              width={1920}
-              height={1080}
-            >
-              <source src={heroAnimation} type="video/mp4" />
-            </video>
-            <span className="hero-portal-scrim" />
+          <div className="hero-scene" aria-hidden="true">
+            <span className="hero-core" />
+            <span className="hero-scrim" />
+            <HeroTitle3D />
           </div>
 
           <div className="hero-hud" aria-hidden="true">
@@ -250,14 +217,12 @@ function Index() {
               Vi skaber distinkte digitale oplevelser for virksomheder med noget på spil.
             </p>
             <div className="hero-enter" style={{ "--enter": 4 } as CSSProperties}>
-              <Button asChild variant="primary" size="lg" className="hero-cta">
-                <a href="#booking">
-                  <span>Book en samtale</span>
-                  <span className="hero-cta-arrow">
-                    <ArrowRight size={18} />
-                  </span>
-                </a>
-              </Button>
+              <a href="#booking" className="farda-button farda-button-lg hero-cta">
+                <span>Book en samtale</span>
+                <span className="hero-cta-arrow">
+                  <ArrowRight size={18} />
+                </span>
+              </a>
             </div>
           </div>
 
@@ -358,7 +323,7 @@ function Index() {
             >
               <span className="destination-frame" data-tilt="5">
                 <span className="destination-image">
-                  <img src={item.image} alt="" loading="lazy" decoding="async" />
+                  <img src={item.image} alt="" loading="lazy" decoding="async" data-parallax />
                 </span>
                 <span className="card-glare" aria-hidden="true" />
                 <span className="destination-frame-hud" aria-hidden="true">
@@ -422,7 +387,9 @@ function Index() {
           <p className="route-label">Ruten</p>
           <div className="route-line" aria-hidden="true">
             <span className="route-line-fill" />
-            <span className="route-ship" />
+            <span className="route-ship-track">
+              <span className="route-ship" />
+            </span>
           </div>
           <ol className="route-steps">
             {processSteps.map((step, index) => (
@@ -445,12 +412,10 @@ function Index() {
         </div>
 
         <div className="why-cta reveal" data-depth>
-          <Button asChild variant="primary" size="lg">
-            <a href="#booking">
-              <span>Book en samtale</span>
-              <ArrowRight size={17} />
-            </a>
-          </Button>
+          <a href="#booking" className="farda-button farda-button-lg">
+            <span>Book en samtale</span>
+            <ArrowRight size={17} />
+          </a>
           <div className="why-trust">
             <img
               src={pmPic}
