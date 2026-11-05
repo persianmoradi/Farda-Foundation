@@ -16,7 +16,7 @@ const CONTENT_SECURITY_POLICY = [
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: blob:",
   "media-src 'self' blob:",
-  "frame-src https://cal.com https://*.cal.com",
+  "frame-src 'none'",
   "connect-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",

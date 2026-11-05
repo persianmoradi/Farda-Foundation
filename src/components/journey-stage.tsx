@@ -1,30 +1,24 @@
-import { useRouter } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useRouter, useRouterState } from "@tanstack/react-router";
+import { Pause, Play } from "lucide-react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 
-import { useTilt } from "@/hooks/use-tilt";
+import { Cursor } from "@/components/cursor";
+import type { WorldMode } from "@/components/foundation-world";
+import { prefersReducedMotion } from "@/lib/journey";
+import { scrollToTarget, startSmoothScroll } from "@/lib/smooth-scroll";
 
-const INTRO_KEY = "farda-intro-seen";
+const FoundationWorld = lazy(() =>
+  import("@/components/foundation-world").then((m) => ({ default: m.FoundationWorld })),
+);
 
-function CinematicIntro() {
-  useEffect(() => {
-    try {
-      window.sessionStorage.setItem(INTRO_KEY, "1");
-    } catch {
-      // Storage can be unavailable (private mode); the intro simply plays again.
-    }
-  }, []);
-
-  return (
-    <div className="cine-intro" aria-hidden="true">
-      <span className="cine-intro-bar cine-intro-bar-top" />
-      <span className="cine-intro-bar cine-intro-bar-bottom" />
-      <div className="cine-intro-title">
-        <span className="cine-intro-mark">FARDA</span>
-        <span className="cine-intro-sub">Rejsen mod i morgen</span>
-      </div>
-    </div>
-  );
-}
+/** The build phases the world moves through, in the order of the home page. */
+export const PHASES = [
+  { number: "00", label: "I dag" },
+  { number: "01", label: "Strategi" },
+  { number: "02", label: "Design" },
+  { number: "03", label: "Udvikling" },
+  { number: "04", label: "Lancering" },
+] as const;
 
 /**
  * Runs before the router starts: a refresh always begins at the top of the page. It forgets the
@@ -34,12 +28,38 @@ function CinematicIntro() {
  */
 export const freshStartScript = `try{var n=performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"&&!window.__fardaFresh){window.__fardaFresh=1;history.scrollRestoration="manual";var k="tsr-scroll-restoration-v1_3",c=JSON.parse(sessionStorage.getItem(k)||"{}"),h=history.state,p=location.pathname+location.search;if(h)delete c[h.__TSR_key||h.key];sessionStorage.setItem(k,JSON.stringify(c));if(location.hash)history.replaceState(h,"",p)}}catch(e){}`;
 
-/** Runs before first paint so a returning visitor never sees the intro flash. */
-export const introGateScript = `try{if(sessionStorage.getItem("${INTRO_KEY}"))document.documentElement.dataset.introSeen=""}catch(e){}`;
+function modeFor(pathname: string): WorldMode {
+  if (pathname === "/") return { kind: "scroll" };
+  if (pathname.startsWith("/work")) return { kind: "rest", phase: 3.55, shift: 0.3 };
+  return { kind: "rest", phase: 1.2, shift: 0 };
+}
 
-/** The persistent backdrop every route travels through. Mounted once at the root. */
+/** The persistent world every route travels through. Mounted once at the root. */
 export function JourneyStage() {
-  useTilt();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const [mounted, setMounted] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [canMove, setCanMove] = useState(true);
+  const fillRef = useRef<HTMLSpanElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
+  const lastPhase = useRef(-1);
+
+  useEffect(() => {
+    setMounted(true);
+    setCanMove(!prefersReducedMotion());
+  }, []);
+
+  useEffect(() => startSmoothScroll(), []);
+
+  const onPhase = useCallback((t: number) => {
+    fillRef.current?.style.setProperty("--build", (t / 4).toFixed(4));
+    const index = Math.min(4, Math.round(t));
+    if (index !== lastPhase.current && labelRef.current) {
+      lastPhase.current = index;
+      const phase = PHASES[index]!;
+      labelRef.current.textContent = `${phase.number} ${phase.label}`;
+    }
+  }, []);
 
   // Opening a new page (a link, not back/forward) starts it at the top. The router resets the
   // scroll itself, but during the page transition the old layout is still settling and it can
@@ -48,12 +68,10 @@ export function JourneyStage() {
   useEffect(() => {
     let lastAction = "";
     const stopHistory = router.history.subscribe(({ action }) => (lastAction = action.type));
-    const toTop = () =>
-      window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    const toTop = () => window.requestAnimationFrame(() => scrollToTarget(0, true));
     const stopRendered = router.subscribe("onRendered", ({ toLocation }) => {
       if (lastAction === "PUSH" && !toLocation.hash) toTop();
     });
-    // Same for a refresh (flagged by freshStartScript), once the page has hydrated.
     const fresh = window as Window & { __fardaFresh?: number };
     if (fresh.__fardaFresh === 1) {
       fresh.__fardaFresh = 2;
@@ -67,14 +85,35 @@ export function JourneyStage() {
 
   return (
     <>
-      <div className="journey-sky" aria-hidden="true">
-        <span className="journey-nebula journey-nebula-a" />
-        <span className="journey-nebula journey-nebula-b" />
-        <span className="journey-dawn" data-journey />
-        <span className="journey-horizon" data-journey />
+      <div className="world-fallback" aria-hidden="true" />
+      {mounted && (
+        <Suspense fallback={null}>
+          <FoundationWorld mode={modeFor(pathname)} onPhase={onPhase} paused={paused} />
+        </Suspense>
+      )}
+      <div className="world-scrim" aria-hidden="true" />
+      {mounted && <Cursor />}
+
+      <div className="build-hud" hidden={pathname !== "/"}>
+        <span className="build-hud-text" aria-hidden="true">
+          <span className="build-hud-name">فردا</span>
+          <span ref={labelRef}>00 I dag</span>
+        </span>
+        <span className="build-hud-track" aria-hidden="true">
+          <span ref={fillRef} className="build-hud-fill" />
+        </span>
+        {canMove && (
+          <button
+            type="button"
+            className="build-hud-toggle"
+            onClick={() => setPaused((p) => !p)}
+            aria-label={paused ? "Start animationen" : "Sæt animationen på pause"}
+            aria-pressed={paused}
+          >
+            {paused ? <Play size={13} /> : <Pause size={13} />}
+          </button>
+        )}
       </div>
-      <div className="journey-vignette" aria-hidden="true" />
-      <CinematicIntro />
     </>
   );
 }

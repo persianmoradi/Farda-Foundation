@@ -10,7 +10,7 @@ import type { ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { NotFoundPage } from "../components/not-found-page";
-import { JourneyStage, freshStartScript, introGateScript } from "../components/journey-stage";
+import { JourneyStage, freshStartScript } from "../components/journey-stage";
 
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
@@ -52,8 +52,8 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "theme-color", content: "#10232a" },
-      { title: "FARDA — Digitalt studio" },
+      { name: "theme-color", content: "#081419" },
+      { title: "FARDA — Websites og webapps fra København" },
       { name: "description", content: "FARDA bygger digitale oplevelser med klar retning." },
       { name: "author", content: "FARDA" },
       { property: "og:title", content: "FARDA — Digitalt studio" },
@@ -67,14 +67,19 @@ export const Route = createRootRoute({
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap",
+      },
+      {
+        rel: "stylesheet",
+        // Only the four letters of فردا, for the world and the wordmark.
+        href: "https://fonts.googleapis.com/css2?family=Vazirmatn:wght@800&text=%D9%81%D8%B1%D8%AF%D8%A7&display=swap",
       },
       {
         rel: "stylesheet",
         href: appCss,
       },
     ],
-    scripts: [{ children: freshStartScript }, { children: introGateScript }],
+    scripts: [{ children: freshStartScript }],
   }),
   shellComponent: RootShell,
   component: RootComponent,

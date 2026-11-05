@@ -1,39 +1,24 @@
 import { createFileRoute, Link, useLocation, useNavigate } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  Check,
-  Code2,
-  Compass,
-  ExternalLink,
-  MessageCircle,
-  PenTool,
-  Rocket,
-  Sparkles,
-  TrendingUp,
-  Zap,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Copy, Mail } from "lucide-react";
 import { useEffect, useState, type CSSProperties, type MouseEvent } from "react";
 
 import pmPic from "@/assets/pm-pic.webp";
-import { ChapterMark, Lines } from "@/components/chapter";
-import { HeroTitle3D } from "@/components/hero-title-3d";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { cases } from "@/data/cases";
-import { useJourney } from "@/hooks/use-journey";
-import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { absoluteUrl } from "@/lib/seo";
+import { scrollToTarget } from "@/lib/smooth-scroll";
+
+const description =
+  "FARDA designer og koder hurtige websites og webapps for virksomheder. Fra 3.500 kr., direkte med udvikleren, fra København.";
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   name: "FARDA",
   url: absoluteUrl("/"),
-  description: "FARDA bygger hurtige, præcise digitale oplevelser for ambitiøse virksomheder.",
-  founder: {
-    "@type": "Person",
-    name: "Persian Moradi",
-  },
+  description,
+  founder: { "@type": "Person", name: "Persian Moradi" },
   areaServed: "DK",
   knowsLanguage: ["da", "en"],
 };
@@ -41,16 +26,10 @@ const organizationJsonLd = {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "FARDA — Build tomorrow" },
-      {
-        name: "description",
-        content: "FARDA bygger hurtige, præcise digitale oplevelser for ambitiøse virksomheder.",
-      },
-      { property: "og:title", content: "FARDA — Build tomorrow" },
-      {
-        property: "og:description",
-        content: "Et digitalt studio for virksomheder, der vil stå skarpere i morgen.",
-      },
+      { title: "FARDA — Websites og webapps fra København" },
+      { name: "description", content: description },
+      { property: "og:title", content: "FARDA — Websites og webapps fra København" },
+      { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { property: "og:url", content: absoluteUrl("/") },
       { name: "twitter:card", content: "summary" },
@@ -63,80 +42,125 @@ export const Route = createFileRoute("/")({
 
 const packages = [
   {
-    number: "01",
+    sheet: "A-01",
     title: "FARDA Essential",
-    price: "3.500 kr.",
-    description:
-      "For virksomheder, der ønsker en lynhurtig, moderne og fuldt professionel digital tilstedeværelse.",
-    features: ["3-4 sider", "Responsivt UI-design", "Grundlæggende SEO", "Performance-optimering"],
-    metrics: [
-      { label: "Leveringstid", value: 90 },
-      { label: "Design", value: 80 },
-      { label: "SEO", value: 65 },
-    ],
+    price: "3.500",
+    description: "En hurtig, moderne og professionel hjemmeside til virksomheder, der skal online.",
+    features: ["3–4 sider", "Responsivt UI-design", "Grundlæggende SEO", "Performance-optimering"],
     featured: false,
-    icon: Zap,
   },
   {
-    number: "02",
+    sheet: "A-02",
     title: "FARDA Advanced",
-    price: "8.000 kr.",
-    description:
-      "Kompleks digital løsning med skræddersyet UI/UX, interaktivitet og udvidet funktionalitet.",
+    price: "8.000",
+    description: "Skræddersyet UI/UX med interaktivitet og funktioner bygget til din forretning.",
     features: [
       "Alt fra Essential",
       "Udvidet sidetal",
       "Custom animationer",
       "Udvidet SEO",
-      "API / Maps-integrationer",
-    ],
-    metrics: [
-      { label: "Skræddersyet UX", value: 98 },
-      { label: "Interaktivitet", value: 92 },
-      { label: "Integrationer", value: 88 },
+      "API- og Maps-integrationer",
     ],
     featured: true,
-    icon: Sparkles,
   },
 ];
 
-const valuePillars = [
+const pillars = [
   {
-    icon: MessageCircle,
-    title: "Direkte linje",
-    description:
-      "Du taler direkte med den, der designer og koder din løsning — ingen account managers, ingen mellemled.",
+    title: "Taler direkte med udvikleren",
+    text: "Ingen account managers og ingen mellemled. Den, du taler med, er den, der bygger.",
   },
   {
-    icon: Zap,
-    title: "Hurtig levering",
-    description:
-      "En strømlinet proces og moderne værktøjer betyder uger fra idé til lancering — ikke måneder.",
+    title: "Lancerer på uger",
+    text: "En strømlinet proces og moderne værktøjer fra idé til lancering — ikke måneder.",
   },
   {
-    icon: TrendingUp,
-    title: "Bygget til at vokse",
-    description:
-      "Kode og arkitektur bygget som et fundament, din forretning kan vokse videre på — ikke en skabelon, du vokser fra.",
+    title: "Bygger kode, der kan vokse",
+    text: "Et fundament din forretning kan bygge videre på, ikke en skabelon du vokser fra.",
   },
 ];
 
-const processSteps = [
-  {
-    icon: Compass,
-    label: "Strategi",
-    description: "Vi kortlægger mål, målgruppe og de rigtige funktioner.",
-  },
-  { icon: PenTool, label: "Design", description: "Skarpt UI/UX, skræddersyet til din forretning." },
-  { icon: Code2, label: "Udvikling", description: "Solid, moderne kode bygget til performance." },
-  { icon: Rocket, label: "Lancering", description: "Live, testet og klar til at skalere." },
+const steps = [
+  { label: "Strategi", text: "Mål, målgruppe og de rigtige funktioner." },
+  { label: "Design", text: "UI og UX skræddersyet til din forretning." },
+  { label: "Udvikling", text: "Moderne kode bygget til performance." },
+  { label: "Lancering", text: "Live, testet og klar til at skalere." },
 ];
+
+function Eyebrow({ phase, label }: { phase: string; label: string }) {
+  return (
+    <p className="eyebrow">
+      <span className="eyebrow-phase">{phase}</span>
+      <span className="eyebrow-line" aria-hidden="true" />
+      <span>{label}</span>
+    </p>
+  );
+}
+
+const EMAIL = "farda0@protonmail.com";
+
+const contactSteps = [
+  { title: "Skriv din vision", text: "En mail om din idé, dine mål og din tidsplan." },
+  { title: "Svar inden for 24 timer", text: "Vi vender tilbage og foreslår et tidspunkt." },
+  { title: "Uforpligtende møde", text: "Vi taler løsningen igennem. Du beslutter bagefter." },
+];
+
+/** Opens the visitor's mail with a short outline, so the vision is easy to put into words. */
+const MAIL_HREF = `mailto:${EMAIL}?subject=${encodeURIComponent(
+  "Min vision",
+)}&body=${encodeURIComponent(
+  "Hej FARDA,\n\nMin vision:\n\n\nHvad skal løsningen kunne:\n\n\nHvornår skal den gerne være klar:\n\n\nHvornår passer det dig at mødes:\n",
+)}`;
+
+/** Lights the new building's windows while the visitor is about to write. */
+const glow = (on: boolean) => window.dispatchEvent(new CustomEvent("farda:glow", { detail: on }));
+
+function ContactActions() {
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    if (!copied) return;
+    const timer = window.setTimeout(() => setCopied(false), 2200);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+    } catch {
+      window.location.href = `mailto:${EMAIL}`;
+    }
+  };
+
+  const glowProps = {
+    onPointerEnter: () => glow(true),
+    onPointerLeave: () => glow(false),
+    onFocus: () => glow(true),
+    onBlur: () => glow(false),
+  };
+
+  return (
+    <div className="contact-actions">
+      <a className="contact-mail" href={`mailto:${EMAIL}`} {...glowProps}>
+        {EMAIL}
+      </a>
+      <div className="contact-buttons">
+        <a className="btn btn-primary" href={MAIL_HREF} {...glowProps}>
+          <Mail size={17} aria-hidden="true" /> Skriv din vision
+        </a>
+        <button type="button" className="btn btn-ghost" onClick={copy} {...glowProps}>
+          {copied ? <Check size={17} aria-hidden="true" /> : <Copy size={17} aria-hidden="true" />}
+          {copied ? "Kopieret" : "Kopiér adressen"}
+        </button>
+        <span className="sr-only" aria-live="polite">
+          {copied ? "Mailadressen er kopieret" : ""}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function Index() {
-  const [calendarLoaded, setCalendarLoaded] = useState(false);
-
-  useScrollReveal();
-  useJourney();
-
   // Links like "Tilbage til cases" arrive as /#cases. Once the router has scrolled there, tidy
   // the address back to / so the hash doesn't linger (or send a later refresh back there).
   const hash = useLocation({ select: (location) => location.hash });
@@ -150,333 +174,200 @@ function Index() {
     return () => window.clearTimeout(timer);
   }, [hash, navigate]);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => setCalendarLoaded(true), 6000);
-    return () => window.clearTimeout(timer);
-  }, []);
-
   const handleAnchorClick = (event: MouseEvent<HTMLElement>) => {
     const anchor = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]');
-    if (
-      !anchor ||
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey
-    )
-      return;
-    const hash = anchor.getAttribute("href");
-    if (!hash || hash === "#") return;
-    const target = document.querySelector<HTMLElement>(hash);
+    if (!anchor || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey) return;
+    const target = document.querySelector<HTMLElement>(anchor.getAttribute("href") || "#_");
     if (!target) return;
     event.preventDefault();
-    target.scrollIntoView({
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-    });
+    scrollToTarget(target);
   };
 
   return (
     <main id="main-content" className="site-shell" onClick={handleAnchorClick}>
       <SiteHeader isHome />
 
-      <section id="top" className="hero" data-pin>
-        <div className="hero-stage">
-          <div className="hero-scene" aria-hidden="true">
-            <span className="hero-core" />
-            <span className="hero-scrim" />
-            <HeroTitle3D />
-          </div>
-
-          <div className="hero-hud" aria-hidden="true">
-            <span className="hero-hud-corner hero-hud-tl">
-              <i className="hero-rec" /> Kapitel 00 — Afgang
-            </span>
-            <span className="hero-hud-corner hero-hud-tr">55°40′N · 12°34′E</span>
-            <span className="hero-hud-corner hero-hud-bl">FARDA · 2026</span>
-            <span className="hero-hud-corner hero-hud-br">I dag → I morgen</span>
-          </div>
-
+      {/* 00 — I dag: فردا floats in the night */}
+      <section id="top" className="hero" data-phase="0">
+        <div className="wrap hero-wrap">
           <div className="hero-copy">
-            <p className="hero-kicker hero-enter" style={{ "--enter": 0 } as CSSProperties}>
-              Digitalt studio · København
-            </p>
-            <h1 className="hero-title">
-              <span className="hero-word hero-word-a">
-                <span className="hero-enter" style={{ "--enter": 1 } as CSSProperties}>
-                  BUILD
-                </span>
-              </span>
-              <span className="hero-word hero-word-b">
-                <span className="hero-enter" style={{ "--enter": 2 } as CSSProperties}>
-                  TOMORROW
-                </span>
-              </span>
+            <h1 className="hero-title enter" style={{ "--i": 1 } as CSSProperties}>
+              Websites og webapps til virksomheder, der bygger til <em>i morgen</em>.
             </h1>
-            <p className="hero-support hero-enter" style={{ "--enter": 3 } as CSSProperties}>
-              Vi skaber distinkte digitale oplevelser for virksomheder med noget på spil.
+            <p className="hero-sub enter" style={{ "--i": 2 } as CSSProperties}>
+              FARDA er et digitalt studio i København. Du arbejder direkte med den, der designer og
+              koder din løsning — fra første skitse til lancering.
             </p>
-            <div className="hero-enter" style={{ "--enter": 4 } as CSSProperties}>
-              <a href="#booking" className="farda-button farda-button-lg hero-cta">
-                <span>Book en samtale</span>
-                <span className="hero-cta-arrow">
-                  <ArrowRight size={18} />
-                </span>
+            <div className="hero-actions enter" style={{ "--i": 3 } as CSSProperties}>
+              <a href="#kontakt" className="btn btn-primary">
+                Kontakt FARDA <ArrowRight size={17} aria-hidden="true" />
+              </a>
+              <a href="#services" className="btn btn-ghost">
+                Se priserne
               </a>
             </div>
           </div>
-
-          <a href="#services" className="scroll-cue" aria-label="Se vores services">
-            <span>Begynd rejsen</span>
-            <i aria-hidden="true" />
-          </a>
-        </div>
-      </section>
-
-      <section id="services" className="chapter px-page py-section">
-        <ChapterMark number="01" label="Services" />
-        <div className="chapter-intro reveal" data-depth>
-          <h2 className="chapter-title">
-            <Lines lines={["Fra første tanke", <em key="b">til færdigt format.</em>]} />
-          </h2>
-          <p>Strategi, design og udvikling samlet i ét fokuseret forløb.</p>
-        </div>
-        <div className="package-grid">
-          {packages.map((item, cardIndex) => (
-            <div
-              key={item.title}
-              className="depth-slot reveal"
-              data-depth
-              style={{ "--slot": cardIndex } as CSSProperties}
-            >
-              <article
-                className={`package-card ${item.featured ? "package-card-featured" : ""}`}
-                data-tilt="6"
-              >
-                <span className="card-glare" aria-hidden="true" />
-                <span className="package-number-mark" aria-hidden="true">
-                  {item.number}
-                </span>
-                <div className="package-top">
-                  <span className="package-icon-badge" aria-hidden="true">
-                    <item.icon size={18} />
-                  </span>
-                  <span
-                    className={`package-status ${item.featured ? "package-status-featured" : ""}`}
-                  >
-                    {item.featured ? "Mest valgt" : "Fast foundation"}
-                  </span>
-                </div>
-                <div className="package-content">
-                  <h3>{item.title}</h3>
-                  <p className="package-price">{item.price}</p>
-                  <p className="package-description">{item.description}</p>
-                </div>
-                <ul className="metric-list" aria-hidden="true">
-                  {item.metrics.map((metric, index) => (
-                    <li
-                      key={metric.label}
-                      className="metric-row"
-                      style={
-                        {
-                          "--metric-index": index,
-                          "--metric-value": metric.value,
-                        } as CSSProperties
-                      }
-                    >
-                      <span className="metric-label">{metric.label}</span>
-                      <span className="metric-track">
-                        <span className="metric-fill" />
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                <ul className="feature-list">
-                  {item.features.map((feature, index) => (
-                    <li key={feature} style={{ "--feature-index": index } as CSSProperties}>
-                      <Check size={16} />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </article>
+          <dl className="hero-facts enter" style={{ "--i": 4 } as CSSProperties}>
+            <div>
+              <dt>Websites fra</dt>
+              <dd>3.500 kr.</dd>
             </div>
-          ))}
+            <div>
+              <dt>Svar inden for</dt>
+              <dd>24 timer</dd>
+            </div>
+            <div>
+              <dt>Sprog</dt>
+              <dd>Dansk · Engelsk</dd>
+            </div>
+          </dl>
+        </div>
+        <a href="#services" className="scroll-cue" aria-label="Scroll til priserne">
+          <span>Scroll, og se fundamentet blive bygget</span>
+          <i aria-hidden="true" />
+        </a>
+      </section>
+
+      {/* 01 — Strategi: the letters fall into a blueprint */}
+      <section id="services" className="section section-right" data-phase="1">
+        <div className="wrap section-grid">
+          <div className="section-col">
+            <Eyebrow phase="01" label="Strategi" />
+            <h2 className="section-title">Pakker og priser</h2>
+            <p className="section-lead">
+              Strategi, design og udvikling i ét forløb. Vælg niveauet, der passer til din
+              virksomhed i dag.
+            </p>
+            <div className="sheets">
+              {packages.map((item) => (
+                <article
+                  key={item.title}
+                  className={`sheet panel ${item.featured ? "sheet-featured" : ""}`}
+                >
+                  <header className="sheet-head">
+                    <span className="mono">{item.sheet}</span>
+                    {item.featured && <span className="sheet-flag">Mest valgt</span>}
+                  </header>
+                  <h3 className="sheet-title">{item.title}</h3>
+                  <p className="sheet-price">
+                    {item.price}
+                    <span> kr.</span>
+                  </p>
+                  <p className="sheet-text">{item.description}</p>
+                  <ul className="sheet-list">
+                    {item.features.map((feature) => (
+                      <li key={feature}>{feature}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      <section id="cases" className="chapter px-page py-section">
-        <ChapterMark number="02" label="Cases" />
-        <div className="chapter-intro reveal" data-depth>
-          <h2 className="chapter-title">
-            <Lines lines={["Arbejde med", <em key="b">en klar retning.</em>]} />
-          </h2>
-          <p>Digitale løsninger med strategi, form og funktion i samme system.</p>
+      {/* 02 — Design: the plan rises into a drawing of a skyline */}
+      <section id="cases" className="section section-left" data-phase="2">
+        <div className="wrap section-grid">
+          <div className="section-col section-col-wide">
+            <Eyebrow phase="02" label="Design" />
+            <h2 className="section-title">Udvalgte cases</h2>
+            <p className="section-lead">
+              To platforme, hvor strategi, form og funktion hænger sammen i ét system.
+            </p>
+            <div className="cases">
+              {cases.map((item) => (
+                <Link key={item.id} to={item.path} className="case-card panel">
+                  <span className="case-media">
+                    <img
+                      src={item.image}
+                      alt=""
+                      width={1600}
+                      height={1100}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                  <span className="case-body">
+                    <span className="mono case-meta">
+                      {item.number} — {item.category}
+                    </span>
+                    <strong className="case-title">{item.title}</strong>
+                    <span className="case-text">{item.description}</span>
+                    <span className="case-link">
+                      Se casen <ArrowUpRight size={16} aria-hidden="true" />
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="destination-list">
-          {cases.map((item, index) => (
-            <Link
-              key={item.id}
-              className={`destination reveal ${index % 2 ? "destination-flip" : ""}`}
-              to={item.path}
-              data-depth
-            >
-              <span className="destination-frame" data-tilt="5">
-                <span className="destination-image">
-                  <img src={item.image} alt="" loading="lazy" decoding="async" data-parallax />
-                </span>
-                <span className="card-glare" aria-hidden="true" />
-                <span className="destination-frame-hud" aria-hidden="true">
-                  <span>Destination {item.number}</span>
-                  <span>{item.category}</span>
+      </section>
+
+      {/* 03 — Udvikling: the city turns solid and its windows light */}
+      <section id="about" className="section section-right" data-phase="3">
+        <div className="wrap section-grid">
+          <div className="section-col">
+            <Eyebrow phase="03" label="Udvikling" />
+            <h2 className="section-title">Én person fra skitse til kode</h2>
+            <div className="founder panel">
+              <img src={pmPic} alt="Persian Moradi" width={88} height={88} loading="lazy" />
+              <span>
+                <strong>Persian Moradi</strong>
+                <span>
+                  Founder og full-stack udvikler. Din direkte kontakt gennem hele forløbet.
                 </span>
               </span>
-              <span className="destination-copy">
-                <span className="destination-number" aria-hidden="true">
-                  {item.number}
-                </span>
-                <span className="case-meta">{item.category}</span>
-                <strong className="destination-title">{item.title}</strong>
-                <span className="destination-description">{item.description}</span>
-                <span className="destination-action">
-                  Se casen
-                  <ArrowRight size={17} />
-                </span>
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section id="about" className="chapter px-page py-section">
-        <ChapterMark number="03" label="Hvorfor FARDA" />
-        <div className="chapter-intro reveal" data-depth>
-          <h2 className="chapter-title">
-            <Lines lines={["Et fundament bygget til", <em key="b">at vokse med dig.</em>]} />
-          </h2>
-          <p>
-            Ingen bureau-lag, ingen skabeloner. Bare et stærkt digitalt fundament, bygget direkte af
-            den, der forstår både design og kode.
-          </p>
-        </div>
-
-        <div className="why-pillars">
-          {valuePillars.map((pillar, index) => (
-            <div
-              key={pillar.title}
-              className="depth-slot reveal"
-              data-depth
-              style={{ "--slot": index } as CSSProperties}
-            >
-              <div className="why-pillar" data-tilt="7">
-                <span className="card-glare" aria-hidden="true" />
-                <span className="why-pillar-index" aria-hidden="true">
-                  0{index + 1}
-                </span>
-                <span className="why-pillar-icon">
-                  <pillar.icon size={20} aria-hidden="true" />
-                </span>
-                <h3>{pillar.title}</h3>
-                <p>{pillar.description}</p>
-              </div>
             </div>
-          ))}
-        </div>
-
-        <div className="route reveal" data-progress>
-          <p className="route-label">Ruten</p>
-          <div className="route-line" aria-hidden="true">
-            <span className="route-line-fill" />
-            <span className="route-ship-track">
-              <span className="route-ship" />
-            </span>
-          </div>
-          <ol className="route-steps">
-            {processSteps.map((step, index) => (
-              <li
-                key={step.label}
-                className="route-step"
-                style={{ "--step": index, "--steps": processSteps.length } as CSSProperties}
-              >
-                <span className="route-node">
-                  <step.icon size={18} aria-hidden="true" />
-                </span>
-                <span className="route-step-number" aria-hidden="true">
-                  0{index + 1}
-                </span>
-                <strong>{step.label}</strong>
-                <span>{step.description}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-
-        <div className="why-cta reveal" data-depth>
-          <a href="#booking" className="farda-button farda-button-lg">
-            <span>Book en samtale</span>
-            <ArrowRight size={17} />
-          </a>
-          <div className="why-trust">
-            <img
-              src={pmPic}
-              alt="Persian Moradi, founder of FARDA"
-              width={96}
-              height={96}
-              loading="lazy"
-              decoding="async"
-            />
-            <span>
-              <strong>Persian Moradi</strong>
-              <span>Din direkte kontakt — Founder &amp; Full-stack Builder</span>
-            </span>
+            <div className="about-panel panel">
+              <ul className="pillars">
+                {pillars.map((pillar, index) => (
+                  <li key={pillar.title}>
+                    <span className="mono">0{index + 1}</span>
+                    <span>
+                      <strong>{pillar.title}</strong>
+                      <span>{pillar.text}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <ol className="route" aria-label="Forløbet">
+                {steps.map((step, index) => (
+                  <li key={step.label} className="route-step">
+                    <span className="route-dot" aria-hidden="true" />
+                    <span className="mono">0{index + 1}</span>
+                    <strong>{step.label}</strong>
+                    <span>{step.text}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="booking" className="chapter booking-section px-page py-section">
-        <div className="booking-copy reveal" data-depth>
-          <ChapterMark number="04" label="Næste skridt" />
-          <h2 className="chapter-title booking-title">
-            <Lines lines={["Start din", <em key="b">rejse.</em>]} />
-          </h2>
-          <p>Lad os drøfte dine ønsker og muligheder om dit næste digitale skridt.</p>
-          <ul className="calendar-facts">
-            <li>15–30 minutter</li>
-            <li>Ingen binding</li>
-            <li>Dansk / Engelsk</li>
-          </ul>
-          <div className="booking-contact-meta">
-            <span className="footer-label">Direkte kontakt</span>
-            <a href="mailto:farda0@protonmail.com">farda0@protonmail.com</a>
+      {/* 04 — Lancering: the sun rises and your building goes up on the last empty plot */}
+      <section id="kontakt" className="section contact" data-phase="4">
+        <div className="wrap section-grid">
+          <div className="contact-copy">
+            <Eyebrow phase="04" label="Lancering" />
+            <h2 className="section-title">Skriv din vision til os</h2>
+            <p className="section-lead">
+              Fortæl med dine egne ord, hvad du drømmer om at bygge. Så aftaler vi et uforpligtende
+              møde, hvor vi sammen finder vejen dertil.
+            </p>
+            <ContactActions />
+            <ol className="contact-steps panel" aria-label="Sådan kommer vi i gang">
+              {contactSteps.map((step, index) => (
+                <li key={step.title}>
+                  <span className="mono">0{index + 1}</span>
+                  <strong>{step.title}</strong>
+                  <span>{step.text}</span>
+                </li>
+              ))}
+            </ol>
           </div>
-        </div>
-        <div className="calendar-shell reveal reveal-late" data-depth>
-          <div className="calendar-heading">
-            <span className="calendar-heading-label">
-              <i className="hero-rec" aria-hidden="true" /> Book tid
-            </span>
-            <span className="calendar-heading-status">Svar inden for 24 timer</span>
-          </div>
-          <div className="calendar-frame" data-loaded={calendarLoaded}>
-            <div className="calendar-loading" aria-hidden={calendarLoaded}>
-              <span />
-              <p>Indlæser kalender…</p>
-            </div>
-            <iframe
-              src="https://cal.com/farda?embed=true&theme=dark&name=&email="
-              title="Book en samtale med FARDA"
-              loading="lazy"
-              onLoad={() => setCalendarLoaded(true)}
-            />
-          </div>
-          <a
-            className="calendar-fallback"
-            href="https://cal.com/farda?name=&email="
-            target="_blank"
-            rel="noreferrer"
-          >
-            Åbn i nyt vindue <ExternalLink size={15} />
-          </a>
         </div>
       </section>
 

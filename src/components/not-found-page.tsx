@@ -1,33 +1,19 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 
-import { useJourney } from "@/hooks/use-journey";
-
-/** Lost in the night — the sky from the root stage glows behind it. */
+/** An empty plot on the blueprint: the world behind it rests on the plan. */
 export function NotFoundPage() {
-  useJourney();
-
   return (
-    <main id="main-content" className="notfound-page">
+    <main id="main-content" className="notfound">
       <meta name="robots" content="noindex" />
-      <div className="notfound-content">
-        <p className="notfound-signal">
-          <i className="hero-rec" aria-hidden="true" /> Signal tabt
-        </p>
-        <h1 className="notfound-code">
-          4<span>0</span>4
-        </h1>
-        <p className="notfound-message">
-          Du er drevet ud af kurs. Siden findes ikke, eller er blevet flyttet.
-        </p>
-        <Link to="/" className="farda-button notfound-home">
-          <ArrowLeft size={17} />
-          Tilbage til forsiden
+      <div className="wrap notfound-inner panel">
+        <p className="mono">Fejl 404</p>
+        <h1 className="notfound-title">Siden er ikke bygget endnu</h1>
+        <p className="section-lead">Siden findes ikke, eller den er blevet flyttet.</p>
+        <Link to="/" className="btn btn-primary">
+          <ArrowLeft size={17} aria-hidden="true" /> Gå til forsiden
         </Link>
       </div>
-      <p className="notfound-coords" aria-hidden="true">
-        ??°??′N · ??°??′E
-      </p>
     </main>
   );
 }
