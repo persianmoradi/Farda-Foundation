@@ -34,3 +34,7 @@ dist-ssr
 
 # Design skill deal history (local)
 .taste-skill/
+
+# Secrets
+.env
+.env.*

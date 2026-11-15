@@ -1,11 +1,12 @@
 import { createFileRoute, Link, useLocation, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight, Check, Copy, Mail } from "lucide-react";
-import { useEffect, useState, type CSSProperties, type MouseEvent } from "react";
+import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
+import { useEffect, useState, type CSSProperties, type FormEvent, type MouseEvent } from "react";
 
 import pmPic from "@/assets/pm-pic.webp";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { cases } from "@/data/cases";
+import { DK_PHONE, sendRequest } from "@/lib/send-request";
 import { absoluteUrl } from "@/lib/seo";
 import { scrollToTarget } from "@/lib/smooth-scroll";
 
@@ -105,58 +106,106 @@ const contactSteps = [
   { title: "Uforpligtende møde", text: "Vi taler løsningen igennem. Du beslutter bagefter." },
 ];
 
-/** Opens the visitor's mail with a short outline, so the vision is easy to put into words. */
-const MAIL_HREF = `mailto:${EMAIL}?subject=${encodeURIComponent(
-  "Min vision",
-)}&body=${encodeURIComponent(
-  "Hej FARDA,\n\nMin vision:\n\n\nHvad skal løsningen kunne:\n\n\nHvornår skal den gerne være klar:\n\n\nHvornår passer det dig at mødes:\n",
-)}`;
+function RequestForm() {
+  const [pkg, setPkg] = useState(packages[0]?.title ?? "");
+  const [maintenance, setMaintenance] = useState(false);
 
-/** Lights the new building's windows while the visitor is about to write. */
-const glow = (on: boolean) => window.dispatchEvent(new CustomEvent("farda:glow", { detail: on }));
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
-function ContactActions() {
-  const [copied, setCopied] = useState(false);
-  useEffect(() => {
-    if (!copied) return;
-    const timer = window.setTimeout(() => setCopied(false), 2200);
-    return () => window.clearTimeout(timer);
-  }, [copied]);
-
-  const copy = async () => {
+  const send = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    setStatus("sending");
     try {
-      await navigator.clipboard.writeText(EMAIL);
-      setCopied(true);
+      await sendRequest({
+        data: {
+          name: String(data.get("name") ?? ""),
+          company: String(data.get("company") ?? ""),
+          phone: String(data.get("phone") ?? ""),
+          vision: String(data.get("vision") ?? ""),
+          pkg,
+          maintenance,
+        },
+      });
+      form.reset();
+      setStatus("sent");
     } catch {
-      window.location.href = `mailto:${EMAIL}`;
+      setStatus("error");
     }
   };
 
-  const glowProps = {
-    onPointerEnter: () => glow(true),
-    onPointerLeave: () => glow(false),
-    onFocus: () => glow(true),
-    onBlur: () => glow(false),
-  };
-
   return (
-    <div className="contact-actions">
-      <a className="contact-mail" href={`mailto:${EMAIL}`} {...glowProps}>
-        {EMAIL}
-      </a>
-      <div className="contact-buttons">
-        <a className="btn btn-primary" href={MAIL_HREF} {...glowProps}>
-          <Mail size={17} aria-hidden="true" /> Skriv din vision
-        </a>
-        <button type="button" className="btn btn-ghost" onClick={copy} {...glowProps}>
-          {copied ? <Check size={17} aria-hidden="true" /> : <Copy size={17} aria-hidden="true" />}
-          {copied ? "Kopieret" : "Kopiér adressen"}
-        </button>
-        <span className="sr-only" aria-live="polite">
-          {copied ? "Mailadressen er kopieret" : ""}
-        </span>
-      </div>
-    </div>
+    <form
+      className="request panel"
+      onSubmit={send}
+      onFocus={() => window.dispatchEvent(new CustomEvent("farda:glow", { detail: true }))}
+      onBlur={() => window.dispatchEvent(new CustomEvent("farda:glow", { detail: false }))}
+    >
+      <fieldset>
+        <legend>Vælg pakke</legend>
+        {packages.map((item) => (
+          <label key={item.title}>
+            <input
+              type="radio"
+              name="pkg"
+              checked={pkg === item.title}
+              onChange={() => setPkg(item.title)}
+            />
+            {item.title} · {item.price} kr.
+          </label>
+        ))}
+      </fieldset>
+      <label>
+        <input
+          type="checkbox"
+          checked={maintenance}
+          onChange={(e) => setMaintenance(e.target.checked)}
+        />
+        Tilføj vedligehold · 299 kr. / md.
+      </label>
+      <input name="name" required autoComplete="name" placeholder="Dit navn" aria-label="Dit navn" />
+      <input
+        name="company"
+        required
+        autoComplete="organization"
+        placeholder="Virksomhedsnavn"
+        aria-label="Virksomhedsnavn"
+      />
+      <input
+        name="phone"
+        type="tel"
+        required
+        autoComplete="tel"
+        inputMode="tel"
+        onInput={(e) => {
+          const input = e.currentTarget;
+          input.setCustomValidity(
+            DK_PHONE.test(input.value.replace(/[\s-]/g, ""))
+              ? ""
+              : "Skriv et dansk telefonnummer, fx 22 33 44 55 eller +45 22 33 44 55",
+          );
+        }}
+        placeholder="Telefonnummer (fx 22 33 44 55)"
+        aria-label="Telefonnummer"
+      />
+      <textarea
+        name="vision"
+        required
+        rows={5}
+        placeholder="Skriv din vision: hvad skal løsningen kunne, og hvornår skal den være klar?"
+        aria-label="Din vision"
+      />
+      <button type="submit" className="btn btn-primary" disabled={status === "sending"}>
+        <Mail size={17} aria-hidden="true" />
+        {status === "sending" ? "Sender…" : "Send forespørgsel"}
+      </button>
+      <p className="request-status" role="status" data-state={status}>
+        {status === "sent" && "Tak! Din forespørgsel er sendt. Vi svarer inden for 24 timer."}
+        {status === "error" &&
+          `Noget gik galt, og din forespørgsel blev ikke sendt. Prøv igen, eller skriv til ${EMAIL}.`}
+      </p>
+    </form>
   );
 }
 
@@ -261,6 +310,27 @@ function Index() {
                   </ul>
                 </article>
               ))}
+              <article className="sheet panel" style={{ gridColumn: "1 / -1" }}>
+                <header className="sheet-head">
+                  <span className="mono">A-03</span>
+                  <span className="sheet-flag">Tilvalg</span>
+                </header>
+                <h3 className="sheet-title">FARDA Vedligehold</h3>
+                <p className="sheet-price">
+                  299
+                  <span> kr. / md.</span>
+                </p>
+                <p className="sheet-text">
+                  Til både Essential og Advanced. Vælg det til, hvis du vil have en udvikler til at
+                  holde din løsning kørende. Vælg det fra, og du overtager den selv efter
+                  lancering.
+                </p>
+                <ul className="sheet-list">
+                  <li>Løbende vedligehold, opdateringer og sikkerhed</li>
+                  <li>Ønskede ændringer af indhold og design</li>
+                  <li>Ingen binding — opsig når som helst</li>
+                </ul>
+              </article>
             </div>
           </div>
         </div>
@@ -357,7 +427,7 @@ function Index() {
               Fortæl med dine egne ord, hvad du drømmer om at bygge. Så aftaler vi et uforpligtende
               møde, hvor vi sammen finder vejen dertil.
             </p>
-            <ContactActions />
+            <RequestForm />
             <ol className="contact-steps panel" aria-label="Sådan kommer vi i gang">
               {contactSteps.map((step, index) => (
                 <li key={step.title}>
