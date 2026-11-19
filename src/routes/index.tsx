@@ -272,7 +272,7 @@ function Index() {
           </dl>
         </div>
         <a href="#services" className="scroll-cue" aria-label="Scroll til priserne">
-          <span>Scroll, og se fundamentet blive bygget</span>
+          <span>Scroll, og se din side blive bygget</span>
           <i aria-hidden="true" />
         </a>
       </section>

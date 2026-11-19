@@ -47,6 +47,9 @@ export function SiteFooter({ isHome = false }: { isHome?: boolean }) {
             <SectionLink section="about" isHome={isHome}>
               Om FARDA
             </SectionLink>
+            <Link className="link" to="/privacy">
+              Privatlivspolitik
+            </Link>
           </div>
         </div>
         <p className="footer-mark" aria-hidden="true">

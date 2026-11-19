@@ -1165,6 +1165,38 @@ html[data-custom-cursor="on"] * {
   justify-self: start;
   margin-top: 8px;
 }
+.legal {
+  display: grid;
+  gap: 14px;
+  max-width: 70ch;
+  padding: clamp(24px, 4vw, 48px);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+.legal h2 {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.legal h2:first-child {
+  margin-top: 0;
+}
+.legal ul {
+  display: grid;
+  gap: 6px;
+  padding-left: 1.2em;
+  list-style: disc;
+}
+.legal ul ::marker {
+  color: var(--copper);
+}
+.legal strong {
+  font-weight: 500;
+  color: var(--ink);
+}
 .case-next {
   padding-bottom: 120px;
 }
