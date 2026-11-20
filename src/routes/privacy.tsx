@@ -52,15 +52,13 @@ function Privacy() {
           <article className="legal panel">
             <h2>Dataansvarlig</h2>
             <p>
-              FARDA, København, er dataansvarlig for de personoplysninger, der behandles via denne
+              FARDA, København, Danmark, er dataansvarlig for de personoplysninger, der behandles via denne
               hjemmeside. Du kan altid kontakte os på{" "}
               <a className="link" href={`mailto:${MAIL}`}>
                 {MAIL}
               </a>
               .
             </p>
-            {/* TODO: add owner's legal name, postal address and CVR number here once available. */}
-
             <h2>Hvilke oplysninger vi indsamler</h2>
             <p>Når du udfylder kontaktformularen, modtager vi:</p>
             <ul>
