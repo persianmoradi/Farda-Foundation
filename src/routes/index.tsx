@@ -11,7 +11,7 @@ import { absoluteUrl } from "@/lib/seo";
 import { scrollToTarget } from "@/lib/smooth-scroll";
 
 const description =
-  "FARDA designer og koder hurtige websites og webapps for virksomheder. Fra 3.500 kr., direkte med udvikleren, fra København.";
+  "FARDA er et AI-native konsulenthus, der bygger websites og webapps til virksomheder, der bygger til i morgen. Fra 3.500 kr., direkte med udvikleren, fra København.";
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -27,9 +27,9 @@ const organizationJsonLd = {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "FARDA — Websites og webapps fra København" },
+      { title: "FARDA — AI-native konsulenthus for websites og webapps" },
       { name: "description", content: description },
-      { property: "og:title", content: "FARDA — Websites og webapps fra København" },
+      { property: "og:title", content: "FARDA — AI-native konsulenthus for websites og webapps" },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { property: "og:url", content: absoluteUrl("/") },
@@ -73,7 +73,7 @@ const pillars = [
   },
   {
     title: "Lancerer på uger",
-    text: "En strømlinet proces og moderne værktøjer fra idé til lancering — ikke måneder.",
+    text: "En AI-native arbejdsgang fra idé til lancering — ikke måneder.",
   },
   {
     title: "Bygger kode, der kan vokse",
@@ -244,8 +244,8 @@ function Index() {
               Websites og webapps til virksomheder, der bygger til <em>i morgen</em>.
             </h1>
             <p className="hero-sub enter" style={{ "--i": 2 } as CSSProperties}>
-              FARDA er et digitalt studio i København. Du arbejder direkte med den, der designer og
-              koder din løsning — fra første skitse til lancering.
+              FARDA er et AI-native konsulenthus i København. Du arbejder direkte med den, der
+              designer og koder din løsning — fra første skitse til lancering.
             </p>
             <div className="hero-actions enter" style={{ "--i": 3 } as CSSProperties}>
               <a href="#kontakt" className="btn btn-primary">

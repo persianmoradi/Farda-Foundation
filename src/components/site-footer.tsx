@@ -29,7 +29,7 @@ export function SiteFooter({ isHome = false }: { isHome?: boolean }) {
     <footer className="footer">
       <div className="wrap">
         <div className="footer-row">
-          <p className="footer-brand">Websites og webapps, designet og kodet i København.</p>
+          <p className="footer-brand">AI-native konsulenthus. Websites og webapps, designet og kodet i København.</p>
           <div className="footer-col">
             <span className="mono">Kontakt</span>
             <a className="link" href="mailto:farda0@protonmail.com">

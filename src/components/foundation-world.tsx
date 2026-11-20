@@ -359,7 +359,7 @@ function drawSurface(ctx: Ctx) {
   text(ctx, ".", x, 402, h1, INK, -1.9);
   text(
     ctx,
-    "FARDA er et digitalt studio i København. Du arbejder",
+    "FARDA er et AI-native konsulenthus i København. Du arbejder",
     88,
     452,
     `400 18px ${SANS}`,
@@ -381,7 +381,7 @@ function drawSurface(ctx: Ctx) {
     text(ctx, label, sx, 652, `400 11px ${MONO}`, INK_3, 1.5);
     text(ctx, value, sx, 684, `400 22px ${SANS}`, INK);
   }
-  text(ctx, "FARDA · DIGITALT STUDIO · KØBENHAVN", 88, 792, `400 12px ${MONO}`, INK_3, 1.5);
+  text(ctx, "FARDA · AI-NATIVE KONSULENTHUS · KØBENHAVN", 88, 792, `400 12px ${MONO}`, INK_3, 1.5);
   text(ctx, "farda.dk", 1352, 792, `400 12px ${MONO}`, INK_3, 1.5, "right");
   ctx.restore();
 }
