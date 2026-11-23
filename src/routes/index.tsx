@@ -174,7 +174,7 @@ function RequestForm() {
       onBlur={() => window.dispatchEvent(new CustomEvent("farda:glow", { detail: false }))}
     >
       <fieldset>
-        <legend>Vælg pakke</legend>
+        <legend>Vælg pakke (priser ekskl. moms)</legend>
         {packages.map((item) => (
           <label key={item.title}>
             <input
@@ -193,7 +193,7 @@ function RequestForm() {
           checked={maintenance}
           onChange={(e) => setMaintenance(e.target.checked)}
         />
-        Tilføj vedligehold · 400 kr. / md.
+        Tilføj vedligehold · 400 kr. / md. ekskl. moms
       </label>
       <input
         name="name"

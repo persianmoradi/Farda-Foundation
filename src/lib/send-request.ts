@@ -16,7 +16,10 @@ const TO = "farda0@protonmail.com";
 
 export const sendRequest = createServerFn({ method: "POST" })
   .validator((input: RequestInput) => {
-    const clean = (v: unknown, max: number) => String(v ?? "").trim().slice(0, max);
+    const clean = (v: unknown, max: number) =>
+      String(v ?? "")
+        .trim()
+        .slice(0, max);
     const data = {
       name: clean(input.name, 120),
       company: clean(input.company, 160),
@@ -26,7 +29,8 @@ export const sendRequest = createServerFn({ method: "POST" })
       vision: clean(input.vision, 5000),
     };
     if (!DK_PHONE.test(data.phone)) throw new Error("Invalid phone");
-    if (!data.name || !data.company || !data.phone || !data.vision) throw new Error("Missing fields");
+    if (!data.name || !data.company || !data.phone || !data.vision)
+      throw new Error("Missing fields");
     return data;
   })
   .handler(async ({ data }) => {
@@ -39,7 +43,7 @@ export const sendRequest = createServerFn({ method: "POST" })
         from: "FARDA Website <onboarding@resend.dev>",
         to: [TO],
         subject: `Forespørgsel: ${data.pkg} – ${data.company}`,
-        text: `Navn: ${data.name}\nVirksomhed: ${data.company}\nTelefon: ${data.phone}\nPakke: ${data.pkg}\nVedligehold (400 kr./md.): ${data.maintenance ? "Ja" : "Nej"}\n\nVision:\n${data.vision}\n`,
+        text: `Navn: ${data.name}\nVirksomhed: ${data.company}\nTelefon: ${data.phone}\nPakke: ${data.pkg}\nVedligehold (400 kr./md. ekskl. moms): ${data.maintenance ? "Ja" : "Nej"}\n\nVision:\n${data.vision}\n`,
       }),
     });
     if (!res.ok) throw new Error(`Mail failed: ${res.status}`);

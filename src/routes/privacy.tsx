@@ -67,7 +67,7 @@ function Privacy() {
               <li>virksomhedens navn</li>
               <li>dit danske telefonnummer</li>
               <li>den pakke, du har valgt</li>
-              <li>om du ønsker vedligehold (400 kr./md.)</li>
+              <li>om du ønsker vedligehold (400 kr./md. ekskl. moms)</li>
               <li>din beskrivelse af projektet (din „vision“)</li>
             </ul>
             <p>

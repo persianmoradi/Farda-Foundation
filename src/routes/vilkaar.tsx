@@ -79,6 +79,7 @@ function Terms() {
               <li>FARDA Essential: 6.250 kr.</li>
               <li>FARDA Advanced: 10.000 kr.</li>
               <li>FARDA Vedligehold: 500 kr. pr. måned</li>
+              <li>Ekstra arbejde: 750 kr. i timen</li>
             </ul>
             <p>
               Er din virksomhed momsregistreret, kan du fradrage momsen efter de almindelige regler.
@@ -104,8 +105,8 @@ function Terms() {
             <h2>4. Forløb og rettelser</h2>
             <p>
               FARDA Essential indeholder 2 rettelsesrunder, og FARDA Advanced indeholder 4. Ønsker
-              du flere rettelser eller arbejde ud over det aftalte, koster det 600 kr. i timen, og
-              jeg aftaler det altid med dig, før jeg går i gang.
+              du flere rettelser eller arbejde ud over det aftalte, koster det 600 kr. ekskl. moms i
+              timen, og jeg aftaler det altid med dig, før jeg går i gang.
             </p>
             <p>
               Du leverer tekster, billeder og logo til tiden. Kommer materialet senere end aftalt,
@@ -162,8 +163,8 @@ function Terms() {
 
             <h2>8. Vedligehold</h2>
             <p>
-              Vedligehold er et valgfrit abonnement til 400 kr. pr. måned, der betales forud hver
-              måned. Det indeholder:
+              Vedligehold er et valgfrit abonnement til 400 kr. ekskl. moms pr. måned (500 kr. inkl.
+              moms), der betales forud hver måned. Det indeholder:
             </p>
             <ul>
               <li>opdatering af tekniske afhængigheder og sikkerhedsrettelser</li>
@@ -176,7 +177,7 @@ function Terms() {
             </ul>
             <p>
               Ubrugt tid overføres ikke til næste måned. Større opgaver, fx nye sider eller nye
-              funktioner, koster 600 kr. i timen og aftales på forhånd.
+              funktioner, koster 600 kr. ekskl. moms i timen og aftales på forhånd.
             </p>
             <p>
               Vedligehold opsiges skriftligt på e-mail med 30 dages varsel. Når aftalen ophører,
