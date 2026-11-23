@@ -39,7 +39,7 @@ export const sendRequest = createServerFn({ method: "POST" })
         from: "FARDA Website <onboarding@resend.dev>",
         to: [TO],
         subject: `Forespørgsel: ${data.pkg} – ${data.company}`,
-        text: `Navn: ${data.name}\nVirksomhed: ${data.company}\nTelefon: ${data.phone}\nPakke: ${data.pkg}\nVedligehold (299 kr./md.): ${data.maintenance ? "Ja" : "Nej"}\n\nVision:\n${data.vision}\n`,
+        text: `Navn: ${data.name}\nVirksomhed: ${data.company}\nTelefon: ${data.phone}\nPakke: ${data.pkg}\nVedligehold (400 kr./md.): ${data.maintenance ? "Ja" : "Nej"}\n\nVision:\n${data.vision}\n`,
       }),
     });
     if (!res.ok) throw new Error(`Mail failed: ${res.status}`);

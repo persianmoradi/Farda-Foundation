@@ -38,7 +38,7 @@ function Terms() {
           <Link className="link case-back" to="/">
             <ArrowLeft size={15} aria-hidden="true" /> Forsiden
           </Link>
-          <p className="mono case-hero-meta">Senest opdateret 23. november 2026</p>
+          <p className="mono case-hero-meta">Senest opdateret 24. november 2026</p>
           <h1 className="case-hero-title">Handelsbetingelser</h1>
           <p className="case-hero-intro">
             Kort fortalt: Du betaler for at få din hjemmeside bygget, og når den er betalt, ejer du
@@ -52,31 +52,50 @@ function Terms() {
           <article className="legal panel">
             <h2>1. Om aftalen</h2>
             <p>
-              Disse betingelser gælder for alle opgaver, som FARDA, København, Danmark, udfører
-              for erhvervskunder. Et skriftligt tilbud eller en individuel aftale går forud for
-              betingelserne, hvis de siger noget forskelligt.
+              Disse betingelser gælder for alle opgaver, som FARDA, København, Danmark, udfører for
+              erhvervskunder. FARDA er en enkeltmandsvirksomhed drevet af Persian Moradi, som selv
+              står for design, udvikling og alle møder. Et skriftligt tilbud eller en individuel
+              aftale går forud for betingelserne, hvis de siger noget forskelligt.
             </p>
 
             <h2>2. Ydelser og priser</h2>
             <ul>
               <li>
-                <strong>FARDA Essential</strong>: 5.000 kr. (engangsbeløb)
+                <strong>FARDA Essential</strong>: 5.000 kr. ekskl. moms (engangsbeløb)
               </li>
               <li>
-                <strong>FARDA Advanced</strong>: 8.000 kr. (engangsbeløb)
+                <strong>FARDA Advanced</strong>: 8.000 kr. ekskl. moms (engangsbeløb)
               </li>
               <li>
-                <strong>FARDA Vedligehold</strong>: 299 kr. pr. måned (valgfrit tilvalg)
+                <strong>FARDA Vedligehold</strong>: 400 kr. ekskl. moms pr. måned (valgfrit tilvalg)
               </li>
             </ul>
+            <p>Hvad der præcist indgår, fremgår af pakken på forsiden og af dit tilbud.</p>
             <p>
-              Hvad der præcist indgår, fremgår af pakken på forsiden og af dit tilbud. FARDA er
-              ikke momsregistreret, så alle priser er endelige, og der lægges ikke moms oveni.
+              <strong>Alle priser er ekskl. moms.</strong> FARDA er momsregistreret, og moms på 25 %
+              lægges til på fakturaen. Eksempler på, hvad du betaler inkl. moms:
+            </p>
+            <ul>
+              <li>FARDA Essential: 6.250 kr.</li>
+              <li>FARDA Advanced: 10.000 kr.</li>
+              <li>FARDA Vedligehold: 500 kr. pr. måned</li>
+            </ul>
+            <p>
+              Er din virksomhed momsregistreret, kan du fradrage momsen efter de almindelige regler.
+              Prisen ekskl. moms ligger fast og kan ikke forhandles ned med henvisning til momsen.
+            </p>
+            <p>
+              Der kommer ingen skjulte gebyrer eller tillæg. Den eneste ekstra betaling er arbejde
+              ud over det aftalte, som altid aftales med dig først, og domæne og hosting, som du
+              betaler direkte til udbyderen.
             </p>
 
             <h2>3. Betaling</h2>
             <ul>
-              <li>50 % af prisen faktureres ved opstart, og arbejdet går i gang, når beløbet er betalt.</li>
+              <li>
+                50 % af prisen faktureres ved opstart, og arbejdet går i gang, når beløbet er
+                betalt.
+              </li>
               <li>De resterende 50 % faktureres ved lancering, før hjemmesiden overdrages.</li>
               <li>Betalingsfristen er 8 dage fra fakturadato.</li>
             </ul>
@@ -85,8 +104,8 @@ function Terms() {
             <h2>4. Forløb og rettelser</h2>
             <p>
               FARDA Essential indeholder 2 rettelsesrunder, og FARDA Advanced indeholder 4. Ønsker
-              du flere rettelser eller arbejde ud over det aftalte, koster det 600 kr. i timen, og vi aftaler det altid med dig, før vi
-              går i gang.
+              du flere rettelser eller arbejde ud over det aftalte, koster det 600 kr. i timen, og
+              jeg aftaler det altid med dig, før jeg går i gang.
             </p>
             <p>
               Du leverer tekster, billeder og logo til tiden. Kommer materialet senere end aftalt,
@@ -100,31 +119,28 @@ function Terms() {
             </p>
             <ul>
               <li>
-                <strong>Har du allerede et domæne</strong>, kobler FARDA den nye hjemmeside til
-                det.
+                <strong>Har du allerede et domæne</strong>, kobler FARDA den nye hjemmeside til det.
               </li>
               <li>
-                <strong>Har du ikke et domæne eller en hjemmeside</strong>, hjælper FARDA dig med
-                at oprette konti hos udbyderne i dit navn, og du betaler selv for dem.
+                <strong>Har du ikke et domæne eller en hjemmeside</strong>, hjælper FARDA dig med at
+                oprette konti hos udbyderne i dit navn, og du betaler selv for dem.
               </li>
             </ul>
-            <p>
-              FARDA er ikke ansvarlig for udbydernes priser, nedetid eller ændrede vilkår.
-            </p>
+            <p>FARDA er ikke ansvarlig for udbydernes priser, nedetid eller ændrede vilkår.</p>
 
             <h2>6. Konti og kode</h2>
             <p>
               Under projektet bygger FARDA hjemmesiden i sin egen kodebase. Ved overdragelsen
               flyttes koden til din egen GitHub-konto, og hjemmesiden lægges på din egen
-              hosting-konto. FARDA får adgang som medlem af dine konti, så længe projektet eller
-              en vedligeholdelsesaftale løber. Derefter kan du til enhver tid fjerne adgangen.
+              hosting-konto. FARDA får adgang som medlem af dine konti, så længe projektet eller en
+              vedligeholdelsesaftale løber. Derefter kan du til enhver tid fjerne adgangen.
             </p>
 
             <h2>7. Ejerskab og rettigheder</h2>
             <p>
-              Når den sidste faktura er betalt, ejer du hjemmesiden, herunder koden, designet og
-              det indhold, der er lavet til dig. Det gælder, uanset om du vælger vedligehold eller
-              ej. Indtil alt er betalt, ligger rettighederne hos FARDA.
+              Når den sidste faktura er betalt, ejer du hjemmesiden, herunder koden, designet og det
+              indhold, der er lavet til dig. Det gælder, uanset om du vælger vedligehold eller ej.
+              Indtil alt er betalt, ligger rettighederne hos FARDA.
             </p>
             <ul>
               <li>
@@ -146,8 +162,8 @@ function Terms() {
 
             <h2>8. Vedligehold</h2>
             <p>
-              Vedligehold er et valgfrit abonnement til 299 kr. pr. måned, der betales forud
-              hver måned. Det indeholder:
+              Vedligehold er et valgfrit abonnement til 400 kr. pr. måned, der betales forud hver
+              måned. Det indeholder:
             </p>
             <ul>
               <li>opdatering af tekniske afhængigheder og sikkerhedsrettelser</li>
@@ -180,10 +196,10 @@ function Terms() {
             <p>
               Får FARDA under arbejdet eller vedligeholdet adgang til personoplysninger i dine
               systemer, fx henvendelser fra din kontaktformular, behandler FARDA dem kun på dine
-              vegne som databehandler, og vi indgår en databehandleraftale, når du beder om det.
-              Hvordan FARDA behandler oplysninger om dig selv, står i vores{" "}
+              vegne som databehandler, og der indgås en databehandleraftale, når du beder om det.
+              Hvordan FARDA behandler oplysninger om dig selv, står i{" "}
               <Link className="link" to="/privacy">
-                privatlivspolitik
+                privatlivspolitikken
               </Link>
               .
             </p>

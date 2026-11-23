@@ -1537,3 +1537,22 @@ html[data-custom-cursor="on"] * {
     white-space: normal;
   }
 }
+
+.price-note {
+  margin-top: 16px;
+  padding: 18px 22px;
+}
+.price-note strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.sheet-vat {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}

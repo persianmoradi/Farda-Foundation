@@ -32,6 +32,7 @@ export function CaseStudy({ project, imageAlt, heading, linkLabel, children }: C
           </p>
           <h1 className="case-hero-title">{project.title}</h1>
           <p className="case-hero-intro">{project.description}</p>
+          <p className="mono case-hero-meta">Design og udvikling: Persian Moradi</p>
         </div>
       </section>
 

@@ -11,7 +11,7 @@ import { absoluteUrl } from "@/lib/seo";
 import { scrollToTarget } from "@/lib/smooth-scroll";
 
 const description =
-  "FARDA er et AI-native konsulenthus, der bygger websites og webapps til virksomheder, der bygger til i morgen. Fra 5.000 kr., direkte med udvikleren, fra København.";
+  "FARDA er et AI-native konsulenthus, der bygger websites og webapps til virksomheder, der bygger til i morgen. Fra 5.000 kr. ekskl. moms, direkte med udvikleren, fra København.";
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -91,7 +91,7 @@ const comparison: [string, string, string][] = [
   ["SEO", "Grundlæggende", "Udvidet, inkl. struktureret data"],
   ["Integrationer", "Kontaktformular", "API, kort, booking m.m."],
   ["Rettelser", "2 runder", "4 runder"],
-  ["Pris", "5.000 kr.", "8.000 kr."],
+  ["Pris ekskl. moms", "5.000 kr.", "8.000 kr."],
 ];
 
 const pillars = [
@@ -130,8 +130,11 @@ const EMAIL = "farda0@protonmail.com";
 
 const contactSteps = [
   { title: "Skriv din vision", text: "En mail om din idé, dine mål og din tidsplan." },
-  { title: "Svar inden for 24 timer", text: "Vi vender tilbage og foreslår et tidspunkt." },
-  { title: "Uforpligtende møde", text: "Vi taler løsningen igennem. Du beslutter bagefter." },
+  { title: "Svar inden for 24 timer", text: "Jeg vender tilbage og foreslår et tidspunkt." },
+  {
+    title: "Uforpligtende møde",
+    text: "Du og jeg taler løsningen igennem. Du beslutter bagefter.",
+  },
 ];
 
 function RequestForm() {
@@ -190,9 +193,15 @@ function RequestForm() {
           checked={maintenance}
           onChange={(e) => setMaintenance(e.target.checked)}
         />
-        Tilføj vedligehold · 299 kr. / md.
+        Tilføj vedligehold · 400 kr. / md.
       </label>
-      <input name="name" required autoComplete="name" placeholder="Dit navn" aria-label="Dit navn" />
+      <input
+        name="name"
+        required
+        autoComplete="name"
+        placeholder="Dit navn"
+        aria-label="Dit navn"
+      />
       <input
         name="company"
         required
@@ -229,7 +238,7 @@ function RequestForm() {
         {status === "sending" ? "Sender…" : "Send forespørgsel"}
       </button>
       <p className="request-status" role="status" data-state={status}>
-        {status === "sent" && "Tak! Din forespørgsel er sendt. Vi svarer inden for 24 timer."}
+        {status === "sent" && "Tak! Din forespørgsel er sendt. Jeg svarer inden for 24 timer."}
         {status === "error" &&
           `Noget gik galt, og din forespørgsel blev ikke sendt. Prøv igen, eller skriv til ${EMAIL}.`}
       </p>
@@ -286,7 +295,7 @@ function Index() {
           </div>
           <dl className="hero-facts enter" style={{ "--i": 4 } as CSSProperties}>
             <div>
-              <dt>Websites fra</dt>
+              <dt>Websites fra, ekskl. moms</dt>
               <dd>5.000 kr.</dd>
             </div>
             <div>
@@ -329,6 +338,7 @@ function Index() {
                   <p className="sheet-price">
                     {item.price}
                     <span> kr.</span>
+                    <small className="sheet-vat">ekskl. moms</small>
                   </p>
                   <p className="sheet-text">{item.description}</p>
                   <ul className="sheet-list">
@@ -345,13 +355,14 @@ function Index() {
                 </header>
                 <h3 className="sheet-title">FARDA Vedligehold</h3>
                 <p className="sheet-price">
-                  299
+                  400
                   <span> kr. / md.</span>
+                  <small className="sheet-vat">ekskl. moms</small>
                 </p>
                 <p className="sheet-text">
                   Til både Essential og Advanced. Vælg det til, hvis du vil have en udvikler til at
-                  holde din løsning kørende. Vælg det fra, og du overtager den selv efter
-                  lancering. Du ejer hjemmesiden uanset hvad.
+                  holde din løsning kørende. Vælg det fra, og du overtager den selv efter lancering.
+                  Du ejer hjemmesiden uanset hvad.
                 </p>
                 <ul className="sheet-list">
                   <li>Opdateringer, sikkerhed og fejlrettelser</li>
@@ -383,11 +394,13 @@ function Index() {
                 </tbody>
               </table>
             </div>
-            <p className="sheet-text">
-              Alle priser er endelige, da FARDA ikke er momsregistreret. Domæne og hosting står i
-              dit navn og betales direkte til udbyderen. Læs mere i vores{" "}
+            <p className="sheet-text price-note panel">
+              <strong>Alle priser er ekskl. moms.</strong> Moms på 25 % lægges til på fakturaen, og
+              er din virksomhed momsregistreret, får du den tilbage. Ud over det kommer der ingen
+              skjulte gebyrer. Domæne og hosting står i dit navn og betales direkte til udbyderen.
+              Læs mere i{" "}
               <Link className="link" to="/vilkaar">
-                handelsbetingelser
+                handelsbetingelserne
               </Link>
               .
             </p>
@@ -481,7 +494,7 @@ function Index() {
         <div className="wrap section-grid">
           <div className="contact-copy">
             <Eyebrow phase="04" label="Lancering" />
-            <h2 className="section-title">Skriv din vision til os</h2>
+            <h2 className="section-title">Skriv din vision til mig</h2>
             <p className="section-lead">
               Fortæl med dine egne ord, hvad du drømmer om at bygge. Så aftaler vi et uforpligtende
               møde, hvor vi sammen finder vejen dertil.

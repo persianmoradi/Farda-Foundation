@@ -7,7 +7,7 @@ import { absoluteUrl } from "@/lib/seo";
 
 const title = "Privatlivspolitik — FARDA";
 const description =
-  "Sådan behandler FARDA personoplysninger, når du kontakter os: hvad vi gemmer, hvorfor, hvor længe og dine rettigheder.";
+  "Sådan behandler FARDA personoplysninger, når du kontakter FARDA: hvad jeg gemmer, hvorfor, hvor længe og dine rettigheder.";
 const url = absoluteUrl("/privacy");
 
 export const Route = createFileRoute("/privacy")({
@@ -41,7 +41,7 @@ function Privacy() {
           <p className="mono case-hero-meta">Senest opdateret 23. november 2026</p>
           <h1 className="case-hero-title">Privatlivspolitik</h1>
           <p className="case-hero-intro">
-            Kort fortalt: Vi bruger kun dine oplysninger til at svare på din henvendelse. Ingen
+            Kort fortalt: Jeg bruger kun dine oplysninger til at svare på din henvendelse. Ingen
             cookies, ingen sporing, intet salg.
           </p>
         </div>
@@ -52,50 +52,53 @@ function Privacy() {
           <article className="legal panel">
             <h2>Dataansvarlig</h2>
             <p>
-              FARDA, København, Danmark, er dataansvarlig for de personoplysninger, der behandles via denne
-              hjemmeside. Du kan altid kontakte os på{" "}
+              FARDA, København, Danmark, er dataansvarlig for de personoplysninger, der behandles
+              via denne hjemmeside. FARDA er en enkeltmandsvirksomhed drevet af Persian Moradi. Du
+              kan altid kontakte mig på{" "}
               <a className="link" href={`mailto:${MAIL}`}>
                 {MAIL}
               </a>
               .
             </p>
-            <h2>Hvilke oplysninger vi indsamler</h2>
-            <p>Når du udfylder kontaktformularen, modtager vi:</p>
+            <h2>Hvilke oplysninger jeg indsamler</h2>
+            <p>Når du udfylder kontaktformularen, modtager jeg:</p>
             <ul>
               <li>dit navn</li>
               <li>virksomhedens navn</li>
               <li>dit danske telefonnummer</li>
               <li>den pakke, du har valgt</li>
-              <li>om du ønsker vedligehold (299 kr./md.)</li>
+              <li>om du ønsker vedligehold (400 kr./md.)</li>
               <li>din beskrivelse af projektet (din „vision“)</li>
             </ul>
-            <p>Skriver du direkte til os på e-mail, modtager vi de oplysninger, du selv sender.</p>
+            <p>
+              Skriver du direkte til mig på e-mail, modtager jeg de oplysninger, du selv sender.
+            </p>
 
             <h2>Formål og retsgrundlag</h2>
             <p>
-              Vi bruger oplysningerne til at svare på din henvendelse og aftale et møde eller give
+              Jeg bruger oplysningerne til at svare på din henvendelse og aftale et møde eller give
               dig et tilbud. Retsgrundlaget er databeskyttelsesforordningens (GDPR) artikel 6, stk.
               1, litra b, fordi behandlingen sker på din anmodning forud for en eventuel aftale.
-              Hvor det ikke passer, behandler vi oplysningerne på grundlag af vores legitime
+              Hvor det ikke passer, behandler jeg oplysningerne på grundlag af min legitime
               interesse i at besvare henvendelser, jf. artikel 6, stk. 1, litra f.
             </p>
             <p>
-              Vi sælger aldrig dine oplysninger, og de bruges ikke til automatiske afgørelser eller
+              Jeg sælger aldrig dine oplysninger, og de bruges ikke til automatiske afgørelser eller
               profilering.
             </p>
 
-            <h2>Hvor længe vi gemmer dem</h2>
+            <h2>Hvor længe jeg gemmer dem</h2>
             <p>
-              Bliver du ikke kunde, sletter vi din henvendelse senest 12 måneder efter vores sidste
-              kontakt. Bliver du kunde, gemmer vi oplysninger, der indgår i regnskabet, i 5 år efter
-              regnskabsårets afslutning, som bogføringsloven kræver.
+              Bliver du ikke kunde, sletter jeg din henvendelse senest 12 måneder efter vores sidste
+              kontakt. Bliver du kunde, gemmer jeg oplysninger, der indgår i regnskabet, i 5 år
+              efter regnskabsårets afslutning, som bogføringsloven kræver.
             </p>
 
             <h2>Databehandlere og modtagere</h2>
-            <p>Vi deler kun dine oplysninger med de tjenester, der skal til for at drive siden:</p>
+            <p>Jeg deler kun dine oplysninger med de tjenester, der skal til for at drive siden:</p>
             <ul>
               <li>
-                <strong>Resend</strong> (USA) leverer formularen som e-mail til vores indbakke.
+                <strong>Resend</strong> (USA) leverer formularen som e-mail til min indbakke.
               </li>
               <li>
                 <strong>Proton</strong> (Schweiz) modtager og opbevarer e-mailen. Schweiz er
@@ -118,12 +121,12 @@ function Privacy() {
 
             <h2>Når du er kunde</h2>
             <p>
-              Bygger eller vedligeholder FARDA din hjemmeside, kan vi få adgang til
+              Bygger eller vedligeholder FARDA din hjemmeside, kan jeg få adgang til
               personoplysninger i dine systemer, fx henvendelser fra din kontaktformular. Dem
-              behandler vi kun på dine vegne som databehandler, og vi indgår en
-              databehandleraftale, når du beder om det. Læs mere i vores{" "}
+              behandler jeg kun på dine vegne som databehandler, og jeg indgår en
+              databehandleraftale, når du beder om det. Læs mere i{" "}
               <Link className="link" to="/vilkaar">
-                handelsbetingelser
+                handelsbetingelserne
               </Link>
               .
             </p>
@@ -139,7 +142,7 @@ function Privacy() {
             <h2>Dine rettigheder</h2>
             <p>Du har ret til at:</p>
             <ul>
-              <li>få indsigt i de oplysninger, vi har om dig</li>
+              <li>få indsigt i de oplysninger, jeg har om dig</li>
               <li>få urigtige oplysninger rettet</li>
               <li>få dine oplysninger slettet</li>
               <li>få behandlingen begrænset</li>
@@ -152,13 +155,13 @@ function Privacy() {
               <a className="link" href={`mailto:${MAIL}`}>
                 {MAIL}
               </a>
-              , så svarer vi inden for en måned.
+              , så svarer jeg inden for en måned.
             </p>
 
             <h2>Klage</h2>
             <p>
-              Er du utilfreds med vores behandling af dine oplysninger, kan du klage til
-              Datatilsynet på{" "}
+              Er du utilfreds med min behandling af dine oplysninger, kan du klage til Datatilsynet
+              på{" "}
               <a
                 className="link"
                 href="https://www.datatilsynet.dk"
