@@ -47,6 +47,9 @@ export function SiteFooter({ isHome = false }: { isHome?: boolean }) {
             <SectionLink section="about" isHome={isHome}>
               Om FARDA
             </SectionLink>
+            <Link className="link" to="/vilkaar">
+              Handelsbetingelser
+            </Link>
             <Link className="link" to="/privacy">
               Privatlivspolitik
             </Link>

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as VilkaarRouteImport } from './routes/vilkaar'
 import { Route as WorkMinisterietsAiPlatformRouteImport } from './routes/work/ministeriets-ai-platform'
 import { Route as WorkSpkstotteRouteImport } from './routes/work/spkstotte'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VilkaarRoute = VilkaarRouteImport.update({
+  id: '/vilkaar',
+  path: '/vilkaar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkMinisterietsAiPlatformRoute =
@@ -39,12 +45,14 @@ const WorkSpkstotteRoute = WorkSpkstotteRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
+  '/vilkaar': typeof VilkaarRoute
   '/work/ministeriets-ai-platform': typeof WorkMinisterietsAiPlatformRoute
   '/work/spkstotte': typeof WorkSpkstotteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
+  '/vilkaar': typeof VilkaarRoute
   '/work/ministeriets-ai-platform': typeof WorkMinisterietsAiPlatformRoute
   '/work/spkstotte': typeof WorkSpkstotteRoute
 }
@@ -52,19 +60,30 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
+  '/vilkaar': typeof VilkaarRoute
   '/work/ministeriets-ai-platform': typeof WorkMinisterietsAiPlatformRoute
   '/work/spkstotte': typeof WorkSpkstotteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/privacy' | '/work/ministeriets-ai-platform' | '/work/spkstotte'
+    | '/'
+    | '/privacy'
+    | '/vilkaar'
+    | '/work/ministeriets-ai-platform'
+    | '/work/spkstotte'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/privacy' | '/work/ministeriets-ai-platform' | '/work/spkstotte'
+  to:
+    | '/'
+    | '/privacy'
+    | '/vilkaar'
+    | '/work/ministeriets-ai-platform'
+    | '/work/spkstotte'
   id:
     | '__root__'
     | '/'
     | '/privacy'
+    | '/vilkaar'
     | '/work/ministeriets-ai-platform'
     | '/work/spkstotte'
   fileRoutesById: FileRoutesById
@@ -72,6 +91,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PrivacyRoute: typeof PrivacyRoute
+  VilkaarRoute: typeof VilkaarRoute
   WorkMinisterietsAiPlatformRoute: typeof WorkMinisterietsAiPlatformRoute
   WorkSpkstotteRoute: typeof WorkSpkstotteRoute
 }
@@ -90,6 +110,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vilkaar': {
+      id: '/vilkaar'
+      path: '/vilkaar'
+      fullPath: '/vilkaar'
+      preLoaderRoute: typeof VilkaarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/work/ministeriets-ai-platform': {
@@ -112,6 +139,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PrivacyRoute: PrivacyRoute,
+  VilkaarRoute: VilkaarRoute,
   WorkMinisterietsAiPlatformRoute: WorkMinisterietsAiPlatformRoute,
   WorkSpkstotteRoute: WorkSpkstotteRoute,
 }

@@ -38,7 +38,7 @@ function Privacy() {
           <Link className="link case-back" to="/">
             <ArrowLeft size={15} aria-hidden="true" /> Forsiden
           </Link>
-          <p className="mono case-hero-meta">Senest opdateret 19. november 2026</p>
+          <p className="mono case-hero-meta">Senest opdateret 23. november 2026</p>
           <h1 className="case-hero-title">Privatlivspolitik</h1>
           <p className="case-hero-intro">
             Kort fortalt: Vi bruger kun dine oplysninger til at svare på din henvendelse. Ingen
@@ -114,6 +114,18 @@ function Privacy() {
             <p>
               Overførsler til USA er omfattet af EU-US Data Privacy Framework eller EU-Kommissionens
               standardkontraktbestemmelser.
+            </p>
+
+            <h2>Når du er kunde</h2>
+            <p>
+              Bygger eller vedligeholder FARDA din hjemmeside, kan vi få adgang til
+              personoplysninger i dine systemer, fx henvendelser fra din kontaktformular. Dem
+              behandler vi kun på dine vegne som databehandler, og vi indgår en
+              databehandleraftale, når du beder om det. Læs mere i vores{" "}
+              <Link className="link" to="/vilkaar">
+                handelsbetingelser
+              </Link>
+              .
             </p>
 
             <h2>Cookies og sporing</h2>

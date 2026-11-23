@@ -11,7 +11,7 @@ import { absoluteUrl } from "@/lib/seo";
 import { scrollToTarget } from "@/lib/smooth-scroll";
 
 const description =
-  "FARDA er et AI-native konsulenthus, der bygger websites og webapps til virksomheder, der bygger til i morgen. Fra 3.500 kr., direkte med udvikleren, fra København.";
+  "FARDA er et AI-native konsulenthus, der bygger websites og webapps til virksomheder, der bygger til i morgen. Fra 5.000 kr., direkte med udvikleren, fra København.";
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -45,25 +45,53 @@ const packages = [
   {
     sheet: "A-01",
     title: "FARDA Essential",
-    price: "3.500",
-    description: "En hurtig, moderne og professionel hjemmeside til virksomheder, der skal online.",
-    features: ["3–4 sider", "Responsivt UI-design", "Grundlæggende SEO", "Performance-optimering"],
+    price: "5.000",
+    description:
+      "Til virksomheder, der skal have en professionel hjemmeside online hurtigt og uden besvær.",
+    features: [
+      "Op til 4 sider",
+      "Moderne, responsivt design",
+      "Kontaktformular direkte til din mail",
+      "Grundlæggende SEO",
+      "Hurtig og performance-optimeret",
+      "2 rettelsesrunder",
+    ],
     featured: false,
   },
   {
     sheet: "A-02",
     title: "FARDA Advanced",
     price: "8.000",
-    description: "Skræddersyet UI/UX med interaktivitet og funktioner bygget til din forretning.",
+    description:
+      "Til virksomheder, der vil skille sig ud med en interaktiv oplevelse, som kunderne husker.",
     features: [
       "Alt fra Essential",
-      "Udvidet sidetal",
-      "Custom animationer",
-      "Udvidet SEO",
-      "API- og Maps-integrationer",
+      "Skræddersyet design og UX",
+      "Op til 10 sider",
+      "Interaktive 3D-elementer",
+      "Scroll- og mikroanimationer",
+      "Udvidet SEO og struktureret data",
+      "Integrationer: API, kort, booking m.m.",
+      "4 rettelsesrunder",
     ],
     featured: true,
   },
+];
+
+/** Essential vs Advanced, row by row, so the price difference is easy to see. */
+const comparison: [string, string, string][] = [
+  ["Sider", "Op til 4", "Op til 10"],
+  [
+    "Design",
+    "Moderne og responsivt, bygget på gennemprøvede layouts",
+    "Skræddersyet til din virksomhed med gennemtænkt art direction og UX",
+  ],
+  ["Animationer", "Rolige overgange", "Scroll- og mikroanimationer"],
+  ["3D", "—", "Interaktive 3D-elementer"],
+  ["SEO", "Grundlæggende", "Udvidet, inkl. struktureret data"],
+  ["Integrationer", "Kontaktformular", "API, kort, booking m.m."],
+  ["Rettelser", "2 runder", "4 runder"],
+  ["Pris", "5.000 kr.", "8.000 kr."],
 ];
 
 const pillars = [
@@ -259,7 +287,7 @@ function Index() {
           <dl className="hero-facts enter" style={{ "--i": 4 } as CSSProperties}>
             <div>
               <dt>Websites fra</dt>
-              <dd>3.500 kr.</dd>
+              <dd>5.000 kr.</dd>
             </div>
             <div>
               <dt>Svar inden for</dt>
@@ -323,15 +351,46 @@ function Index() {
                 <p className="sheet-text">
                   Til både Essential og Advanced. Vælg det til, hvis du vil have en udvikler til at
                   holde din løsning kørende. Vælg det fra, og du overtager den selv efter
-                  lancering.
+                  lancering. Du ejer hjemmesiden uanset hvad.
                 </p>
                 <ul className="sheet-list">
-                  <li>Løbende vedligehold, opdateringer og sikkerhed</li>
-                  <li>Ønskede ændringer af indhold og design</li>
-                  <li>Ingen binding — opsig når som helst</li>
+                  <li>Opdateringer, sikkerhed og fejlrettelser</li>
+                  <li>Op til 30 min. ændringer om måneden</li>
+                  <li>Opsiges med 30 dages varsel</li>
                 </ul>
               </article>
             </div>
+            <div className="compare panel">
+              <table>
+                <caption>Forskellen på Essential og Advanced</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <span className="sr-only">Indhold</span>
+                    </th>
+                    <th scope="col">Essential</th>
+                    <th scope="col">Advanced</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparison.map(([label, essential, advanced]) => (
+                    <tr key={label}>
+                      <th scope="row">{label}</th>
+                      <td>{essential}</td>
+                      <td>{advanced}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="sheet-text">
+              Alle priser er endelige, da FARDA ikke er momsregistreret. Domæne og hosting står i
+              dit navn og betales direkte til udbyderen. Læs mere i vores{" "}
+              <Link className="link" to="/vilkaar">
+                handelsbetingelser
+              </Link>
+              .
+            </p>
           </div>
         </div>
       </section>

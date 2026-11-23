@@ -374,7 +374,7 @@ function drawSurface(ctx: Ctx) {
     INK_2,
   );
   for (const [sx, label, value] of [
-    [88, "WEBSITES FRA", "3.500 kr."],
+    [88, "WEBSITES FRA", "5.000 kr."],
     [260, "SVAR INDEN FOR", "24 timer"],
     [432, "SPROG", "Dansk · Engelsk"],
   ] as const) {
