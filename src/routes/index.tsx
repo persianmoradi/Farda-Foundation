@@ -183,7 +183,7 @@ function RequestForm() {
               checked={pkg === item.title}
               onChange={() => setPkg(item.title)}
             />
-            {item.title} · {item.price} kr.
+            {item.title} · {item.price} kr. ekskl. moms
           </label>
         ))}
       </fieldset>
